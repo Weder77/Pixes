@@ -1,0 +1,19 @@
+# Install 
+```bash
+git clone https://github.com/Weder77/UF_WEB_B2
+composer install
+```
+
+
+#### Modify database connection info in the .env
+```bash
+php bin/console doctrine:database:create
+php bin/console doctrine:migrations:migrate
+```
+
+
+# Start the website
+```bash
+php -S localhost:8000 -t public
+```
+#### The website is available at `localhost:8000/`
