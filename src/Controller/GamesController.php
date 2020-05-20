@@ -29,7 +29,7 @@ class GamesController extends AbstractController
      * @Route("/")
 
      */
-    public function redirect2()
+    public function redirect()
     {
         return $this->redirectToRoute('index');
     }
