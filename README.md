@@ -2,6 +2,7 @@
 ```bash
 git clone https://github.com/Weder77/UF_WEB_B2
 composer install
+npm install
 ```
 
 
@@ -11,6 +12,10 @@ php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 ```
 
+# Start SASS
+```bash
+npm run watch
+```
 
 # Start the website
 ```bash
