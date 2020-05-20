@@ -16,4 +16,21 @@ class GamesController extends AbstractController
             'slug' => $slug
         ]);
     }
+
+    /**
+     * @Route("/index", name="index")
+     */
+    public function home()
+    {
+        return $this->render('games/index.html.twig', array());
+    }
+
+    /**
+     * @Route("/")
+
+     */
+    public function redirect2()
+    {
+        return $this->redirectToRoute('index');
+    }
 }

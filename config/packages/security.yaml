@@ -15,8 +15,16 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: lazy
-            provider: app_user_provider
+            anonymous: true
+
+            form_login:
+                login_path: 'login'
+                default_target_path: 'index'
+                check_path: 'login_check'
+
+            logout:
+                path: 'logout'
+                target: 'accueil'
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

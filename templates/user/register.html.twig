@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+
+{% block body %}
+
+<h1 class="mt-4">Créer un compte</h1>
+
+<div class="mt-4">
+
+{{ form(userForm) }}
+{# 
+{{ form_start(userForm) }}
+    
+<div class="customfield">
+       {{ form_widget(userForm.email, { 'attr' : {
+        'placeholder' : 'email',
+        'class' : 'customfield'
+    }})}}  
+    {{ form_errors(userForm.email) }}
+    
+</div>
+
+<div class="mt-4 mb-4">
+    {{ form_widget(userForm.username, { 'attr' : {
+        'class' : 'customfield'
+    }})}}  
+    {{ form_errors(userForm.username) }}
+    
+</div>
+
+<div class="mt-4 mb-4">
+     {{ form_widget(userForm.password, { 'attr' : {
+        'placeholder' : 'password',
+        'class' : 'customfield'
+    }})}}  
+    {{ form_errors(userForm.password) }}
+    
+</div>
+
+{{ form_end(userForm) }} #}
+
+
+
+
+{% endblock %}
