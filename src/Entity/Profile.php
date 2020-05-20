@@ -55,9 +55,15 @@ class Profile
      */
     private $opinions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Buy::class, mappedBy="profile")
+     */
+    private $buys;
+
     public function __construct()
     {
         $this->opinions = new ArrayCollection();
+        $this->buys = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,6 +168,37 @@ class Profile
             // set the owning side to null (unless already changed)
             if ($opinion->getUser() === $this) {
                 $opinion->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Buy[]
+     */
+    public function getBuys(): Collection
+    {
+        return $this->buys;
+    }
+
+    public function addBuy(Buy $buy): self
+    {
+        if (!$this->buys->contains($buy)) {
+            $this->buys[] = $buy;
+            $buy->setProfile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBuy(Buy $buy): self
+    {
+        if ($this->buys->contains($buy)) {
+            $this->buys->removeElement($buy);
+            // set the owning side to null (unless already changed)
+            if ($buy->getProfile() === $this) {
+                $buy->setProfile(null);
             }
         }
 
