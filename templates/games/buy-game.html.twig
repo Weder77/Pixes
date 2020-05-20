@@ -1,25 +1,62 @@
 {% extends 'base.html.twig' %}
-{% block title %}Acheter {{ slug }}{% endblock %}
-{% block stylesheet %}
-
+{% block title %}Acheter
+	{{ slug }}
 {% endblock %}
+{% block stylesheet %}
+	<style>
+		.nameTag {
+			font-weight: bold;
+		}
+        .picto {
+            color: #E14826;
+        }
+	</style>
+{% endblock %}
+
 {% block body %}
 
 
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Special title treatment</h5>
+						<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+						<a href="#" class="btn btn-primary">Go somewhere</a>
+					</div>
+				</div>
+			</div>
+			<div class="card text-center">
+				<div class="card-header">
+					Détails du jeu
+				</div>
+				<div class="card-body text-left">
+					<div class="title">
+						<i class="fas fa-tags picto"></i>
+						<span class="nameTag">
+							Genre :
+						</span>
+					</div>
+					<div class="title">
+						<i class="fas fa-clock picto"></i>
+						<span  class="nameTag">
+							Date de sortie :
+						</span>
+					</div>
+					<div class="title">
+						<i class="fas fa-tv picto"></i>
+						<span  class="nameTag">
+							Plateforme :
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-<p>Salut les potes, ici on achète {{slug}} </p>
 
-
-
-
-
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-		crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-		crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-		crossorigin="anonymous"></script>
-	{% endblock %}
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% endblock %}
