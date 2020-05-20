@@ -12,7 +12,7 @@ class GamesController extends AbstractController
      */
     public function index($slug)
     {
-        return $this->render('games/buy-game.html.twig', [
+        return $this->render('games/game.html.twig', [
             'slug' => $slug
         ]);
     }

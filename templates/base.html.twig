@@ -1,51 +1,99 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-	<head>
+<head>
 
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<meta name="description" content="The best wey to communicate!">
-		<meta name="author" content="Weder and Sheraw">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Votre site web d'achat de jeux vidéo préféré !">
+	<meta name="author" content="Weder and Sheraw">
 
-		<title>
-			{% block title %}{% endblock %} - PIXES
-		</title>
+	<title>
+		{% block title %}{% endblock %} - PIXES
+	</title>
 
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+		integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+	<script src="https://kit.fontawesome.com/e2548655e8.js" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css"
+		href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
 
-		{# CUSTOM STYLE #}
-		{% block stylesheet %}{% endblock %}
+	{# CUSTOM STYLE #}
+	{% block stylesheet %}{% endblock %}
 
-	</head>
+</head>
 
 
-	<body>
-		{# SUCCESS & ERROR MESSAGES #}
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container">
-			{% for message in app.flashes('success') %}
-				<div class="alert alert-success mt-4">
-					{{ message }}
-				</div>
-			{% endfor %}
+			<a class="navbar-brand" href="#">Navbar</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-			{% for message in app.flashes('error') %}
-				<div class="alert alert-danger mt-4">
-					{{ message }}
-				</div>
-			{% endfor %}
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Accueil</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Link</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Dropdown
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#">Action</a>
+							<a class="dropdown-item" href="#">Another action</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#">Something else here</a>
+						</div>
+					</li>
+				</ul>
+				<form method="GET">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Rechercher..." name="search">
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" type="button"><i
+									class="fas fa-search"></i></button>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
+	</nav>
 
-		{# CONTENT #}
-		{% block body %}{% endblock %}
 
-		{# CUSTOM JS #}
-		{% block javascripts %}{% endblock %}
+	{# SUCCESS & ERROR MESSAGES #}
+	<div class="container">
+		{% for message in app.flashes('success') %}
+		<div class="alert alert-success mt-4">
+			{{ message }}
+		</div>
+		{% endfor %}
 
-	</body>
+		{% for message in app.flashes('error') %}
+		<div class="alert alert-danger mt-4">
+			{{ message }}
+		</div>
+		{% endfor %}
+	</div>
+
+	{# CONTENT #}
+	{% block body %}{% endblock %}
+
+	{# CUSTOM JS #}
+	{% block javascripts %}{% endblock %}
+
+</body>
 
 </html>
