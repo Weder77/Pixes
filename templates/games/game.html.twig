@@ -6,32 +6,19 @@ Acheter {{ slug }}
 
 {% block stylesheet %}
 <style>
-	.card-header {
-		background-color: transparent;
-		border: none;
-		padding-bottom: 0;
-	}
-
-	.nameTag {
+	.tag_title {
 		font-weight: bold;
 	}
 
 	.picto {
-		width: 16px;
+		display: inline-block;
+		width: 20px;
 		text-align: center;
 	}
 
 	.picto i {
 		color: #E14826;
 		font-size: 12px;
-	}
-
-	.text-custom {
-		color: #F6D288;
-	}
-
-	.bg-custom {
-		background-color: #F6D288;
 	}
 </style>
 {% endblock %}
@@ -42,39 +29,62 @@ Acheter {{ slug }}
 		<div class="col-sm-6">
 			<div class="card">
 				<div class="card-body">
-					<h5 class="card-title">Special title treatment</h5>
-					<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-					<a href="#" class="btn btn-primary">Go somewhere</a>
+					<h3 class="card-title font-weight-bold">{{ name }}</h3>
+					<p class="card-text">{{ description }}</p>
 				</div>
 			</div>
 		</div>
 		<div class="card">
-			<div class="card-header text-bold">
-				À PROPOS
+			<div class="card-header">
+				<h3 class="text-uppercase">À propos</h3>
 			</div>
 			<div class="card-body text-left">
-				<div class="title">
+				<div>
 					<span class="picto">
 						<i class="fas fa-tags"></i>
 					</span>
-					<span class="nameTag">
+					<span class="tag_title">
 						Genres :
 					</span>
-				</div>
-				<div class="title">
-					<span class="picto">
-						<i class="fas fa-clock picto"></i>
-					</span>
-					<span class="nameTag">
-						Date de sortie :
+					<span>
+						{% for tag in tags %}
+							{{ tag }},
+						{% endfor %}
 					</span>
 				</div>
-				<div class="title">
+				<div>
 					<span class="picto">
 						<i class="fas fa-tv picto"></i>
 					</span>
-					<span class="nameTag">
-						Plateforme :
+					<span class="tag_title">
+						Plateformes :
+					</span>
+					<span>
+						{% for platform in platforms %}
+							{{ platform }},
+						{% endfor %}
+					</span>
+				</div>
+				<div>
+					<span class="picto">
+						<i class="fas fa-ban"></i>
+					</span>
+					<span class="tag_title">
+						Pegi :
+					</span>
+					<span>
+						{{ pegi }} ans
+					</span>
+				</div>
+				<div>
+					<span class="picto">
+						<i class="fas fa-euro-sign"></i>
+					</span>
+					<span class="tag_title">
+						Prix :
+					</span>
+					<span>
+						{{ price }} €
 					</span>
 				</div>
 			</div>
