@@ -14,36 +14,43 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         // Create platforms
-        $platforms = ['Steam', 'PlayStation 4', 'XBox One', 'Switch'];
-        $platforms_slug = ['steam', 'playstation-4', 'xbox-one', 'switch'];
-        foreach ($platforms as $key => $value) {
+        $platforms = [];
+        for ($i = 0; $i < 4; $i++) { 
             $platform = new Platform();
-            $platform->setName($value);
-            $platform->setSlug($platforms_slug[$key]);
+            $platform->setName('Platform ' . $i);
+            $platform->setSlug('platform-' . $i);
+            array_push($platforms, $platform);
             $manager->persist($platform);
         }
 
         // Create Tags
-        $tags = ['Action', 'Course', 'Aventure', 'Multijoueur'];
-        $tags_slug = ['action', 'course', 'aventure', 'multijoueur'];
-        foreach ($tags as $key => $value) {
+        $tags = [];
+        for ($i=0; $i < 8; $i++) { 
             $tag = new Tag();
-            $tag->setName($value);
-            $tag->setSlug($tags_slug[$key]);
+            $tag->setName('Tag ' . $i);
+            $tag->setSlug('tag-' . $i);
+            array_push($tags, $tag);
             $manager->persist($tag);
         }
 
-        // Create Game
-        $game = new Game();
-        $game->setName('Grand Theft Auto V');
-        $game->setSlug('grand-theft-auto-v');
-        $game->setDescription('VROOM VROOM PAN PAN');
-        $game->setPrice(39.99);
-        $game->setImgUrl('none');
-        $game->setPegi(18);
-        $game->addPlatform($platform);
-        $game->addTag($tag);
-        $manager->persist($game);
+        // Create Games
+        $pegis = [3, 7, 12, 16, 18];
+        for ($i=0; $i < 10; $i++) { 
+            $game = new Game();
+            $game->setName('Game ' . $i);
+            $game->setSlug('game-' . $i);
+            $game->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus ex ipsum, laoreet euismod libero posuere suscipit. Ut nec nisl quam. Curabitur ullamcorper libero turpis, in cursus tellus venenatis et. Sed venenatis euismod massa ut porttitor. Integer sollicitudin, lectus dictum lobortis iaculis, arcu nulla euismod ipsum, a tempor eros velit ut mauris. Ut id lectus at diam aliquam ultricies vel eget orci. Suspendisse imperdiet egestas odio. Aliquam pellentesque sagittis facilisis. Nunc efficitur ac neque ut luctus. Cras tincidunt turpis dignissim eros egestas ultricies. In tempus arcu vel velit pretium ultricies a quis neque. ');
+            $game->setPrice(rand(1,40));
+            $game->setImgUrl('default.png');
+            $game->setPegi($pegis[rand(0, 4)]);
+            for ($x=0; $x < rand(1, 3); $x++) { 
+                $game->addPlatform($platforms[rand(0, sizeof($platforms) - 1)]);
+            }
+            for ($x=0; $x < rand(1, 3); $x++) { 
+                $game->addTag($tags[rand(0, sizeof($tags) - 1)]);
+            }
+            $manager->persist($game);
+        }
 
         $manager->flush();
     }

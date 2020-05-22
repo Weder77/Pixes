@@ -13,7 +13,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
-
     /**
      * @Route("/register", name="register")
      */
@@ -59,8 +58,9 @@ class UserController extends AbstractController
             'error' => $error
         ]);
     }
+
     /**
-     * route nécessaire pour le fonctionnement de sécurité de ma connexion
+     * route nécessaire pour le fonctionnement de sécurité de la connexion
      * @Route("/login_check", name="login_check")
      */
     public function loginCheck()

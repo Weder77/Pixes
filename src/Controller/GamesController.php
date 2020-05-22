@@ -3,15 +3,34 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\Platform;
+use App\Entity\Tag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GamesController extends AbstractController
 {
     /**
-     * @Route("/games/{slug}", name="games")
+     * @Route("/", name="home")
      */
-    public function index($slug)
+    public function home()
+    {
+        $doc = $this->getDoctrine();
+        $platforms = $doc->getRepository(Platform::class)->findAll();
+        $tags = $doc->getRepository(Tag::class)->findAll();
+        $games = $doc->getRepository(Game::class)->findBy([], null, 8);
+
+        return $this->render('/index.html.twig', array(
+            'platforms' => $platforms,
+            'tags' => $tags,
+            'games' => $games,
+        ));
+    }
+    
+    /**
+     * @Route("/jeu/{slug}", name="game")
+     */
+    public function game($slug)
     {
         $rep = $this->getDoctrine()->getRepository(Game::class);
         $game = $rep->findOneBy(['slug' => $slug]);
@@ -21,7 +40,7 @@ class GamesController extends AbstractController
             // $this->addFlash('error', 'Oups, il semblerait que le jeu que vous avez demandé n\'est pas disponible sur notre plateforme :/');
             // return $this->redirectToRoute('home');
 
-            $game = $rep->findOneBy(['slug' => 'grand-theft-auto-v']);
+            $game = $rep->findOneBy(['slug' => 'game-1']);
         }
 
         $platforms = [];
@@ -43,22 +62,5 @@ class GamesController extends AbstractController
             'pegi' => $game->getPegi(),
             'price' => $game->getPrice(),
         ]);
-    }
-
-    /**
-     * @Route("/index", name="index")
-     */
-    public function home()
-    {
-        return $this->render('games/index.html.twig', array());
-    }
-
-    /**
-     * @Route("/")
-
-     */
-    public function redirectToIndex()
-    {
-        return $this->redirectToRoute('index');
     }
 }
