@@ -21,15 +21,24 @@
         height: auto;
     }
 
+    .game-price {
+        opacity: 0;
+        transition: opacity ease 0.2s;
+        position: absolute;
+        margin-top: -325px;
+        padding: 3px 10px;
+        background-color: white;
+    }
+
+    .game-card:hover .game-price {
+        opacity: 1;
+    }
+
     .game-tags {
         width: 100%;
         margin-top: -25px;
         padding-right: 4px;
         text-align: right;
-        font-size: 12px;
-    }
-
-    .game-tags {
         font-size: 10px;
     }
 
@@ -50,7 +59,7 @@
 
 {% block body %}
 <!-- CAROUSEL -->
-<div id="carouselExampleIndicators" class="carousel slide carousel-fade mb-3" data-ride="carousel">
+<div id="carouselExampleIndicators" class="carousel slide carousel-fade mb-5" data-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
             <img class="d-block w-100"
@@ -75,8 +84,54 @@
     </a>
 </div>
 
+<!-- LAST GAMES -->
+<div class="container mb-5">
+    <h1 class="text-center mb-4">Nos jeux à la une</h1>
+    <div class="row">
+        {% for game in games %}
+        <div class="col-3 mb-4">
+            <div class="game-card">
+                <div class="game-poster mb-2 shadow">
+                    <a href="{{ path('game', { slug : game.slug }) }}">
+                        <img src="{{ asset(game.imgurl) }}" width="384" height="488"/>
+                    </a>
+                    <div class="game-price">
+                        {{ game.price}} €
+                    </div>
+                    <div class="game-tags text-white text-uppercase">
+                        {% for tag in game.tags %}
+                        {{ tag.name }}
+                        {% if tag != game.tags|last %}
+                        ,
+                        {% endif %}
+                        {% endfor %}
+                        <i class="fas fa-tags"></i>
+                    </div>
+                </div>
+                <span class="card-title font-weight-bold">
+                    {{ game.name }}
+                </span>
+                <div class="game-platforms text-muted">
+                    <i class="fas fa-tv picto"></i>
+                    {% for platform in game.platforms %}
+                    {{ platform.name }}
+                    {% if platform != game.platforms|last %}
+                        ,
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-2">
+        <button class="btn btn-outline-primary">Tous les jeux</button>
+    </div>
+</div>
+
 <!-- CHOICES -->
-<div class="container">
+<div class="container mb-5">
     <form method="get">
         <div class="form-row">
             <div class="col">
@@ -104,42 +159,5 @@
             </div>
         </div>
     </form>
-</div>
-
-<div class="container">
-    <div class="row">
-        {% for game in games %}
-        <div class="col-3 mb-4">
-            <div class="game-card">
-                <div class="game-poster mb-2 shadow">
-                    <a href="{{ path('game', { slug : game.slug }) }}">
-                        <img src="{{ asset(game.imgurl) }}" width="384" height="488"/>
-                    </a>
-                    <div class="game-tags text-white text-uppercase">
-                        {% for tag in game.tags %}
-                        {{ tag.name }}
-                        {% if tag != game.tags|last %}
-                        ,
-                        {% endif %}
-                        {% endfor %}
-                        <i class="fas fa-tags"></i>
-                    </div>
-                </div>
-                <span class="card-title font-weight-bold">
-                    {{ game.name }}
-                </span>
-                <div class="game-platforms text-muted">
-                    <i class="fas fa-tv picto"></i>
-                    {% for platform in game.platforms %}
-                    {{ platform.name }}
-                    {% if platform != game.platforms|last %}
-                        ,
-                    {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
 </div>
 {% endblock %}

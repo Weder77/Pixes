@@ -18,7 +18,7 @@ class GamesController extends AbstractController
         $doc = $this->getDoctrine();
         $platforms = $doc->getRepository(Platform::class)->findAll();
         $tags = $doc->getRepository(Tag::class)->findAll();
-        $games = $doc->getRepository(Game::class)->findBy([], null, 8);
+        $games = $doc->getRepository(Game::class)->findBy([], ['id' => 'DESC'], 8);
 
         return $this->render('/index.html.twig', array(
             'platforms' => $platforms,
