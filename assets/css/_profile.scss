@@ -1,9 +1,20 @@
 .nav {
-    .li {
-        text-align: center;
-    }
+
     .tab-name {
         margin-right: 3%;
         text-align: center;
+    }
+}
+
+.col-sm-9 {
+    ul{
+        text-align: center;
+        justify-content: center;
+    }
+    .nav-tabs{
+        li{
+            text-align: center;
+            width: 20%;
+        }
     }
 }

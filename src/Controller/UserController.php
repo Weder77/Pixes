@@ -78,14 +78,30 @@ class UserController extends AbstractController
      */
     public function profile(Request $request)
     {
+        $manager = $this->getDoctrine()->getManager();
+
         $user = $this->getUser()->getProfile();
+
+        $balance = $this->getUser()->getProfile()->getBalance();
+        $firstname = $this->getUser()->getProfile()->getFirstname();
 
         $form = $this->createForm(ProfileFormType::class,$user);
         $form->handleRequest($request);
+        
+        if($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($user);
+
+            $manager->flush();
+
+            $this->addFlash('success', 'Votre profil à bien été modifié.');
+            return $this->redirectToRoute('profile');
+        }
 
         return $this->render('user/profile.html.twig', [
             'user' => $user,
             'ProfileForm' => $form->createView(),
+            'balance' => $balance,
+            'firstname' => $firstname,
         ]);
     }
 }

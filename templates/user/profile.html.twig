@@ -9,32 +9,33 @@ Mon compte
 {% block body %}
 
 <div class="container bootstrap snippet">
-    <div class="text-center">
-        <h1>User name</h1>
+    <div class="text-center mt-4 mb-4">
+        <h2>Bienvenue sur votre profil {{ firstname }}.</h2>
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <!--left col-->
 
             <div class="text-center">
                 <img src="{{ asset('/img/default.png')}}" class="avatar img-circle img-thumbnail" alt="avatar">
                 <p>à changer</p>
             </div>
-            </hr><br>
-
 
             <ul class="list-group text-center">
                 <li class="list-group-item text-muted">Activité
                     <i class="fa fa-dashboard fa-1x"></i>
                 </li>
-
+                <li class="list-group-item text-center">
+                    <span class="pull-left">
+                        <strong>Mon solde</strong>
+                    </span>
+                    {{ balance }} €
+                </li>
                 <li class="list-group-item text-center">
                     <span class="pull-left">
                         <strong>Jeux acheté</strong>
                     </span>
                     12
                 </li>
-
                 <li class="list-group-item text-center">
                     <span class="pull-left">
                         <strong>Avis posté</strong>
@@ -42,14 +43,13 @@ Mon compte
                     37
                 </li>
             </ul>
-
-
         </div>
-        <!--/col-3-->
+
         <div class="col-sm-9">
+
             <ul class="nav nav-tabs">
                 <li class="active text-center">
-                    <a class="tab-name" data-toggle="tab" href="#profile">Mon profile</a>
+                    <a class="tab-name" data-toggle="tab" href="#profile">Mon profil</a>
                 </li>
                 <li class="text-center">
                     <a class="tab-name" data-toggle="tab" href="#purchased">Mes jeux</a>
@@ -65,16 +65,58 @@ Mon compte
                 {# profile #}
                 <div class="tab-pane active" id="profile">
                     <div class="text-center mt-4">
-                        <h3>Mon profile</h3>
+                        <h3>Mes informations</h3>
                         <div class="container mt-4">
-                            {{ form(ProfileForm) }}
+                            {{ form_start(ProfileForm) }}
+
+                            <div class="form-label-group">
+                                {{ form_widget(ProfileForm.firstname, 
+                                    { 'attr' : 
+                                        {
+                                            'class' : 'form-control text-center',
+                                            }
+                                        }
+                                    )
+                                }}
+                                {{ form_errors(ProfileForm.firstname) }}
+                                <label for="register_form_email">Prénom</label>
+                            </div>
+
+                            <div class="form-label-group">
+                                {{ form_widget(ProfileForm.lastname, 
+                                    { 'attr' : 
+                                        {
+                                            'class' : 'form-control text-center',
+                                            }
+                                        }
+                                    )
+                                }}
+                                {{ form_errors(ProfileForm.lastname) }}
+                                <label for="register_form_email">Nom</label>
+                            </div>
+
+
+                            <div class="form-label-group row justify-content-md-center">
+                                {{ form_widget(ProfileForm.birthday, 
+                                    { 'attr' : 
+                                        {
+                                            'class' : 'text-center',
+                                            }
+                                        }
+                                    )
+                                }}
+                                {{ form_errors(ProfileForm.birthday) }}
+                            </div>
+
                             <div class="form-group">
                                 <div class="col-xs-12">
                                     <br>
-                                    <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
-                                    <button class="btn btn-lg" type="reset"><i class="fas fa-undo"></i> Annuler</button>
+                                    <button class="btn btn-lg btn-primary register" type="submit"><i
+                                            class="glyphicon glyphicon-ok-sign"></i> Sauvegarder mes
+                                        informations</button>
                                 </div>
                             </div>
+                            {{ form_end(ProfileForm) }}
                         </div>
                     </div>
                 </div>
@@ -140,6 +182,59 @@ Mon compte
 
                 {# comments #}
                 <div class="tab-pane" id="comments">
+                    <div class="text-center mt-4">
+                        <h3>Mes jeux achetés</h3>
+                        <div class="container mt-4 row justify-content-md-center">
+
+
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    Nom du jeu
+                                </div>
+                                <div class="card-body">
+                                    <blockquote class="blockquote mb-0">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat
+                                            a ante.</p>
+                                        <p>note</p>
+                                        <footer class="blockquote-footer">publié le <cite
+                                                title="Source Title">date</cite></footer>
+                                    </blockquote>
+                                </div>
+                            </div>
+
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    Nom du jeu
+                                </div>
+                                <div class="card-body">
+                                    <blockquote class="blockquote mb-0">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat
+                                            a ante.</p>
+                                        <p>note</p>
+                                        <footer class="blockquote-footer">publié le <cite
+                                                title="Source Title">date</cite></footer>
+                                    </blockquote>
+                                </div>
+                            </div>
+
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    Nom du jeu
+                                </div>
+                                <div class="card-body">
+                                    <blockquote class="blockquote mb-0">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat
+                                            a ante.</p>
+                                        <p>note</p>
+                                        <footer class="blockquote-footer">publié le <cite
+                                                title="Source Title">date</cite></footer>
+                                    </blockquote>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
 
                 </div>
 
