@@ -76,19 +76,25 @@ class UserController extends AbstractController
     /**
      * @Route("/mon-compte", name="profile")
      */
-    public function profile(Request $request)
+    public function profile(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $manager = $this->getDoctrine()->getManager();
 
         $user = $this->getUser()->getProfile();
 
+        $appUser = $this->getUser();
         $balance = $this->getUser()->getProfile()->getBalance();
         $firstname = $this->getUser()->getProfile()->getFirstname();
+    
 
-        $form = $this->createForm(ProfileFormType::class,$user);
-        $form->handleRequest($request);
+        $formProfile = $this->createForm(ProfileFormType::class,$user);
+        $formProfile->handleRequest($request);
+
+        $formUser = $this->createForm(RegisterFormType::class, $appUser);
+        $formUser->handleRequest($request);
+
         
-        if($form->isSubmitted() && $form->isValid()) {
+        if($formProfile->isSubmitted() && $formProfile->isValid()) {
             $manager->persist($user);
 
             $manager->flush();
@@ -97,9 +103,21 @@ class UserController extends AbstractController
             return $this->redirectToRoute('profile');
         }
 
+
+        if ($formUser->isSubmitted() && $formUser->isValid()) {
+            $manager->persist($appUser);
+            $password = $appUser->getPassword();
+            $appUser->setPassword($encoder->encodePassword($appUser, $password));
+            $manager->flush();
+
+            $this->addFlash('success', 'Votre profil à bien été modifié.');
+            return $this->redirectToRoute('profile');
+        }
+
         return $this->render('user/profile.html.twig', [
             'user' => $user,
-            'ProfileForm' => $form->createView(),
+            'ProfileForm' => $formProfile->createView(),
+            'UserForm' => $formUser->createView(),
             'balance' => $balance,
             'firstname' => $firstname,
         ]);
