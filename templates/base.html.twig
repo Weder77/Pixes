@@ -43,10 +43,11 @@
 				<a href="{{ path('register')}}" class="btn-right">Inscription</a>
 				{% else %}
 					<a href="{{ path('profile')}}" class="btn-simple"><i class="fas fa-user text-white pr-2"></i> Mon compte</a>
+					<a href="{{ path('logout')}}" class="btn-logout"><i class="fas fa-sign-out-alt"></i></i></a>
 				{% endif %} 	
 			</div>
 			<form class="input-group mt-2">
-				<input type="text" class="form-custom" name="search">
+				<input type="text" class="form-custom" name="search" placeholder="Rechercher un jeu ...">
 				<div class="input-group-append">
 					<button class="btn btn-custom" type="button"><i class="fas fa-search"></i></button>
 				</div>

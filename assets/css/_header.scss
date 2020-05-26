@@ -2,7 +2,7 @@
 .btns-header {
     border-radius: 20px;
     height: 25px;
-    width: 180px;
+    width: 250px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -27,6 +27,12 @@
     .btn-simple {
         width: 80%; 
         border-radius: 20px;
+    }
+
+    .btn-logout{
+      width: 30%; 
+      border-radius: 20px;
+      margin-left: 20px;
     }
     
 }
@@ -59,11 +65,16 @@
 }
 
 .form-custom {
-    width: 160px;
+    width: 212px;
     border: none;
     border-bottom: solid 1px $gray-400;
     color: $gray-800;
 }
+
+.form-custom::placeholder {
+  font-style: italic;
+}
+
 
 #rating-starsNO {
     .rating-group {

@@ -115,7 +115,7 @@ Mon compte
                                 <div class="col-xs-12">
                                     <br>
                                     <button class="btn btn-lg btn-primary register" type="submit"><i
-                                            class="glyphicon glyphicon-ok-sign"></i> Sauvegarder mes nformations publiques</button>
+                                            class="glyphicon glyphicon-ok-sign"></i> Sauvegarder mes informations publiques</button>
                                 </div>
                             </div>
                             {{ form_end(ProfileForm) }}
@@ -141,12 +141,13 @@ Mon compte
                                     {{ form_errors(UserForm.email) }}
                                     <label for="register_form_email">Adresse Email</label>
                                 </div>
+                                <small>Il faut confirmer votre mot de passe si vous souhaitez changer votre adresse email.</small>
 
                                 <div class="form-label-group">
                                     {{ form_widget(UserForm.password.first, 
                                     { 'attr' : 
                                         {
-                                            'placeholder' : 'Changer mon mot de passe',
+                                            'placeholder' : 'Mot de passe',
                                             'class' : 'form-control text-center',
                                             'id' : 'register_form_password_first',
                                             'type' : 'password',
@@ -155,7 +156,7 @@ Mon compte
                                     )
                                 }}
                                     {{ form_errors(UserForm.email) }}
-                                    <label for="register_form_password_first">Changer mon mot de passe</label>
+                                    <label for="register_form_password_first">Mot de passe</label>
                                     {% if(form_errors(UserForm.password.first)) %}
                                     {{ form_errors(UserForm.password.first) }}
                                     {% endif %}
