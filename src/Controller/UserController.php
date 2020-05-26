@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Profile;
 use App\Entity\User;
+use App\Form\ProfileFormType;
 use App\Form\RegisterFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,10 +25,10 @@ class UserController extends AbstractController
 
         $form = $this->createForm(RegisterFormType::class, $user);
 
-        $form->handleRequest($request); // lier definitivement le $post aux infos du formulaire (recupere les donner en saisies en $_POST)
+        $form->handleRequest($request); // lier definitivement le $form aux infos du formulaire (recupere les donner en saisies en $_POST)
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($user); // enregistrer le post dans le systeme
+            $manager->persist($user); // enregistrer le form dans le systeme
 
             //  encodage du mot de passer
             $password = $user->getPassword();
@@ -78,12 +79,16 @@ class UserController extends AbstractController
     /**
      * @Route("/mon-compte", name="profile")
      */
-    public function profile()
+    public function profile(Request $request)
     {
         $user = $this->getUser()->getProfile();
 
+        $form = $this->createForm(ProfileFormType::class,$user);
+        $form->handleRequest($request);
+
         return $this->render('user/profile.html.twig', [
-            'user' => $user
+            'user' => $user,
+            'ProfileForm' => $form->createView(),
         ]);
     }
 }
