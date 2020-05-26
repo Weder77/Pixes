@@ -3,17 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\Opinion;
 use App\Entity\Platform;
 use App\Entity\Tag;
+use App\Form\OpinionType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GamesController extends AbstractController
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/", name="index")
      */
-    public function home()
+    public function index()
     {
         $doc = $this->getDoctrine();
         $platforms = $doc->getRepository(Platform::class)->findAll();
@@ -30,7 +33,7 @@ class GamesController extends AbstractController
     /**
      * @Route("/jeu/{slug}", name="game")
      */
-    public function game($slug)
+    public function game($slug, Request $request)
     {
         $rep = $this->getDoctrine()->getRepository(Game::class);
         $game = $rep->findOneBy(['slug' => $slug]);
@@ -52,6 +55,10 @@ class GamesController extends AbstractController
         foreach ($game->getTags() as $key => $value) {
             array_push($tags, $value->getName());
         }
+
+        $opinion = new Opinion;
+        $form = $this->createForm(OpinionType::class, $opinion);
+        $form->handleRequest($request);
 
         return $this->render('games/game.html.twig', [
             'name' => $game->getName(),

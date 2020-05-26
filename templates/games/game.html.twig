@@ -24,7 +24,8 @@ Acheter {{ slug }}
 {% endblock %}
 
 {% block body %}
-<div class="container">
+<!-- GAME INFORMATIONS -->
+<section class="container">
 	<div class="row">
 		<div class="col-sm-6">
 			<div class="card">
@@ -48,7 +49,7 @@ Acheter {{ slug }}
 					</span>
 					<span>
 						{% for tag in tags %}
-							{{ tag }},
+						{{ tag }},
 						{% endfor %}
 					</span>
 				</div>
@@ -61,7 +62,7 @@ Acheter {{ slug }}
 					</span>
 					<span>
 						{% for platform in platforms %}
-							{{ platform }},
+						{{ platform }},
 						{% endfor %}
 					</span>
 				</div>
@@ -90,7 +91,40 @@ Acheter {{ slug }}
 			</div>
 		</div>
 	</div>
-</div>
+</section>
+
+<section class="container">
+	{% if app.user == null%}
+	<p>
+		<a href="{{ path('login')}} ">Connectez-vous</a> pour laisser un avis sur le jeu.
+	</p>
+	{% else %}
+	
+
+		<!-- <form method="post">
+		<div id="rating-stars">
+			<div class="rating-group">
+				<input class="rating__input rating__input--none" name="rating" id="rating-none" value="0" type="radio">
+				<label aria-label="1 star" class="rating__label" for="rating-1"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+				<input class="rating__input" name="rating" id="rating-1" value="1" type="radio">
+				<label aria-label="2 stars" class="rating__label" for="rating-2"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+				<input class="rating__input" name="rating" id="rating-2" value="2" type="radio">
+				<label aria-label="3 stars" class="rating__label" for="rating-3"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+				<input class="rating__input" name="rating" id="rating-3" value="3" type="radio" checked>
+				<label aria-label="4 stars" class="rating__label" for="rating-4"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+				<input class="rating__input" name="rating" id="rating-4" value="4" type="radio">
+				<label aria-label="5 stars" class="rating__label" for="rating-5"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+				<input class="rating__input" name="rating" id="rating-5" value="5" type="radio">
+			</div>
+		  <p class="desc" style="margin-bottom: 2rem; font-family: sans-serif; font-size:0.9rem">Full stars<br/>'No rating' option</p>
+		</div>
+
+		<div class="form-group">
+			<textarea class="form-control" name="opinion_content" placeholder="Votre avis..." rows="3"></textarea>
+		</div>
+	</form> -->
+		{% endif %}
+</section>
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

@@ -32,14 +32,18 @@
 
 <body>
 	<header class="d-flex justify-content-around align-items-center mt-2 mb-3">
-		<a href="{{ path('home')}}">
+		<a href="{{ path('index')}}">
 			<img src="" alt="Logo" />
 		</a>
 
 		<div class="d-flex flex-column align-items-end">
 			<div class="btns-header ">
+				{% if app.user == null %}
 				<a href="{{ path('login')}}" class="btn-left separator-r">Connexion</a>
 				<a href="{{ path('register')}}" class="btn-right">Inscription</a>
+				{% else %}
+					<a href="{{ path('profile')}}" class="btn-simple"><i class="fas fa-user text-white pr-2"></i> Mon compte</a>
+				{% endif %} 	
 			</div>
 			<form class="input-group mt-2">
 				<input type="text" class="form-custom" name="search">

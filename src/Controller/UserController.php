@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Profile;
 use App\Entity\User;
 use App\Form\RegisterFormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,12 +20,10 @@ class UserController extends AbstractController
     public function register(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $manager = $this->getDoctrine()->getManager();
-        $user = new User; // objet vide de l'entity Post
+        $user = new User;
 
-        // formulaire...
         $form = $this->createForm(RegisterFormType::class, $user);
 
-        // traitement des infos du formulaire
         $form->handleRequest($request); // lier definitivement le $post aux infos du formulaire (recupere les donner en saisies en $_POST)
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -35,8 +34,8 @@ class UserController extends AbstractController
             $user->setPassword($encoder->encodePassword($user, $password));
 
             $manager->flush(); // execute toutes les requetes en attentes
-            $this->addFlash('success', 'Le compte à bien été créer !');
 
+            $this->addFlash('success', 'Le compte à bien été créer !');
             return $this->redirectToRoute('index');
         }
 
@@ -72,6 +71,19 @@ class UserController extends AbstractController
      */
     public function logout()
     {
-        return $this->redirectToRoute('login');
+        $this->addFlash('success', 'Vous avez été déconnecté.');
+        return $this->redirectToRoute('index');
+    }
+
+    /**
+     * @Route("/mon-compte", name="profile")
+     */
+    public function profile()
+    {
+        $user = $this->getUser()->getProfile();
+
+        return $this->render('user/profile.html.twig', [
+            'user' => $user
+        ]);
     }
 }
