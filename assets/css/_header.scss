@@ -65,7 +65,7 @@
     color: $gray-800;
 }
 
-#rating-stars {
+#rating-starsNO {
     .rating-group {
       display: inline-flex;
     }
@@ -84,16 +84,11 @@
     .rating__icon--star {
       color: $orange;
     }
-    
-    .rating__icon--none {
-      color: #eee;
-    }
   
     .rating__input:checked ~ .rating__label .rating__icon--star {
       color: #ddd;
     }
   
-    /* make all stars orange on rating group hover */
     .rating-group:hover .rating__label .rating__icon--star {
       color: $orange;
     }

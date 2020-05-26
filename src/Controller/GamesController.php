@@ -67,10 +67,11 @@ class GamesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($opinion);
 
+            // Si note en dehors de l'échelle
             if ($opinion->getNote() > 5) {
                 $opinion->setNote(5);
-            } elseif ($opinion->getNote() < 0.5) {
-                $opinion->setNote(0.5);
+            } elseif ($opinion->getNote() < 1) {
+                $opinion->setNote(1);
             }
 
             $opinion->setPostedOn(new DateTime());
