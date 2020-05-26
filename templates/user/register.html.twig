@@ -1,47 +1,87 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %}Inscription
+{% endblock %}
 
 
 {% block body %}
 
-<h1 class="mt-4">Créer un compte</h1>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+				<div class="card card-signin my-5">
+					<div class="card-body">
+						<h5 class="card-title text-center">Inscription</h5>
+						{{ form_start(userForm) }}
 
-<div class="mt-4">
+						<div class="form-label-group">
+							{{ form_widget(userForm.email, 
+                                { 'attr' : 
+                                    {
+                                        'placeholder' : 'Adresse Email',
+                                        'class' : 'form-control',
+                                        'id' : 'register_form_email',
+                                        'type' : 'email',
+                                        }
+                                    }
+                                )
+                            }}
+							{{ form_errors(userForm.password) }}
+							<label for="register_form_email">Adresse Email</label>
+						</div>
 
-{{ form(userForm) }}
-{# 
-{{ form_start(userForm) }}
-    
-<div class="customfield">
-       {{ form_widget(userForm.email, { 'attr' : {
-        'placeholder' : 'email',
-        'class' : 'customfield'
-    }})}}  
-    {{ form_errors(userForm.email) }}
-    
-</div>
+						<div class="form-label-group">
+							{{ form_widget(userForm.password.first, 
+                                { 'attr' : 
+                                    {
+                                        'placeholder' : 'Mot de passe',
+                                        'class' : 'form-control',
+                                        'id' : 'register_form_password_first',
+                                        'type' : 'password',
+                                        }
+                                    }
+                                )
+                            }}
+							{{ form_errors(userForm.email) }}
+							<label for="register_form_password_first">Mot de passe</label>
+							{% if(form_errors(userForm.password.first)) %}
+								{{ form_errors(userForm.password.first) }}
+							{% endif %}
+						</div>
 
-<div class="mt-4 mb-4">
-    {{ form_widget(userForm.username, { 'attr' : {
-        'class' : 'customfield'
-    }})}}  
-    {{ form_errors(userForm.username) }}
-    
-</div>
+						<div class="form-label-group">
+							{{ form_widget(userForm.password.second, 
+                                { 'attr' : 
+                                    {
+                                        'placeholder' : 'Confirmaton du mot de passe',
+                                        'class' : 'form-control',
+                                        'id' : 'register_form_password_second',
+                                        'type' : 'password',
+                                        }
+                                    }
+                                )
+                            }}
+							{{ form_errors(userForm.email) }}
+							<label for="register_form_password_second">Confirmaton du mot de passe</label>
+							{% if(form_errors(userForm.password.second)) %}
+								{{ form_errors(userForm.password.second) }}
+							{% endif %}
+						</div>
 
-<div class="mt-4 mb-4">
-     {{ form_widget(userForm.password, { 'attr' : {
-        'placeholder' : 'password',
-        'class' : 'customfield'
-    }})}}  
-    {{ form_errors(userForm.password) }}
-    
-</div>
 
-{{ form_end(userForm) }} #}
+						<button class="btn btn-lg btn-primary btn-block text-uppercase register" type="submit">S'inscrire</button>
 
 
+						<div class="text-center mt-4">
+							<p>Déjà inscrit ?<a href="{{ path('login')}}" class="ml-2">Se connecter</a>
+							</p>
+						</div>
+						{{ form_end(userForm) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 {% endblock %}

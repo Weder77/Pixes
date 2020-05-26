@@ -35,7 +35,7 @@ class UserController extends AbstractController
 
             $manager->flush(); // execute toutes les requetes en attentes
 
-            $this->addFlash('success', 'Le compte à bien été créer !');
+            $this->addFlash('success', 'Le compte à bien été créer, vous pouvez dès à présent vous connecter !');
             return $this->redirectToRoute('index');
         }
 

@@ -84,6 +84,38 @@
     </a>
 </div>
 
+
+<!-- CHOICES -->
+<div class="container mb-5">
+    <form method="get">
+        <div class="form-row">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <select class="custom-select" id="selectPlatform">
+                        <option value="all-platforms">Toutes les plateformes</option>
+                        {% for platform in platforms %}
+                        <option value="{{ platform.slug }}">{{ platform.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group mb-3">
+                    <select class="custom-select" id="selectTags">
+                        <option value="all-tags">Tous les tags</option>
+                        {% for tag in tags %}
+                        <option value="{{ tag.slug }}">{{ tag.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-auto">
+                <button class="btn btn-primary"><i class="fas fa-search text-white"></i></button>
+            </div>
+        </div>
+    </form>
+</div>
+
 <!-- LAST GAMES -->
 <div class="container mb-5">
     <h1 class="text-center mb-4">Nos jeux à la une</h1>
@@ -130,34 +162,4 @@
     </div>
 </div>
 
-<!-- CHOICES -->
-<div class="container mb-5">
-    <form method="get">
-        <div class="form-row">
-            <div class="col">
-                <div class="input-group mb-3">
-                    <select class="custom-select" id="selectPlatform">
-                        <option value="all-platforms">Toutes les plateformes</option>
-                        {% for platform in platforms %}
-                        <option value="{{ platform.slug }}">{{ platform.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="col">
-                <div class="input-group mb-3">
-                    <select class="custom-select" id="selectTags">
-                        <option value="all-tags">Tous les tags</option>
-                        {% for tag in tags %}
-                        <option value="{{ tag.slug }}">{{ tag.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-auto">
-                <button class="btn btn-primary"><i class="fas fa-search text-white"></i></button>
-            </div>
-        </div>
-    </form>
-</div>
 {% endblock %}
