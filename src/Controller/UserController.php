@@ -25,16 +25,13 @@ class UserController extends AbstractController
 
         $form = $this->createForm(RegisterFormType::class, $user);
 
-        $form->handleRequest($request); // lier definitivement le $form aux infos du formulaire (recupere les donner en saisies en $_POST)
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($user); // enregistrer le form dans le systeme
-
-            //  encodage du mot de passer
+            $manager->persist($user);
             $password = $user->getPassword();
             $user->setPassword($encoder->encodePassword($user, $password));
-
-            $manager->flush(); // execute toutes les requetes en attentes
+            $manager->flush();
 
             $this->addFlash('success', 'Le compte à bien été créer, vous pouvez dès à présent vous connecter !');
             return $this->redirectToRoute('index');

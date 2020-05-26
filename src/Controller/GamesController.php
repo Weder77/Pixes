@@ -7,6 +7,7 @@ use App\Entity\Opinion;
 use App\Entity\Platform;
 use App\Entity\Tag;
 use App\Form\OpinionType;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,30 +36,50 @@ class GamesController extends AbstractController
      */
     public function game($slug, Request $request)
     {
+        $manager = $this->getDoctrine()->getManager();
         $rep = $this->getDoctrine()->getRepository(Game::class);
         $game = $rep->findOneBy(['slug' => $slug]);
 
         // Si jeu n'existe pas => redirection
         if ($game == null) {
-            // $this->addFlash('error', 'Oups, il semblerait que le jeu que vous avez demandé n\'est pas disponible sur notre plateforme :/');
-            // return $this->redirectToRoute('home');
-
-            $game = $rep->findOneBy(['slug' => 'game-1']);
+            $this->addFlash('error', 'Oups, il semblerait que le jeu que vous avez demandé n\'est pas disponible sur notre plateforme :/');
+            return $this->redirectToRoute('home');
         }
 
         $platforms = [];
         $tags = [];
-
-        foreach ($game->getPlatforms() as $key => $value) {
-            array_push($platforms, $value->getName());
+        $opinions = [];
+        foreach ($game->getPlatforms() as $key => $platform) {
+            array_push($platforms, $platform->getName());
         }
-        foreach ($game->getTags() as $key => $value) {
-            array_push($tags, $value->getName());
+        foreach ($game->getTags() as $key => $tag) {
+            array_push($tags, $tag->getName());
+        }
+
+        foreach ($game->getOpinions() as $key => $opinion) {
+            array_push($opinions, $opinion);
         }
 
         $opinion = new Opinion;
         $form = $this->createForm(OpinionType::class, $opinion);
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($opinion);
+
+            if ($opinion->getNote() > 5) {
+                $opinion->setNote(5);
+            } elseif ($opinion->getNote() < 0.5) {
+                $opinion->setNote(0.5);
+            }
+
+            $opinion->setPostedOn(new DateTime());
+            $opinion->setUser($this->getUser()->getProfile());
+            $opinion->setGame($game);
+            $manager->flush();
+
+            $this->addFlash('success', 'Votre commentaire a bien été posté !');
+        }
 
         return $this->render('games/game.html.twig', [
             'name' => $game->getName(),
@@ -68,6 +89,8 @@ class GamesController extends AbstractController
             'platforms' => $platforms,
             'pegi' => $game->getPegi(),
             'price' => $game->getPrice(),
+            'opinions' => $opinions,
+            'opinionForm' => $form->createView(),
         ]);
     }
 }

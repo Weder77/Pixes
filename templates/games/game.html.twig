@@ -16,8 +16,9 @@ Acheter {{ slug }}
 		text-align: center;
 	}
 
-	.picto i {
-		color: #E14826;
+	.picto i,
+	.comment_infos i {
+		color: #ffc311;
 		font-size: 12px;
 	}
 </style>
@@ -27,7 +28,7 @@ Acheter {{ slug }}
 <!-- GAME INFORMATIONS -->
 <section class="container">
 	<div class="row">
-		<div class="col-sm-6">
+		<div class="col-sm-8 mb-4">
 			<div class="card">
 				<div class="card-body">
 					<h3 class="card-title font-weight-bold">{{ name }}</h3>
@@ -35,73 +36,114 @@ Acheter {{ slug }}
 				</div>
 			</div>
 		</div>
-		<div class="card">
-			<div class="card-header">
-				<h3 class="text-uppercase">À propos</h3>
-			</div>
-			<div class="card-body text-left">
-				<div>
-					<span class="picto">
-						<i class="fas fa-tags"></i>
-					</span>
-					<span class="tag_title">
-						Genres :
-					</span>
-					<span>
-						{% for tag in tags %}
-						{{ tag }},
-						{% endfor %}
-					</span>
-				</div>
-				<div>
-					<span class="picto">
-						<i class="fas fa-tv picto"></i>
-					</span>
-					<span class="tag_title">
-						Plateformes :
-					</span>
-					<span>
-						{% for platform in platforms %}
-						{{ platform }},
-						{% endfor %}
-					</span>
-				</div>
-				<div>
-					<span class="picto">
-						<i class="fas fa-ban"></i>
-					</span>
-					<span class="tag_title">
-						Pegi :
-					</span>
-					<span>
-						{{ pegi }} ans
-					</span>
-				</div>
-				<div>
-					<span class="picto">
-						<i class="fas fa-euro-sign"></i>
-					</span>
-					<span class="tag_title">
-						Prix :
-					</span>
-					<span>
-						{{ price }} €
-					</span>
+		<div class="col-sm-4 mb-4">
+			<div class="card">
+				<div class="card-body text-left">
+					<h3 class="font-weight-bold">À propos</h3>
+					<div>
+						<span class="picto">
+							<i class="fas fa-tags"></i>
+						</span>
+						<span class="tag_title">
+							Genres :
+						</span>
+						<span>
+							{% for tag in tags %}
+							{{ tag }},
+							{% endfor %}
+						</span>
+					</div>
+					<div>
+						<span class="picto">
+							<i class="fas fa-tv picto"></i>
+						</span>
+						<span class="tag_title">
+							Plateformes :
+						</span>
+						<span>
+							{% for platform in platforms %}
+							{{ platform }},
+							{% endfor %}
+						</span>
+					</div>
+					<div>
+						<span class="picto">
+							<i class="fas fa-ban"></i>
+						</span>
+						<span class="tag_title">
+							Pegi :
+						</span>
+						<span>
+							{{ pegi }} ans
+						</span>
+					</div>
+					<div>
+						<span class="picto">
+							<i class="fas fa-euro-sign"></i>
+						</span>
+						<span class="tag_title">
+							Prix :
+						</span>
+						<span>
+							{{ price }} €
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
 
-<section class="container">
+<section class="container mb-1">
+	<div class="card">
+		<div class="card-body">
+			<h3 class="font-weight-bold">Avis</h3>
+			{% if opinions == null %}
+			<span class="text-muted">Aucun avis n'a été laissé sur ce jeu.</span>
+			{% endif %}
+			{% for opinion in opinions %}
+			<div class="mb-4 comment_infos">
+				<span class="text-uppercase font-weight-bold text-primary mr-4">{{ opinion.user.firstname }}
+					{{ opinion.user.lastname }}</span>
+				<span>
+					{% for x in 1..5 %}
+					{% if x <= opinion.note %}
+					<i class="fas fa-star"></i>
+					{% else %}
+					<i class="far fa-star"></i>
+					{% endif %}
+					{% endfor %}
+				</span>
+				<div>
+					{{ opinion.content }}
+				</div>
+				<div class="">
+					<span class="mr-4">
+						<i class="mr-2 far fa-clock"></i>
+						<span class="text-muted">
+							{{ opinion.postedon | date('d/m/Y H:i') }}
+						</span>
+					</span>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+
+<section class="container mb-4">
 	{% if app.user == null%}
 	<p>
 		<a href="{{ path('login')}} ">Connectez-vous</a> pour laisser un avis sur le jeu.
 	</p>
 	{% else %}
-	
 
-		<!-- <form method="post">
+	{{ form_start(opinionForm) }}
+		<button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Poster mon commentaire</button>
+	{{ form_end(opinionForm) }}
+
+
+	<!-- <form method="post">
 		<div id="rating-stars">
 			<div class="rating-group">
 				<input class="rating__input rating__input--none" name="rating" id="rating-none" value="0" type="radio">
@@ -123,7 +165,7 @@ Acheter {{ slug }}
 			<textarea class="form-control" name="opinion_content" placeholder="Votre avis..." rows="3"></textarea>
 		</div>
 	</form> -->
-		{% endif %}
+	{% endif %}
 </section>
 
 
