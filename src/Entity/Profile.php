@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ProfileRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProfileRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=ProfileRepository::class)
@@ -64,6 +65,9 @@ class Profile
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $picture;
+
+    private $file;
+
 
     public function __construct()
     {
@@ -221,4 +225,33 @@ class Profile
 
         return $this;
     }
+
+    public function getFile(){
+        return $this ->file;
+    }
+    public function setFile(UploadedFile $file){
+        $this -> file = $file;
+        return $this;
+    }
+    public function uploadFile(){
+        $name = $this ->file -> getClientOriginalName();
+        $newName = $this ->renameFile($name);
+        // on enregistre la photo dans la bdd
+        $this ->image = $newName;
+        // on enregistrela photo sur le serveur
+        $this->file->move($this->dirPhoto(), $newName);
+    }
+    public function removeFile(){
+        if(file_exists($this ->dirPhoto() . $this->image)){
+            unlink($this ->dirPhoto() . $this->image);
+        }
+    }
+    public function renameFile($name){
+        return 'photo_' . time() . rand(1, 99999) . '_' . $name;
+    }
+
+    public function dirPhoto(){
+        return __DIR__ . '/../../public/photo/';
+    }
+
 }

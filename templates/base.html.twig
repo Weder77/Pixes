@@ -61,13 +61,13 @@
 	{# SUCCESS & ERROR MESSAGES #}
 	<div class="container">
 		{% for message in app.flashes('success') %}
-		<div class="alert alert-success mt-4">
+		<div class="alert alert-success mt-4 text-center">
 			{{ message }}
 		</div>
 		{% endfor %}
 
 		{% for message in app.flashes('error') %}
-		<div class="alert alert-danger mt-4">
+		<div class="alert alert-danger mt-4 text-center">
 			{{ message }}
 		</div>
 		{% endfor %}

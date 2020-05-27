@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Opinion;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Form\ProfileFormType;
@@ -81,12 +82,22 @@ class UserController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
 
         $user = $this->getUser()->getProfile();
-
         $appUser = $this->getUser();
+
+        // get infos user
         $balance = $this->getUser()->getProfile()->getBalance();
         $firstname = $this->getUser()->getProfile()->getFirstname();
-    
+        $picture = $this->getUser()->getProfile()->getPicture();
 
+        // get opinions
+        $opinions = [];
+        $opinionsNumber = 0;
+        foreach ($user->getOpinions() as $key => $opinion) {
+            $opinionsNumber += 1;
+            array_push($opinions, $opinion);
+        }
+    
+        // get form
         $formProfile = $this->createForm(ProfileFormType::class,$user);
         $formProfile->handleRequest($request);
 
@@ -96,6 +107,8 @@ class UserController extends AbstractController
         
         if($formProfile->isSubmitted() && $formProfile->isValid()) {
             $manager->persist($user);
+
+            // $user -> uploadFile();
 
             $manager->flush();
 
@@ -120,6 +133,9 @@ class UserController extends AbstractController
             'UserForm' => $formUser->createView(),
             'balance' => $balance,
             'firstname' => $firstname,
+            'picture' => $picture,
+            'opinions' => $opinions,
+            'opinionsNumber' => $opinionsNumber,
         ]);
     }
 }

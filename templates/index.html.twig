@@ -121,7 +121,7 @@
     <h1 class="text-center mb-4">Nos jeux à la une</h1>
     <div class="row">
         {% for game in games %}
-        <div class="col-3 mb-4">
+        <div class="col-md-3 mb-4">
             <div class="game-card">
                 <div class="game-poster mb-2 shadow">
                     <a href="{{ path('game', { slug : game.slug }) }}">
