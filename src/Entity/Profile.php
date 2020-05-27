@@ -238,7 +238,7 @@ class Profile
         $newName = $this ->renameFile($name);
         // on enregistre la photo dans la bdd
         $this ->image = $newName;
-        // on enregistrela photo sur le serveur
+        // on enregistre la photo sur le serveur
         $this->file->move($this->dirPhoto(), $newName);
     }
     public function removeFile(){
@@ -246,6 +246,7 @@ class Profile
             unlink($this ->dirPhoto() . $this->image);
         }
     }
+
     public function renameFile($name){
         return 'photo_' . time() . rand(1, 99999) . '_' . $name;
     }

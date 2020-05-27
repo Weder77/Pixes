@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
+use DateTime;
+use App\Entity\User;
 use App\Entity\Opinion;
 use App\Entity\Profile;
-use App\Entity\User;
 use App\Form\ProfileFormType;
 use App\Form\RegisterFormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,15 +24,26 @@ class UserController extends AbstractController
     {
         $manager = $this->getDoctrine()->getManager();
         $user = new User;
+        $profile = new Profile();
 
         $form = $this->createForm(RegisterFormType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($user);
+            
             $password = $user->getPassword();
             $user->setPassword($encoder->encodePassword($user, $password));
+
+            $date = new DateTime();
+            $profile->setRegisterDate($date);
+            $profile->setBalance(0);
+            $profile->setUser($user);
+            
+            $manager->persist($user);
+            $manager->persist($profile);
+
+
             $manager->flush();
 
             $this->addFlash('success', 'Le compte à bien été créer, vous pouvez dès à présent vous connecter !');
@@ -108,8 +120,9 @@ class UserController extends AbstractController
         if($formProfile->isSubmitted() && $formProfile->isValid()) {
             $manager->persist($user);
 
-            // $user -> uploadFile();
-
+            if ($user->getFile()) {
+                $user->uploadFile();
+            } 
             $manager->flush();
 
             $this->addFlash('success', 'Votre profil à bien été modifié.');

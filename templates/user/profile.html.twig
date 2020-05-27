@@ -17,12 +17,12 @@ Mon compte
         <div class="col-sm-3">
 
             <div class="text-center">
-                <!-- {% if picture != null %}
+                {% if picture != null %}
                     <img src="{{ picture }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar">
                 {% else %}
                     <img src="{{ asset('img/default.png') }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar default">
-                {% endif %} -->
-                <img src="{{ picture }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar">
+                {% endif %}
+                <!-- <img src="{{ picture }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar"> -->
             </div>
 
             <ul class="list-group text-center">
@@ -63,9 +63,6 @@ Mon compte
                 <li class="text-center">
                     <a class="tab-name" data-toggle="tab" href="#comments">Mes avis</a>
                 </li>
-                <li class="text-center">
-                    <a class="tab-name" href="{{ path('logout')}}">Se deconnecter</a>
-                </li>
             </ul>
 
 
@@ -79,6 +76,7 @@ Mon compte
                             {{ form_start(ProfileForm) }}
 
                             {# picture #}
+                            <small>NE FONCTIONNE PAS, ON VERRA PLUS TARD</small>
                             <div class="form-label-group">
                                 {{ form_widget(ProfileForm.picture, { 'attr' : {
                                     'placeholder' : 'Changer votre photo de profil',
@@ -110,6 +108,21 @@ Mon compte
                                 }}
                                 {{ form_errors(ProfileForm.lastname) }}
                                 <label for="register_form_email">Nom</label>
+                            </div>
+
+                            <!-- A enlever quand on aura la partie admin -->
+                            <div class="form-label-group">
+                                {{ form_widget(ProfileForm.balance, 
+                                    { 'attr' : 
+                                        {
+                                            'class' : 'form-control text-center',
+                                            'type' : 'number'
+                                            }
+                                        }
+                                    )
+                                }}
+                                {{ form_errors(ProfileForm.balance) }}
+                                <label for="register_form_email">Simuler mon solde</label>
                             </div>
 
 

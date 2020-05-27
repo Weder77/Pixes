@@ -8,6 +8,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 
 class ProfileFormType extends AbstractType
@@ -17,8 +19,13 @@ class ProfileFormType extends AbstractType
         $builder
             ->add('firstname', TextType::class)
             ->add('lastname', TextType::class)
-            ->add('birthday')
-            // ->add('balance')
+            ->add('birthday',  DateType::class, array(
+                'widget' => 'choice',
+                'years' => range(1950, 2020),
+                'months' => range(1, 12),
+                'days' => range(1, 31),
+              ))
+            ->add('balance', IntegerType::class)
             // ->add('register_date')
             // ->add('user')
             ->add('picture', FileType::class, array('data_class' => null, 'required' => false))
