@@ -83,13 +83,10 @@ class GamesController extends AbstractController
         }
 
         return $this->render('games/game.html.twig', [
-            'name' => $game->getName(),
-            'description' => $game->getDescription(),
+            'game' => $game,
             'slug' => $slug,
             'tags' => $tags,
             'platforms' => $platforms,
-            'pegi' => $game->getPegi(),
-            'price' => $game->getPrice(),
             'opinions' => $opinions,
             'opinionForm' => $form->createView(),
         ]);
