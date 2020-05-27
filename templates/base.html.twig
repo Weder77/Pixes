@@ -33,7 +33,7 @@
 <body>
 	<header class="d-flex justify-content-around align-items-center mt-2 mb-3">
 		<a href="{{ path('index')}}">
-			<img src="{{ asset('/img/logo-withoutbg.png')}}" alt="Logo" class="logo"/>
+			<img src="{{ asset('/img/logo-withoutbg.png')}}" alt="Logo" class="logo" />
 		</a>
 
 		<div class="d-flex flex-column align-items-end">
@@ -42,9 +42,11 @@
 				<a href="{{ path('login')}}" class="btn-left separator-r">Connexion</a>
 				<a href="{{ path('register')}}" class="btn-right">Inscription</a>
 				{% else %}
-					<a href="{{ path('profile')}}" class="btn-simple"><i class="fas fa-user text-white pr-2"></i> Mon compte</a>
-					<a href="{{ path('logout')}}" class="btn-logout"><i class="fas fa-sign-out-alt"></i></i></a>
-				{% endif %} 	
+				<a href="{{ path('profile')}}" class="btn-simple"><i class="fas fa-user text-white pr-2"></i> Mon
+					compte</a>
+				<a href="{{ path('logout')}}" class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm"><i class="fas fa-sign-out-alt"></i></i></a>
+				{% endif %}
+				<a href="{{ path('cart_index')}}" class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm"><i class="fas fa-shopping-cart"></i></i></i></a>
 			</div>
 			<form class="input-group mt-2">
 				<input type="text" class="form-custom" name="search" placeholder="Rechercher un jeu ...">
@@ -52,6 +54,7 @@
 					<button class="btn btn-custom" type="button"><i class="fas fa-search"></i></button>
 				</div>
 			</form>
+
 		</div>
 	</header>
 
