@@ -19,6 +19,34 @@ class CodeRepository extends ServiceEntityRepository
         parent::__construct($registry, Code::class);
     }
 
+    /**
+     * @return Code[] Returns an array of Code objects
+     */
+    public function getAvailableCodes($game)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.game = :game')
+            ->andWhere('c.used = 0')
+            ->setParameter('game', $game)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Code[] Returns an array of Code objects
+     */
+    public function getAvailableCode($game)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.game = :game')
+            ->andWhere('c.used = 0')
+            ->setParameter('game', $game)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+    }
+
+
     // /**
     //  * @return Code[] Returns an array of Code objects
     //  */

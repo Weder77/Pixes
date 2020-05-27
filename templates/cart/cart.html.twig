@@ -61,7 +61,7 @@
                 {% if app.user == null %}
                 <span>Vous devez vous <a href="{{ path('login') }}">connecter</a> avant de procéder au paiement</span>
                 {% else %}
-                <button class="btn btn-primary text-white">Procéder au paiement</button>
+                <a href="{{ path('cart_checkout') }}" class="btn btn-primary text-white">Procéder au paiement</a>
                 {% endif %}
             </div>
         </div>

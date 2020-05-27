@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BuyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -39,9 +41,14 @@ class Buy
     private $profile;
 
     /**
-     * @ORM\OneToOne(targetEntity=Code::class, cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Code::class, mappedBy="buy")
      */
-    private $code;
+    private $codes;
+
+    public function __construct()
+    {
+        $this->codes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -96,14 +103,33 @@ class Buy
         return $this;
     }
 
-    public function getCode(): ?Code
+    /**
+     * @return Collection|Code[]
+     */
+    public function getCodes(): Collection
     {
-        return $this->code;
+        return $this->codes;
     }
 
-    public function setCode(?Code $code): self
+    public function addCode(Code $code): self
     {
-        $this->code = $code;
+        if (!$this->codes->contains($code)) {
+            $this->codes[] = $code;
+            $code->setBuy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCode(Code $code): self
+    {
+        if ($this->codes->contains($code)) {
+            $this->codes->removeElement($code);
+            // set the owning side to null (unless already changed)
+            if ($code->getBuy() === $this) {
+                $code->setBuy(null);
+            }
+        }
 
         return $this;
     }

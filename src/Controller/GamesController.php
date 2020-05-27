@@ -42,8 +42,8 @@ class GamesController extends AbstractController
 
         // Si jeu n'existe pas => redirection
         if ($game == null) {
-            $this->addFlash('error', 'Oups, il semblerait que le jeu que vous avez demandé n\'est pas disponible sur notre plateforme :/');
-            return $this->redirectToRoute('home');
+            $this->addFlash('error', 'Oups, il semblerait que le jeu que vous avez demandé n\'est pas disponible sur notre plateforme.');
+            return $this->redirectToRoute('index');
         }
 
         $platforms = [];

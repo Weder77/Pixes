@@ -33,6 +33,11 @@ class Code
      */
     private $game;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Buy::class, inversedBy="codes")
+     */
+    private $buy;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +75,18 @@ class Code
     public function setGame(?Game $game): self
     {
         $this->game = $game;
+
+        return $this;
+    }
+
+    public function getBuy(): ?Buy
+    {
+        return $this->buy;
+    }
+
+    public function setBuy(?Buy $buy): self
+    {
+        $this->buy = $buy;
 
         return $this;
     }
