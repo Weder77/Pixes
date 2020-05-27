@@ -20,12 +20,12 @@ class Profile
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $lastname;
 
@@ -35,7 +35,7 @@ class Profile
     private $birthday;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $balance;
 
@@ -59,6 +59,11 @@ class Profile
      * @ORM\OneToMany(targetEntity=Buy::class, mappedBy="profile")
      */
     private $buys;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $picture;
 
     public function __construct()
     {
@@ -201,6 +206,18 @@ class Profile
                 $buy->setProfile(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): self
+    {
+        $this->picture = $picture;
 
         return $this;
     }
