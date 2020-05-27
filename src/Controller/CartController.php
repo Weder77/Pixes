@@ -76,7 +76,7 @@ class CartController extends AbstractController
                 $allCodes = $this->getDoctrine()->getRepository(Code::class)->getAvailableCodes($item['product']->getId());
                 for ($i = 0; $i < $item['quantity']; $i++) {
                     // Pour chaque édition du jeu ajouté au panier on regarde si on a un code disponible
-                    if ($allCodes[$i] == null) {
+                    if (empty($allCodes[$i])) {
                         $this->addFlash('error', 'Malheureusement, un jeu que vous souhaitez n\'est plus en stock chez nous.');
                         return $this->redirectToRoute('cart_index');
                     }
