@@ -9,10 +9,7 @@ Mon compte
 {% block body %}
 
 <div class="container bootstrap snippet">
-    <div class="text-center mt-4 mb-4">
-        <h2>Bienvenue sur votre profil
-            {{ firstname }}.</h2>
-    </div>
+
     <div class="row">
         <div class="col-sm-3">
 
@@ -23,6 +20,7 @@ Mon compte
                     <img src="{{ asset('img/default.png') }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar default">
                 {% endif %}
                 <!-- <img src="{{ picture }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar"> -->
+                <p>{{firstname}} {{lastname}}</p>
             </div>
 
             <ul class="list-group text-center">
@@ -75,7 +73,7 @@ Mon compte
                         <div class="container mt-4">
                             {{ form_start(ProfileForm) }}
 
-                            {# picture #}
+                            <!-- {# picture #}
                             <small>NE FONCTIONNE PAS, ON VERRA PLUS TARD</small>
                             <div class="form-label-group">
                                 {{ form_widget(ProfileForm.picture, { 'attr' : {
@@ -83,7 +81,7 @@ Mon compte
                                     'class' : 'form-control'
                                     }})
                                 }}
-                            </div>
+                            </div> -->
                             <div class="form-label-group">
                                 {{ form_widget(ProfileForm.firstname, 
                                     { 'attr' : 
@@ -125,8 +123,8 @@ Mon compte
                                 <label for="register_form_email">Simuler mon solde</label>
                             </div>
 
-
-                            <div class="form-label-group row justify-content-md-center">
+                            <label>Date de naissance</label>
+                            <div class="form-label-group row justify-content-center">
                                 {{ form_widget(ProfileForm.birthday, 
                                     { 'attr' : 
                                         {
@@ -229,9 +227,9 @@ Mon compte
                 <div class="tab-pane" id="purchased">
                     <div class="text-center mt-4">
                         <h3>Mes jeux achetés</h3>
-                        <div class="container mt-4 row justify-content-md-center">
+                        <div class="container mt-4 row justify-content-md-center margin-zero">
 
-
+                            {% for game in games %}
                             <div class="card mb-3" style="max-width: 540px;">
                                 <div class="row no-gutters">
                                     <div class="col-md-4">
@@ -239,48 +237,17 @@ Mon compte
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <h5 class="card-title">TITRE DU JEU</h5>
-                                            <p class="card-text">Key : AAAA-ZZZZ-EEEE-RRRR</p>
+                                            <h5 class="card-title">TITRE</h5>
+                                            <p class="card-text">{{game.price}} €</p>
+                                            <p class="card-text">Key :</p>
                                             <p class="card-text">
-                                                <small class="text-muted">Acheté le</small>
+                                                <small class="text-muted">Acheté le </small>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row no-gutters">
-                                    <div class="col-md-4">
-                                        <img src="{{ asset('/default.png')}}" class="card-img" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">TITRE DU JEU</h5>
-                                            <p class="card-text">Key : AAAA-ZZZZ-EEEE-RRRR</p>
-                                            <p class="card-text">
-                                                <small class="text-muted">Acheté le</small>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row no-gutters">
-                                    <div class="col-md-4">
-                                        <img src="{{ asset('/default.png')}}" class="card-img" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">TITRE DU JEU</h5>
-                                            <p class="card-text">Key : AAAA-ZZZZ-EEEE-RRRR</p>
-                                            <p class="card-text">
-                                                <small class="text-muted">Acheté le</small>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
 
 
                         </div>
@@ -319,6 +286,7 @@ Mon compte
                                     </span>
                                 </div>
                             </div>
+                            <hr>
                             {% endfor %}
                         </div>
                     </div>

@@ -18,3 +18,16 @@
         }
     }
 }
+
+.margin-zero{
+    margin: 0%;
+}
+
+@media screen and (max-width: 575px) {
+    .col-sm-9 {
+        .nav-tabs{
+            margin-top: 10%;
+        }
+    }
+    
+  }

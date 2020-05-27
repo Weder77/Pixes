@@ -30,6 +30,25 @@ class GamesController extends AbstractController
             'games' => $games,
         ));
     }
+
+    /**
+     * @Route("/jeu/tout-les-jeux", name="allgames")
+     */
+    public function allgames()
+    {
+        $doc = $this->getDoctrine();
+        $platforms = $doc->getRepository(Platform::class)->findAll();
+        $tags = $doc->getRepository(Tag::class)->findAll();
+        $games = $doc->getRepository(Game::class)->findBy([], ['id' => 'DESC']);
+
+        return $this->render('/games/allgames.html.twig', array(
+            'platforms' => $platforms,
+            'tags' => $tags,
+            'games' => $games,
+        ));
+    }
+
+    
     
     /**
      * @Route("/jeu/{slug}", name="game")
@@ -91,4 +110,6 @@ class GamesController extends AbstractController
             'opinionForm' => $form->createView(),
         ]);
     }
+
+
 }

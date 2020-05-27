@@ -5,6 +5,7 @@ namespace App\Controller;
 use DateTime;
 use App\Entity\User;
 use App\Entity\Opinion;
+use App\Entity\Buy;
 use App\Entity\Profile;
 use App\Form\ProfileFormType;
 use App\Form\RegisterFormType;
@@ -99,6 +100,7 @@ class UserController extends AbstractController
         // get infos user
         $balance = $this->getUser()->getProfile()->getBalance();
         $firstname = $this->getUser()->getProfile()->getFirstname();
+        $lastname = $this->getUser()->getProfile()->getLastname();
         $picture = $this->getUser()->getProfile()->getPicture();
 
         // get opinions
@@ -107,6 +109,12 @@ class UserController extends AbstractController
         foreach ($user->getOpinions() as $key => $opinion) {
             $opinionsNumber += 1;
             array_push($opinions, $opinion);
+        }
+
+        // get purchashed games
+        $games = [];
+        foreach ($user->getBuys() as $key => $game) {
+            array_push($games, $game);
         }
     
         // get form
@@ -146,9 +154,11 @@ class UserController extends AbstractController
             'UserForm' => $formUser->createView(),
             'balance' => $balance,
             'firstname' => $firstname,
+            'lastname' => $lastname,
             'picture' => $picture,
             'opinions' => $opinions,
             'opinionsNumber' => $opinionsNumber,
+            'games' => $games
         ]);
     }
 }
