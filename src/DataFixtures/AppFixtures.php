@@ -84,6 +84,23 @@ class AppFixtures extends Fixture
             $manager->persist($code);
         }
 
+        // Create Admin
+        $admin = new User();
+        $admin->setEmail('admin@test.com');
+        $password = $this->encoder->encodePassword($admin, 'Admin');
+        $admin->setPassword($password);
+        $admin->setRoles(['ROLE_ADMIN']);
+        $profile = new Profile();
+        $profile->setFirstname('Admin');
+        $profile->setLastname('Istrateur');
+        $date = new DateTime();
+        $profile->setBirthday($date);
+        $profile->setRegisterDate($date);
+        $profile->setBalance(rand(0,150));
+        $profile->setUser($admin);
+        $manager->persist($admin);
+        $manager->persist($profile);
+
         // Create Users & Profiles
         $users = [];
         for ($i = 1; $i <= 3; $i++) {
