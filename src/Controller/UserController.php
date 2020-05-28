@@ -5,7 +5,6 @@ namespace App\Controller;
 use DateTime;
 use App\Entity\User;
 use App\Entity\Opinion;
-use App\Entity\Buy;
 use App\Entity\Profile;
 use App\Form\ProfileFormType;
 use App\Form\RegisterFormType;
@@ -113,7 +112,7 @@ class UserController extends AbstractController
 
         // get purchashed games
         $games = [];
-        foreach ($user->getBuys() as $key => $game) {
+        foreach ($user->getInvoices() as $key => $game) {
             array_push($games, $game);
         }
     

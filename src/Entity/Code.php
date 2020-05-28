@@ -34,9 +34,9 @@ class Code
     private $game;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Buy::class, inversedBy="codes")
+     * @ORM\ManyToOne(targetEntity=Invoice::class, inversedBy="codes")
      */
-    private $buy;
+    private $invoice;
 
     public function getId(): ?int
     {
@@ -79,14 +79,14 @@ class Code
         return $this;
     }
 
-    public function getBuy(): ?Buy
+    public function getInvoice(): ?Invoice
     {
-        return $this->buy;
+        return $this->invoice;
     }
 
-    public function setBuy(?Buy $buy): self
+    public function setInvoice(?Invoice $invoice): self
     {
-        $this->buy = $buy;
+        $this->invoice = $invoice;
 
         return $this;
     }

@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Buy;
 use App\Entity\Code;
 use App\Entity\Game;
+use App\Entity\Invoice;
 use App\Repository\GameRepository;
 use App\Service\Cart\CartService;
 use DateTime;
@@ -84,17 +84,16 @@ class CartController extends AbstractController
                 }
             }
 
-            $buy = new Buy();
-            $buy->setPrice($price);
-            $buy->setPurchaseDate(new DateTime());
-            $buy->setProfile($user);
+            $invoice = new Invoice();
+            $invoice->setPrice($price);
+            $invoice->setPurchaseDate(new DateTime());
+            $invoice->setProfile($user);
             foreach ($codes as $code) {
-                $buy->addCode($code);
+                $invoice->addCode($code);
                 $code->setUsed(1);
                 $manager->persist($code);
             }
-            $buy->setUrlInvoice('none');
-            $manager->persist($buy);
+            $manager->persist($invoice);
 
             $user->setBalance($balance - $price);
             $cartService->clear();

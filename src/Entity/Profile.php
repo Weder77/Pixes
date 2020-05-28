@@ -57,22 +57,22 @@ class Profile
     private $opinions;
 
     /**
-     * @ORM\OneToMany(targetEntity=Buy::class, mappedBy="profile")
-     */
-    private $buys;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $picture;
 
     private $file;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Invoice::class, mappedBy="profile")
+     */
+    private $invoices;
+
 
     public function __construct()
     {
         $this->opinions = new ArrayCollection();
-        $this->buys = new ArrayCollection();
+        $this->invoices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,37 +183,6 @@ class Profile
         return $this;
     }
 
-    /**
-     * @return Collection|Buy[]
-     */
-    public function getBuys(): Collection
-    {
-        return $this->buys;
-    }
-
-    public function addBuy(Buy $buy): self
-    {
-        if (!$this->buys->contains($buy)) {
-            $this->buys[] = $buy;
-            $buy->setProfile($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBuy(Buy $buy): self
-    {
-        if ($this->buys->contains($buy)) {
-            $this->buys->removeElement($buy);
-            // set the owning side to null (unless already changed)
-            if ($buy->getProfile() === $this) {
-                $buy->setProfile(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getPicture(): ?string
     {
         return $this->picture;
@@ -253,6 +222,37 @@ class Profile
 
     public function dirPhoto(){
         return __DIR__ . '/../../public/photo/';
+    }
+
+    /**
+     * @return Collection|Invoice[]
+     */
+    public function getInvoices(): Collection
+    {
+        return $this->invoices;
+    }
+
+    public function addInvoice(Invoice $invoice): self
+    {
+        if (!$this->invoices->contains($invoice)) {
+            $this->invoices[] = $invoice;
+            $invoice->setProfile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoice(Invoice $invoice): self
+    {
+        if ($this->invoices->contains($invoice)) {
+            $this->invoices->removeElement($invoice);
+            // set the owning side to null (unless already changed)
+            if ($invoice->getProfile() === $this) {
+                $invoice->setProfile(null);
+            }
+        }
+
+        return $this;
     }
 
 }
