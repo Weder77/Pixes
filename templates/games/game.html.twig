@@ -48,8 +48,8 @@ Acheter {{ game.slug }}
 							Genres :
 						</span>
 						<span>
-							{% for tag in tags %}
-							{{ tag }},
+							{% for tag in game.tags %}
+							{{ tag.name }},
 							{% endfor %}
 						</span>
 					</div>
@@ -61,8 +61,8 @@ Acheter {{ game.slug }}
 							Plateformes :
 						</span>
 						<span>
-							{% for platform in platforms %}
-							{{ platform }},
+							{% for platform in game.platforms %}
+							{{ platform.name }},
 							{% endfor %}
 						</span>
 					</div>
@@ -101,10 +101,10 @@ Acheter {{ game.slug }}
 	<div class="card">
 		<div class="card-body">
 			<h3 class="font-weight-bold">Avis</h3>
-			{% if opinions == null %}
+			{% if game.opinions == null %}
 			<span class="text-muted">Aucun avis n'a été laissé sur ce jeu.</span>
 			{% endif %}
-			{% for opinion in opinions %}
+			{% for opinion in game.opinions %}
 			<div class="mb-4 comment_infos">
 				<span class="text-uppercase font-weight-bold text-primary mr-4">{{ opinion.user.firstname }}
 					{{ opinion.user.lastname }}</span>
@@ -128,9 +128,9 @@ Acheter {{ game.slug }}
 						</span>
 					</span>
 					{% if opinion.user.user == app.user %}
-						<a class="text-muted mr-4" href="{{ path('opinion_delete', {'id': opinion.id }) }}">
-							Supprimer
-						</a>
+					<a class="text-muted mr-4" href="{{ path('opinion_delete', {'id': opinion.id }) }}">
+						Supprimer
+					</a>
 					{% endif %}
 				</div>
 			</div>
@@ -140,46 +140,45 @@ Acheter {{ game.slug }}
 </section>
 
 <section class="container mb-4">
-	{% if app.user == null%}
+	{% if app.user == null %}
 	<p>
 		<a href="{{ path('login')}} ">Connectez-vous</a> pour laisser un avis sur le jeu.
 	</p>
+	{% elseif game.name in ownedGames %}
+	<p>
+		Vous devez avoir <a href="{{ path('cart_add', {'id': game.id}) }}">acheté le jeu</a> avant de donner votre avis.
+	</p>
 	{% else %}
-
 	<div class="card mt-4">
 		<div class="card-body">
 			<h3 class="font-weight-bold">Commenter</h3>
 			{{ form_start(opinionForm) }}
-
 			<div id="rating-stars" class="mb-3">
 				{{ form_widget(opinionForm.note, 
-					{ 'attr' : 
-						{
-							'class' : 'rating-group'
-						},
-					}
-				)
-			}}
+						{ 'attr' : {'class' : 'rating-group'},}
+					)
+				}}
 				{{ form_errors(opinionForm.note) }}
 			</div>
 
 			{{ form_widget(opinionForm.content, 
-				{ 'attr' : 
-					{
-						'placeholder' : 'Donnez votre avis ici',
-						'type' : 'text',
+					{ 'attr' : 
+						{
+							'placeholder' : 'Donnez votre avis ici',
+							'type' : 'text',
+							}
 						}
-					}
-				)
-			}}
+					)
+				}}
 			{{ form_errors(opinionForm.content) }}
-
 			<button class="btn btn-lg btn-outline-primary mt-3" type="submit">
 				Poster mon commentaire
 			</button>
 			{{ form_end(opinionForm) }}
+
 		</div>
 	</div>
+	{% endif %}
 
 	<!-- <div id="oldrating-stars">
 		<div class="rating-group">
@@ -198,7 +197,6 @@ Acheter {{ game.slug }}
 			<input class="rating__input" name="rating" id="rating-5" value="5" type="radio">
 		</div>
 	</div> -->
-	{% endif %}
 </section>
 
 

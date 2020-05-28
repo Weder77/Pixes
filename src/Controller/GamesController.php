@@ -7,6 +7,9 @@ use App\Entity\Opinion;
 use App\Entity\Platform;
 use App\Entity\Tag;
 use App\Form\OpinionType;
+use App\Repository\GameRepository;
+use App\Repository\PlatformRepository;
+use App\Repository\TagRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,12 +20,11 @@ class GamesController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index()
+    public function index(PlatformRepository $platformRepository, TagRepository $tagRepository, GameRepository $gameRepository)
     {
-        $doc = $this->getDoctrine();
-        $platforms = $doc->getRepository(Platform::class)->findAll();
-        $tags = $doc->getRepository(Tag::class)->findAll();
-        $games = $doc->getRepository(Game::class)->findBy([], ['id' => 'DESC'], 8);
+        $platforms = $platformRepository->findAll();
+        $tags = $tagRepository->findAll();
+        $games = $gameRepository->findBy([], ['id' => 'DESC'], 8);
 
         return $this->render('/index.html.twig', array(
             'platforms' => $platforms,
@@ -34,12 +36,11 @@ class GamesController extends AbstractController
     /**
      * @Route("/jeu/tous-les-jeux", name="allgames")
      */
-    public function allgames()
+    public function allgames(PlatformRepository $platformRepository, TagRepository $tagRepository, GameRepository $gameRepository)
     {
-        $doc = $this->getDoctrine();
-        $platforms = $doc->getRepository(Platform::class)->findAll();
-        $tags = $doc->getRepository(Tag::class)->findAll();
-        $games = $doc->getRepository(Game::class)->findBy([], ['id' => 'DESC']);
+        $platforms = $platformRepository->findAll();
+        $tags = $tagRepository->findAll();
+        $games = $gameRepository->findBy([], ['id' => 'DESC']);
 
         return $this->render('/games/allgames.html.twig', array(
             'platforms' => $platforms,
@@ -47,34 +48,29 @@ class GamesController extends AbstractController
             'games' => $games,
         ));
     }
-    
+
     /**
      * @Route("/jeu/{slug}", name="game")
      */
-    public function game($slug, Request $request)
+    public function game($slug, Request $request, GameRepository $gameRepository)
     {
         $manager = $this->getDoctrine()->getManager();
-        $rep = $this->getDoctrine()->getRepository(Game::class);
-        $game = $rep->findOneBy(['slug' => $slug]);
+        $game = $gameRepository->findOneBy(['slug' => $slug]);
+
+        $ownedGames = [];
+
+        if ($this->getUser() != null) {
+            foreach ($this->getUser()->getProfile()->getInvoices() as $invoice) {
+                foreach ($invoice->getCodes() as $code) {
+                    array_push($ownedGames, $code->getGame()->getName());
+                }
+            }
+        }
 
         // Si jeu n'existe pas => redirection
         if ($game == null) {
-            $this->addFlash('error', 'Oups, il semblerait que le jeu que vous avez demandé n\'est pas disponible sur notre plateforme.');
+            $this->addFlash('error', 'Oups, il semblerait que le jeu que vous avez demandé n\'est pas disponible sur Pixes.');
             return $this->redirectToRoute('index');
-        }
-
-        $platforms = [];
-        $tags = [];
-        $opinions = [];
-        foreach ($game->getPlatforms() as $key => $platform) {
-            array_push($platforms, $platform->getName());
-        }
-        foreach ($game->getTags() as $key => $tag) {
-            array_push($tags, $tag->getName());
-        }
-
-        foreach ($game->getOpinions() as $key => $opinion) {
-            array_push($opinions, $opinion);
         }
 
         $opinion = new Opinion;
@@ -101,13 +97,8 @@ class GamesController extends AbstractController
 
         return $this->render('games/game.html.twig', [
             'game' => $game,
-            'slug' => $slug,
-            'tags' => $tags,
-            'platforms' => $platforms,
-            'opinions' => $opinions,
             'opinionForm' => $form->createView(),
+            'ownedGames' => $ownedGames
         ]);
     }
-
-
 }
