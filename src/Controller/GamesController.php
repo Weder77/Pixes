@@ -32,7 +32,7 @@ class GamesController extends AbstractController
     }
 
     /**
-     * @Route("/jeu/tout-les-jeux", name="allgames")
+     * @Route("/jeu/tous-les-jeux", name="allgames")
      */
     public function allgames()
     {
@@ -47,8 +47,6 @@ class GamesController extends AbstractController
             'games' => $games,
         ));
     }
-
-    
     
     /**
      * @Route("/jeu/{slug}", name="game")

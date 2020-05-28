@@ -91,7 +91,8 @@ Acheter {{ game.slug }}
 				</div>
 			</div>
 
-			<a class="btn btn-primary text-white w-100 mt-4" href="{{ path('cart_add', {'id': game.id}) }}">Ajouter au panier</a>
+			<a class="btn btn-primary text-white w-100 mt-4" href="{{ path('cart_add', {'id': game.id}) }}">Ajouter au
+				panier</a>
 		</div>
 	</div>
 </section>
@@ -126,6 +127,11 @@ Acheter {{ game.slug }}
 							{{ opinion.postedon | date('d/m/Y H:i') }}
 						</span>
 					</span>
+					{% if opinion.user.user == app.user %}
+						<a class="text-muted mr-4" href="{{ path('opinion_delete', {'id': opinion.id }) }}">
+							Supprimer
+						</a>
+					{% endif %}
 				</div>
 			</div>
 			{% endfor %}
@@ -166,7 +172,7 @@ Acheter {{ game.slug }}
 					}
 				)
 			}}
-		{{ form_errors(opinionForm.content) }}
+			{{ form_errors(opinionForm.content) }}
 
 			<button class="btn btn-lg btn-outline-primary mt-3" type="submit">
 				Poster mon commentaire
