@@ -6,8 +6,11 @@ use App\Entity\Code;
 use App\Entity\Game;
 use App\Entity\Invoice;
 use App\Repository\GameRepository;
+use App\Repository\InvoiceRepository;
 use App\Service\Cart\CartService;
 use DateTime;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -15,6 +18,31 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CartController extends AbstractController
 {
+    /**
+     * @Route("/facture/{id}", name="invoice_generate")
+     */
+    public function invoice($id, InvoiceRepository $invoiceRepository)
+    {
+        $invoice = $invoiceRepository->find($id);
+
+        if ($invoice->getProfile()->getUser() != $this->getUser()) {
+            return $this->redirectToRoute('index');
+        }
+
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $dompdf = new Dompdf($pdfOptions);
+        $html = $this->renderView('invoice.html.twig', [
+            'invoice' => $invoice,
+        ]);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $dompdf->stream("Pixes_Facture#" . $invoice->getId() .".pdf", [
+            "Attachment" => true
+        ]);
+    }
+
     /**
      * @Route("/panier", name="cart_index")
      */
