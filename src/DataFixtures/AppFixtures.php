@@ -108,7 +108,7 @@ class AppFixtures extends Fixture
         for ($i=0; $i < 13; $i++) { 
             $opinion = new Opinion();
             $opinion->setContent('Lorem ipsum dolor sit amet, consectetur adipiscing elit. ');
-            $opinion->setNote(rand(0.5,5));
+            $opinion->setNote(rand(1,5));
             $date = new DateTime();
             $opinion->setPostedOn($date);
             $opinion->setGame($games[rand(0,9)]);

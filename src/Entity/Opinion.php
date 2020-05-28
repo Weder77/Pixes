@@ -23,7 +23,7 @@ class Opinion
     private $content;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
     private $note;
 
