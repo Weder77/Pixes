@@ -93,8 +93,8 @@ class UserController extends AbstractController
     {
         $manager = $this->getDoctrine()->getManager();
 
-        $user = $this->getUser()->getProfile();
-        $appUser = $this->getUser();
+        $profile = $this->getUser()->getProfile();
+        $user = $this->getUser();
 
         // get infos user
         $balance = $this->getUser()->getProfile()->getBalance();
@@ -105,31 +105,34 @@ class UserController extends AbstractController
         // get opinions
         $opinions = [];
         $opinionsNumber = 0;
-        foreach ($user->getOpinions() as $key => $opinion) {
+        foreach ($profile->getOpinions() as $key => $opinion) {
             $opinionsNumber += 1;
             array_push($opinions, $opinion);
         }
 
         // get purchashed games
         $games = [];
-        foreach ($user->getInvoices() as $key => $game) {
+        $gamesNumber = 0;
+        foreach ($profile->getInvoices() as $key => $game) {
+            $gamesNumber += 1;
             array_push($games, $game);
         }
-    
+
         // get form
-        $formProfile = $this->createForm(ProfileFormType::class,$user);
+        $formProfile = $this->createForm(ProfileFormType::class,$profile);
         $formProfile->handleRequest($request);
 
-        $formUser = $this->createForm(RegisterFormType::class, $appUser);
+        $formUser = $this->createForm(RegisterFormType::class, $user);
         $formUser->handleRequest($request);
 
         
         if($formProfile->isSubmitted() && $formProfile->isValid()) {
-            $manager->persist($user);
+            $manager->persist($profile);
 
-            if ($user->getFile()) {
-                $user->uploadFile();
-            } 
+            // if ($user->getFile()) {
+            //     $user->uploadFile();
+            // } 
+
             $manager->flush();
 
             $this->addFlash('success', 'Votre profil à bien été modifié.');
@@ -138,9 +141,9 @@ class UserController extends AbstractController
 
 
         if ($formUser->isSubmitted() && $formUser->isValid()) {
-            $manager->persist($appUser);
-            $password = $appUser->getPassword();
-            $appUser->setPassword($encoder->encodePassword($appUser, $password));
+            $manager->persist($user);
+            $password = $user->getPassword();
+            $user->setPassword($encoder->encodePassword($user, $password));
             $manager->flush();
 
             $this->addFlash('success', 'Votre profil à bien été modifié.');
@@ -148,7 +151,7 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/profile.html.twig', [
-            'user' => $user,
+            'user' => $profile,
             'ProfileForm' => $formProfile->createView(),
             'UserForm' => $formUser->createView(),
             'balance' => $balance,
@@ -157,7 +160,8 @@ class UserController extends AbstractController
             'picture' => $picture,
             'opinions' => $opinions,
             'opinionsNumber' => $opinionsNumber,
-            'games' => $games
+            'games' => $games,
+            'gamesNumber' => $gamesNumber
         ]);
     }
 }

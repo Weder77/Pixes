@@ -38,7 +38,7 @@ Mon compte
                     <span class="pull-left">
                         <strong>Jeux acheté</strong>
                     </span>
-                    12
+                    {{ gamesNumber }}
                 </li>
                 <li class="list-group-item text-center">
                     <span class="pull-left">
@@ -65,7 +65,6 @@ Mon compte
 
 
             <div class="tab-content">
-
                 {# profile #}
                 <div class="tab-pane active" id="profile">
                     <div class="text-center mt-4">
@@ -227,8 +226,7 @@ Mon compte
                 <div class="tab-pane" id="purchased">
                     <div class="text-center mt-4">
                         <h3>Mes jeux achetés</h3>
-                        <div class="container mt-4 row justify-content-md-center margin-zero">
-
+                        <div class="container mt-4 d-flex flex-column-reverse align-items-center margin-zero">
                             {% for game in games %}
                             <div class="card mb-3" style="max-width: 540px;">
                                 <div class="row no-gutters">
@@ -237,19 +235,24 @@ Mon compte
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <h5 class="card-title">TITRE</h5>
+                                            <h5 class="card-title"></h5>
                                             <p class="card-text">{{game.price}} €</p>
-                                            <p class="card-text">Key :</p>
+                                            <p class="card-text">Key : </p>
                                             <p class="card-text">
-                                                <small class="text-muted">Acheté le </small>
+                                                <small class="text-muted">Acheté le 
+                                                    {{ game.purchaseDate|date('d-m-Y') }} à {{ game.purchaseDate|date('H:i:s ') }}
+                                                </small>
+                                            </p>
+                                            <p class="card-text">
+                                                <small class="text-muted">lien PDF : 
+                                                    
+                                                </small>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             {% endfor %}
-
-
                         </div>
                     </div>
                 </div>

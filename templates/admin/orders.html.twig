@@ -1,0 +1,35 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}DashBoard
+{% endblock %}
+
+{% block body %}
+	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+		<h2>Dernières commandes</h2>
+		<div class="table-responsive">
+			<table class="table table-striped table-sm">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Nom</th>
+						<th>Prénom</th>
+						<th>Jeu</th>
+                        <th>Qte</th>
+						<th>Prix</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>GRELET</td>
+						<td>Théo</td>
+						<td>GTA: V</td>
+                        <td>1</td>
+						<td>40 €</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</main>
+{% endblock %}
