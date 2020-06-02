@@ -5,30 +5,25 @@ Jeux
 {% endblock %}
 
 {% block content %}
-
-		<h2>Gestion des jeux</h2>
-		<div class="table-responsive">
-			<table class="table table-striped table-sm">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Nom</th>
-						<th>Prénom</th>
-						<th>Jeu</th>
-                        <th>Qte</th>
-						<th>Prix</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>GRELET</td>
-						<td>Théo</td>
-						<td>GTA: V</td>
-                        <td>1</td>
-						<td>40 €</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+<h3>Derniers achats</h3>
+<div class="table-responsive">
+	<table class="table table-striped table-sm">
+		<thead>
+			<tr>
+				<th>Date d'achat</th>
+				<th>Utilisateur</th>
+				<th>Jeu</th>
+				<th>Prix</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>02/06/2020</td>
+				<td>Nom Prénom</td>
+				<td>GTA: V</td>
+				<td>40 €</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
 {% endblock %}
