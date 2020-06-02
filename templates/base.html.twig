@@ -41,12 +41,18 @@
 				{% if app.user == null %}
 				<a href="{{ path('login')}}" class="btn-left separator-r">Connexion</a>
 				<a href="{{ path('register')}}" class="btn-right">Inscription</a>
+
+				{% elseif is_granted("ROLE_ADMIN") %}
+					<a href="{{ path('admin_index')}}" class="btn-simple"><i class="fas fa-user text-white pr-2"></i> Dashboard</a>
+					<a href="{{ path('logout')}}" class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm"><i class="fas fa-sign-out-alt"></i></i></a>
+
 				{% else %}
-				<a href="{{ path('profile')}}" class="btn-simple"><i class="fas fa-user text-white pr-2"></i> Mon
-					compte</a>
-				<a href="{{ path('logout')}}" class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm"><i
-						class="fas fa-sign-out-alt"></i></i></a>
+					<a href="{{ path('profile')}}" class="btn-simple"><i class="fas fa-user text-white pr-2"></i> Mon compte</a>
+					<a href="{{ path('logout')}}" class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm"><i class="fas fa-sign-out-alt"></i></i></a>
+
 				{% endif %}
+				
+				
 				<a href="{{ path('cart_index')}}"
 					class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm"><i
 						class="fas fa-shopping-cart"></i></i></i></a>

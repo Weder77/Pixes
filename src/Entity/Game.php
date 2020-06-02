@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\GameRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\GameRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=GameRepository::class)
@@ -38,6 +39,8 @@ class Game
      * @ORM\Column(type="string", length=255)
      */
     private $img_url;
+
+    private $file;
 
     /**
      * @ORM\Column(type="integer")
@@ -304,4 +307,49 @@ class Game
 
         return $this;
     }
+
+
+
+
+
+
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile(UploadedFile $file)
+    {
+        $this->file = $file;
+        return $this;
+    }
+
+    public function uploadFile()
+    {
+        $name = $this->file->getClientOriginalName();
+        $newName = $this->renameFile($name);
+        $this->img_url = $newName;
+        $this->file->move($this->dirPhoto(), $newName);
+    }
+
+    public function removeFile(){
+        if(file_exists($this ->dirPhoto() . $this->img_url)){
+            unlink($this ->dirPhoto() . $this->img_url);
+        }
+    }
+
+    public function renameFile($name)
+    {
+        return 'photo_' . time() . rand(1, 99999) . '_' . $name;
+    }
+
+    public function dirPhoto()
+    {
+        return __DIR__ . '/../../public/';
+    }
+
+
+
+
 }

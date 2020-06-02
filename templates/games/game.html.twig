@@ -91,8 +91,11 @@ Acheter {{ game.slug }}
 				</div>
 			</div>
 
-			<a class="btn btn-primary text-white w-100 mt-4" href="{{ path('cart_add', {'id': game.id}) }}">Ajouter au
-				panier</a>
+			<a class="btn btn-primary text-white w-100 mt-4" href="{{ path('cart_add', {'id': game.id}) }}">Ajouter au panier</a>
+
+			{% if is_granted("ROLE_ADMIN") %}
+    			<a class="btn btn-primary text-white w-100 mt-4" href="{{ path('admin_update', {'id': game.id}) }}">Modifier le jeu</a>
+			{% endif %}
 		</div>
 	</div>
 </section>

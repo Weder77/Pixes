@@ -28,7 +28,9 @@ class ProfileFormType extends AbstractType
             ->add('balance', IntegerType::class)
             // ->add('register_date')
             // ->add('user')
-            ->add('picture', FileType::class, array('data_class' => null, 'required' => false))
+            ->add('file', FileType::class, array(
+                'required' => false
+            ))
         ;
     }
 

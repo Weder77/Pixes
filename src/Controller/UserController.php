@@ -137,6 +137,7 @@ class UserController extends AbstractController
 
         if ($formProfile->isSubmitted() && $formProfile->isValid()) {
             $manager->persist($profile);
+            $profile -> uploadFile();
             $manager->flush();
             $this->addFlash('success', 'Votre profil à bien été modifié.');
             return $this->redirectToRoute('profile');
