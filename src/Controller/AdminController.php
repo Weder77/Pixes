@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Form\AddGameType;
+use App\Service\Game\GameService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,57 +51,49 @@ class AdminController extends AbstractController
      /**
      * @Route("/admin/jeux/ajouter", name="admin_add")
      */
-    public function add(Request $request)
+    public function add(Request $request, GameService $gameService)
     {
-        $manager = $this -> getDoctrine() -> getManager();
+        $manager = $this->getDoctrine()->getManager();
         $game = new Game; 
         
-        // formulaire
-        $form = $this -> createForm(AddGameType::class, $game);
+        $form = $this->createForm(AddGameType::class, $game);
+        $form->handleRequest($request);
 
-        $form -> handleRequest($request);
-
-        if($form -> isSubmitted() && $form -> isValid() ){
-
-            $manager -> persist($game);
-            $game -> uploadFile();
-            $manager -> flush();
-            $this -> addFlash('success', 'Le jeu '. $game -> getName() . ' a bien été ajouté.');
+        if($form->isSubmitted() && $form->isValid() )
+        {
+            $manager->persist($game);
+            $game->uploadFile();
+            $game->setSlug($gameService->generateSlug($game->getName()));
+            $manager->flush();
+            $this->addFlash('success', 'Le jeu '. $game->getName() . ' a bien été ajouté.');
 
         }
 
-        return $this -> render('admin/addgame.html.twig', array(
-            'gameForm' => $form -> createView()
+        return $this->render('admin/addgame.html.twig', array(
+            'gameForm' => $form->createView()
         ));
     }
 
      /**
      * @Route("/admin/jeu/update/{id}", name="admin_update")
      */
-    public function updatePost(Request $request, $id)
+    public function updateGame($id, Request $request, GameService $gameService)
     {
-        // Recupere le manager
         $manager = $this->getDoctrine()->getManager();
-        // recupere l'objet
         $game = $manager->find(Game::class, $id);
-
         $form = $this->createForm(AddGameType::class,$game);
-        //  notre objet hydrate le formulaire ( remplis les input )
-        
         $form->handleRequest($request);
         
         if($form->isSubmitted() && $form->isValid()) {
             $manager->persist($game);
-
-            if($game -> getFile()){
-                $game -> removeFile();
+            if($game->getFile()){
+                $game->removeFile();
                 $game-> uploadFile();
             }
-
+            $game->setSlug($gameService->generateSlug($game->getName()));
             $manager->flush();
 
             $this->addFlash('success', 'Le jeu '. $game->getName().' a bien été mis à jour.');
-
             return $this->redirectToRoute('admin_games');
         }
 

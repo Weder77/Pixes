@@ -43,7 +43,7 @@
 				<a href="{{ path('register')}}" class="btn-right">Inscription</a>
 
 				{% elseif is_granted("ROLE_ADMIN") %}
-					<a href="{{ path('admin_index')}}" class="btn-simple"><i class="fas fa-user text-white pr-2"></i> Dashboard</a>
+					<a href="{{ path('admin_index')}}" class="btn-simple"><i class="fas fa-tools text-white pr-2"></i></i> Dashboard</a>
 					<a href="{{ path('logout')}}" class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm"><i class="fas fa-sign-out-alt"></i></i></a>
 
 				{% else %}

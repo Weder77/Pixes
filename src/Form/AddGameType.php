@@ -24,7 +24,6 @@ class AddGameType extends AbstractType
                 'required' => false
             ))
             ->add('pegi',  IntegerType::class)
-            ->add('slug')
             ->add('platforms', EntityType::class, array(
                 'class' => Platform::class,
                 'multiple' => true,

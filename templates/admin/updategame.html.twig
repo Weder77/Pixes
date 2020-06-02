@@ -61,21 +61,6 @@
 							<label for="add_game_pegi">Limitation d'âge</label>
 						</div>
 
-                        <div class="form-label-group">
-							{{ form_widget(gameForm.slug, 
-                                { 'attr' : 
-                                    {
-                                        'placeholder' : 'Slug',
-                                        'class' : 'form-control',
-                                        'id' : 'add_game_slug',
-                                        }
-                                    }
-                                )
-                            }}
-							{{ form_errors(gameForm.slug) }}
-							<label for="add_game_slug">Slug</label>
-						</div>
-
 						<div class="form-label-group">
 							{{ form_widget(gameForm.description, 
                                 { 'attr' : 
