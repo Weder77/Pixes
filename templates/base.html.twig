@@ -31,6 +31,7 @@
 
 
 <body>
+	{% block header %}
 	<header class="d-flex justify-content-around align-items-center mt-2 mb-3">
 		<a href="{{ path('index')}}">
 			<img src="{{ asset('/img/logo-withoutbg.png')}}" alt="Logo" class="logo" />
@@ -44,9 +45,12 @@
 				{% else %}
 				<a href="{{ path('profile')}}" class="btn-simple"><i class="fas fa-user text-white pr-2"></i> Mon
 					compte</a>
-				<a href="{{ path('logout')}}" class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm"><i class="fas fa-sign-out-alt"></i></i></a>
+				<a href="{{ path('logout')}}" class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm"><i
+						class="fas fa-sign-out-alt"></i></i></a>
 				{% endif %}
-				<a href="{{ path('cart_index')}}" class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm"><i class="fas fa-shopping-cart"></i></i></i></a>
+				<a href="{{ path('cart_index')}}"
+					class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm"><i
+						class="fas fa-shopping-cart"></i></i></i></a>
 			</div>
 			<form class="input-group mt-2">
 				<input type="text" class="form-custom" name="search" placeholder="Rechercher un jeu ...">
@@ -57,8 +61,10 @@
 
 		</div>
 	</header>
+	{% endblock %}
 
 	{# SUCCESS & ERROR MESSAGES #}
+	{% block messages %}
 	<div class="container">
 		{% for message in app.flashes('success') %}
 		<div class="alert alert-success mt-4 text-center">
@@ -72,6 +78,7 @@
 		</div>
 		{% endfor %}
 	</div>
+	{% endblock %}
 
 	{# CONTENT #}
 	{% block body %}{% endblock %}

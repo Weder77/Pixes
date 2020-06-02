@@ -1,159 +1,120 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html.twig' %}
 
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-		<meta name="author" content="Creative Tim">
-		<title>
-      {% block title %}{% endblock %} - PIXES
-    </title>
+{% block header %}{% endblock %}
 
-		<!-- Fonts -->
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-		<script src="https://kit.fontawesome.com/e2548655e8.js" crossorigin="anonymous"></script>
-		<link rel="stylesheet" href="{{ asset('build/app.css') }}"/>
-	</head>
 
-	<body>
-		<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-			<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ path('admin_index')}}">Administration</a>
-			<ul class="navbar-nav px-3">
-				<li class="nav-item text-nowrap">
-					<a class="nav-link" href="{{ path('logout')}}">Se deconnecter</a>
-				</li>
-        	<li class="nav-item text-nowrap">
-					  <a class="nav-link" href="{{ path('index')}}">Retour à l'accueil</a>
-				</li>
-			</ul>
+{% block body %}
+
+<main class="container-fluid">
+	<div class="row">
+		<nav class="col-md-2 pt-4 d-none d-md-block bg-light sidebar">
+			<div class="sidebar-sticky pl-5">
+				<div class="mt-4 pl-3 pb-3">
+					<img src="https://semantic-ui.com/images/wireframe/image.png" alt="Photo de profil" class="rounded-circle ml-1 mb-3" height="100" width="100"> <br />
+					<span class="font-weight-bold">
+						{{ app.user.profile.firstname }} {{ app.user.profile.lastname }}
+					</span> <br />
+					<span class="text-muted font-italic">
+						{{ app.user.email }}
+					</span>
+				</div>
+				<ul class="nav flex-column mt-5 pt-5">
+					<li class="nav-item pb-4">
+						<a class="nav-link text-dark h5" href="{{ path('admin_index') }}">
+							<i class="fas fa-tachometer-alt mr-2 text-primary" style="font-size: 17px;"></i> 
+							Dashboard
+						</a>
+					</li>
+					<li class="nav-item pb-4">
+						<a class="nav-link text-dark h5" href="{{ path('admin_orders') }}">
+							<i class="fas fa-receipt mr-3 text-primary" style="font-size: 17px;"></i> 
+							Ventes
+						</a>
+					</li>
+					<li class="nav-item pb-4">
+						<a class="nav-link text-dark h5" href="{{ path('admin_games') }}">
+							<i class="fas fa-gamepad mr-2 text-primary" style="font-size: 17px;"></i>
+							Jeux
+						</a>
+					</li>
+					<li class="">
+						<a class="nav-link text-dark h5" href="{{ path('admin_users') }}">
+							<i class="fas fa-users mr-2 text-primary" style="font-size: 17px;"></i>
+							Utilisateurs
+						</a>
+					</li>
+				</ul>
+			</div>
 		</nav>
-
-		<div class="container-fluid">
-			<div class="row">
-				<nav class="col-md-2 d-none d-md-block bg-dark sidebar">
-					<div class="sidebar-sticky">
-						<ul class="nav flex-column">
-							<li class="nav-item ">
-								<a class="nav-link active" href="{{ path('admin_index')}}">
-									<svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
-										<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-										<polyline points="9 22 9 12 15 12 15 22"></polyline>
-									</svg>
-									Dashboard
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="{{ path('admin_orders')}}">
-									<svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file">
-										<path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
-										<polyline points="13 2 13 9 20 9"></polyline>
-									</svg>
-									Commandes passées
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="{{ path('admin_games')}}">
-									<svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
-										<circle cx="9" cy="21" r="1"></circle>
-										<circle cx="20" cy="21" r="1"></circle>
-										<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-									</svg>
-									Jeux en stock
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="{{ path('admin_users')}}">
-									<svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users">
-										<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-										<circle cx="9" cy="7" r="4"></circle>
-										<path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-										<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-									</svg>
-									Clients
-								</a>
-							</li>
-						</ul>
+		<div class="col-10 px-5">
+			<div class="pt-4">
+				<div class="d-flex justify-content-between mb-4">
+					<h1 class="h3">
+						{% block title %}{% endblock %}
+					</h1>
+					<div>
+						<a href="{{ path('index') }}" class="h5">
+							<i class="fas fa-arrow-left" style="font-size: 16px;"></i> Retour au menu
+						</a>
 					</div>
-				</nav>
-
-
-				{# CONTENT #}
-				{% block body %}{% endblock %}
-
+				</div>
+				{% block content %}{% endblock %}
 			</div>
 		</div>
-
-		<!-- Bootstrap core JavaScript
-		    ================================================== -->
-		<!-- Placed at the end of the document so the pages load faster -->
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script>
-			window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
-		</script>
-		<script src="../../assets/js/vendor/popper.min.js"></script>
-		<script src="../../dist/js/bootstrap.min.js"></script>
-
-		<!-- Icons -->
-		<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-		<script>
-			feather.replace()
-		</script>
-
-		<!-- Graphs -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-		<script>
-			var ctx = document.getElementById("myChart");
-var myChart = new Chart(ctx, {
-type: 'line',
-data: {
-labels: [
-"Sunday",
-"Monday",
-"Tuesday",
-"Wednesday",
-"Thursday",
-"Friday",
-"Saturday"
-],
-datasets: [
-{
-data: [
-15339,
-21345,
-18483,
-24003,
-23489,
-24092,
-12034
-],
-lineTension: 0,
-backgroundColor: 'transparent',
-borderColor: '#007bff',
-borderWidth: 4,
-pointBackgroundColor: '#007bff'
-}
-]
-},
-options: {
-scales: {
-yAxes: [
-{
-ticks: {
-beginAtZero: false
-}
-}
-]
-},
-legend: {
-display: false
-}
-}
-});
-		</script>
+	</div>
+</main>
+{% endblock %}
 
 
-	</body>
-</html>
+{% block javascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script>
+	var ctx = document.getElementById("myChart");
+	var myChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: [
+				"Sunday",
+				"Monday",
+				"Tuesday",
+				"Wednesday",
+				"Thursday",
+				"Friday",
+				"Saturday"
+			],
+			datasets: [
+				{
+					data: [
+						12,
+						20,
+						9,
+						13,
+						17,
+						18,
+						15
+					],
+					lineTension: 0,
+					backgroundColor: 'transparent',
+					borderColor: '#007bff',
+					borderWidth: 4,
+					pointBackgroundColor: '#007bff'
+				}
+			]
+		},
+		options: {
+			scales: {
+				yAxes: [
+					{
+						ticks: {
+							beginAtZero: false
+						}
+					}
+				]
+			},
+			legend: {
+				display: false
+			}
+		}
+	});
+</script>
+{% endblock %}

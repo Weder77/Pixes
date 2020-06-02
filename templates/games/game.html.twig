@@ -144,7 +144,7 @@ Acheter {{ game.slug }}
 	<p>
 		<a href="{{ path('login')}} ">Connectez-vous</a> pour laisser un avis sur le jeu.
 	</p>
-	{% elseif game.name in ownedGames %}
+	{% elseif game.name not in ownedGames %}
 	<p>
 		Vous devez avoir <a href="{{ path('cart_add', {'id': game.id}) }}">acheté le jeu</a> avant de donner votre avis.
 	</p>

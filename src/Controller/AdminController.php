@@ -16,7 +16,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/games", name="admin_games")
+     * @Route("/admin/jeux", name="admin_games")
      */
     public function games()
     {
@@ -24,7 +24,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/orders", name="admin_orders")
+     * @Route("/admin/ventes", name="admin_orders")
      */
     public function orders()
     {
@@ -32,7 +32,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/users", name="admin_users")
+     * @Route("/admin/utilisateurs", name="admin_users")
      */
     public function users()
     {
