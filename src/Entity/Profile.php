@@ -251,9 +251,10 @@ class Profile
         $this->file->move($this->dirPhoto(), $newName);
     }
 
-    public function removeFile(){
-        if(file_exists($this ->dirPhoto() . $this->picture)){
-            unlink($this ->dirPhoto() . $this->picture);
+    public function removeFile()
+    {
+        if (file_exists($this->dirPhoto() . $this->picture)) {
+            unlink($this->dirPhoto() . $this->picture);
         }
     }
 
@@ -264,8 +265,20 @@ class Profile
 
     public function dirPhoto()
     {
-        return __DIR__ . '/../../public/photo/';
+        return __DIR__ . '/../../public/';
     }
 
-
+    public function __sleep()
+    {
+        $ref   = new \ReflectionClass(__CLASS__);
+        $props = $ref->getProperties(\ReflectionProperty::IS_PROTECTED);
+         
+        $serialize_fields = array();
+         
+        foreach ($props as $prop) {
+            $serialize_fields[] = $prop->name;
+        }
+        
+        return $serialize_fields;
+    }
 }

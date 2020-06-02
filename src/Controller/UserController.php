@@ -96,10 +96,7 @@ class UserController extends AbstractController
         $profile = $this->getUser()->getProfile();
         $user = $this->getUser();
 
-        // get infos user
-        $balance = $this->getUser()->getProfile()->getBalance();
-        $firstname = $this->getUser()->getProfile()->getFirstname();
-        $lastname = $this->getUser()->getProfile()->getLastname();
+        // get pictures user
         $picture = $this->getUser()->getProfile()->getPicture();
 
         // get opinions
@@ -137,7 +134,10 @@ class UserController extends AbstractController
 
         if ($formProfile->isSubmitted() && $formProfile->isValid()) {
             $manager->persist($profile);
-            $profile -> uploadFile();
+            if($profile -> getFile()){
+                // $profile -> removeFile();
+                $profile-> uploadFile();
+            }
             $manager->flush();
             $this->addFlash('success', 'Votre profil à bien été modifié.');
             return $this->redirectToRoute('profile');
@@ -161,7 +161,7 @@ class UserController extends AbstractController
             'opinionsNumber' => $opinionsNumber,
             'invoices' => $invoices,
             'codes' => $ownedCodes,
-            'gamesNumber' => $gamesNumber
+            'gamesNumber' => $gamesNumber,
         ]);
     }
 }

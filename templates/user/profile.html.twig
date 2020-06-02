@@ -17,10 +17,10 @@ Mon compte
                 {% if app.user.profile.picture != null %}
                     <img src="{{ app.user.profile.picture }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar">
                 {% else %}
-                 <img src="{{ asset('img/default.png') }}" class="avatar img-circle img-thumbnail mb-4"
+                 <img src="{{ asset('default-picture.png') }}" class="avatar img-circle img-thumbnail mb-4"
                     alt="avatar default">
                 {% endif %}
-                
+
                 <p>{{app.user.profile.firstname}} {{app.user.profile.lastname}}</p>
             </div>
 
