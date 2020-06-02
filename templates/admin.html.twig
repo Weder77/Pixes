@@ -2,15 +2,17 @@
 
 {% block header %}{% endblock %}
 
+{% block messages %}
+{% endblock %}
 
 {% block body %}
-
 <main class="container-fluid">
 	<div class="row">
 		<nav class="col-md-2 pt-4 d-none d-md-block bg-light sidebar">
 			<div class="sidebar-sticky pl-5">
 				<div class="mt-4 pl-3 pb-3">
-					<img src="https://semantic-ui.com/images/wireframe/image.png" alt="Photo de profil" class="rounded-circle ml-1 mb-3" height="100" width="100"> <br />
+					<img src="https://semantic-ui.com/images/wireframe/image.png" alt="Photo de profil"
+						class="rounded-circle ml-1 mb-3" height="100" width="100"> <br />
 					<span class="font-weight-bold">
 						{{ app.user.profile.firstname }} {{ app.user.profile.lastname }}
 					</span> <br />
@@ -21,13 +23,13 @@
 				<ul class="nav flex-column mt-5 pt-5">
 					<li class="nav-item pb-4">
 						<a class="nav-link text-dark h5" href="{{ path('admin_index') }}">
-							<i class="fas fa-tachometer-alt mr-2 text-primary" style="font-size: 17px;"></i> 
+							<i class="fas fa-tachometer-alt mr-2 text-primary" style="font-size: 17px;"></i>
 							Dashboard
 						</a>
 					</li>
 					<li class="nav-item pb-4">
 						<a class="nav-link text-dark h5" href="{{ path('admin_orders') }}">
-							<i class="fas fa-receipt mr-3 text-primary" style="font-size: 17px;"></i> 
+							<i class="fas fa-receipt mr-3 text-primary" style="font-size: 17px;"></i>
 							Ventes
 						</a>
 					</li>
@@ -52,11 +54,25 @@
 					<h1 class="h3">
 						{% block title %}{% endblock %}
 					</h1>
+
 					<div>
 						<a href="{{ path('index') }}" class="h5">
 							<i class="fas fa-arrow-left" style="font-size: 16px;"></i> Retour au menu
 						</a>
 					</div>
+				</div>
+				<div class="container">
+					{% for message in app.flashes('success') %}
+					<div class="alert alert-success mt-4 text-center">
+						{{ message }}
+					</div>
+					{% endfor %}
+
+					{% for message in app.flashes('error') %}
+					<div class="alert alert-danger mt-4 text-center">
+						{{ message }}
+					</div>
+					{% endfor %}
 				</div>
 				{% block content %}{% endblock %}
 			</div>

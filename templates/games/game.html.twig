@@ -31,12 +31,19 @@ Acheter {{ game.slug }}
 		<div class="col-sm-8 mb-4">
 			<div class="card">
 				<div class="card-body">
-					<h3 class="card-title font-weight-bold">{{ game.name }}</h3>
+					<div class="d-flex justify-content-between">
+						<h3 class="card-title font-weight-bold">{{ game.name }}</h3>
+
+						{% if is_granted("ROLE_ADMIN") %}
+						<a class="btn text-primary h-100"
+							href="{{ path('admin_update', {'id': game.id}) }}">Modifier <i class="fas fa-edit ml-1"></i></a>
+						{% endif %}
+					</div>
 					<p class="card-text">{{ game.description }}</p>
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-4 mb-4">
+		<div class="col-sm-4 mb-4 d-flex justify-content-between flex-column">
 			<div class="card">
 				<div class="card-body text-left">
 					<h3 class="font-weight-bold">À propos</h3>
@@ -91,11 +98,8 @@ Acheter {{ game.slug }}
 				</div>
 			</div>
 
-			<a class="btn btn-primary text-white w-100 mt-4" href="{{ path('cart_add', {'id': game.id}) }}">Ajouter au panier</a>
-
-			{% if is_granted("ROLE_ADMIN") %}
-    			<a class="btn btn-primary text-white w-100 mt-4" href="{{ path('admin_update', {'id': game.id}) }}">Modifier le jeu</a>
-			{% endif %}
+			<a class="btn btn-primary text-white w-100 mt-4" href="{{ path('cart_add', {'id': game.id}) }}">Ajouter au
+				panier</a>
 		</div>
 	</div>
 </section>

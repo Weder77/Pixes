@@ -13,7 +13,7 @@ class OpinionController extends AbstractController
      */
     public function opinion_delete($id, OpinionRepository $opinionRepository)
     {
-        $manager = $this -> getDoctrine() -> getManager();
+        $manager = $this->getDoctrine()->getManager();
         $opinion = $opinionRepository->find($id);
 
         if ($opinion == null) {
