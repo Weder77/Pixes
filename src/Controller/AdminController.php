@@ -20,7 +20,12 @@ class AdminController extends AbstractController
      */
     public function games()
     {
-        return $this->render('/admin/games.html.twig');
+        $repository = $this -> getDoctrine() -> getRepository('App\Entity\Game');
+        $games = $repository -> findAll();
+
+        return $this->render('/admin/games.html.twig', array(
+            'games' => $games
+        ));
     }
 
     /**

@@ -56,10 +56,10 @@ Mon compte
                     <a class="tab-name" data-toggle="tab" href="#profile">Mon profil</a>
                 </li>
                 <li class="text-center">
-                    <a class="tab-name" data-toggle="tab" href="#purchased">Mes jeux</a>
+                    <a class="tab-name" data-toggle="tab" href="#purchased">Mes jeux ({{ gamesNumber }})</a>
                 </li>
                 <li class="text-center">
-                    <a class="tab-name" data-toggle="tab" href="#comments">Mes avis</a>
+                    <a class="tab-name" data-toggle="tab" href="#comments">Mes avis ({{ opinionsNumber }})</a>
                 </li>
             </ul>
 
@@ -227,24 +227,24 @@ Mon compte
                     <div class="text-center mt-4">
                         <h3>Mes jeux achetés</h3>
                         <div class="container mt-4 d-flex flex-column-reverse align-items-center margin-zero">
+                        {# {% for codes in code %} #}
                             {% for game in games %}
                             <div class="card mb-3" style="max-width: 540px;">
                                 <div class="row no-gutters">
                                     <div class="col-md-4">
-                                        <img src="{{ asset('/default.png')}}" class="card-img" alt="...">
+                                        <a target="_blank" href="{{ path('game', { slug : game.slug }) }}">
+                                            <img src="{{game.imgUrl}}" class="card-img" alt="...">
+                                        </a>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <h5 class="card-title"></h5>
+                                            <a target="_blank" href="{{ path('game', { slug : game.slug }) }}"><h5 class="card-title">{{ game.name}}</h5></a>
                                             <p class="card-text">{{game.price}} €</p>
-                                            <p class="card-text">Key : </p>
-                                            <p class="card-text">
-                                                <small class="text-muted">Acheté le 
-                                                    {{ game.purchaseDate|date('d-m-Y') }} à {{ game.purchaseDate|date('H:i:s ') }}
-                                                </small>
+                                            <p class="card-text">Code d'activation<br>
+                                                {# {{ code }} #}
                                             </p>
                                             <p class="card-text">
-                                                <small class="text-muted">lien PDF : 
+                                                <small class="text-muted">Acheté le
                                                     
                                                 </small>
                                             </p>
@@ -253,6 +253,7 @@ Mon compte
                                 </div>
                             </div>
                             {% endfor %}
+                        {# {% endfor %} #}
                         </div>
                     </div>
                 </div>

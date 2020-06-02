@@ -31,7 +31,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $password = $user->getPassword();
             $user->setPassword($encoder->encodePassword($user, $password));
 
@@ -39,7 +39,7 @@ class UserController extends AbstractController
             $profile->setRegisterDate($date);
             $profile->setBalance(0);
             $profile->setUser($user);
-            
+
             $manager->persist($user);
             $manager->persist($profile);
 
@@ -111,22 +111,32 @@ class UserController extends AbstractController
         }
 
         // get purchashed games
-        $games = [];
+        $ownedGames = [];
         $gamesNumber = 0;
-        foreach ($profile->getInvoices() as $key => $game) {
+        foreach ($profile->getInvoices() as $invoice) {
             $gamesNumber += 1;
-            array_push($games, $game);
+            foreach ($invoice->getCodes() as $code) {
+                array_push($ownedGames, $code->getGame());
+            }
         }
 
+        $ownedCodes = [];
+        foreach ($profile->getInvoices() as $invoice) {
+            foreach ($invoice->getCodes() as $ownedCode) {
+                array_push($ownedCodes, $ownedCode->getCode());
+            }
+        }
+
+        
         // get form
-        $formProfile = $this->createForm(ProfileFormType::class,$profile);
+        $formProfile = $this->createForm(ProfileFormType::class, $profile);
         $formProfile->handleRequest($request);
 
         $formUser = $this->createForm(RegisterFormType::class, $user);
         $formUser->handleRequest($request);
 
-        
-        if($formProfile->isSubmitted() && $formProfile->isValid()) {
+
+        if ($formProfile->isSubmitted() && $formProfile->isValid()) {
             $manager->persist($profile);
 
             // if ($user->getFile()) {
@@ -160,7 +170,8 @@ class UserController extends AbstractController
             'picture' => $picture,
             'opinions' => $opinions,
             'opinionsNumber' => $opinionsNumber,
-            'games' => $games,
+            'games' => $ownedGames,
+            'code' => $ownedCodes,
             'gamesNumber' => $gamesNumber
         ]);
     }
