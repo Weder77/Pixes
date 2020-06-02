@@ -17,21 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class CartController extends AbstractController
 {
     /**
-     * @Route("/email")
-     */
-    public function sendEmail(MailerInterface $mailer)
-    {
-        $email = (new Email())
-            ->from('facturation@pixes.fr')
-            ->to('theogrelet05@gmail.com')
-            ->subject('Merci pour votre achat chez Pixes !')
-            ->text('Sending emails is fun again!')
-            ->html('<p>See Twig integration for better HTML integration!</p>');
-        $mailer->send($email);
-
-    }
-
-    /**
      * @Route("/facture/{id}", name="invoice_generate")
      */
     public function invoice($id, InvoiceRepository $invoiceRepository)
@@ -39,6 +24,10 @@ class CartController extends AbstractController
         $invoice = $invoiceRepository->find($id);
 
         if ($invoice->getProfile()->getUser() != $this->getUser()) {
+            if ($this->getUser() == null) {
+                $this->addFlash('error', 'Vous devez vous connecter pour accéder à votre facture.');
+                return $this->redirectToRoute('login');
+            }
             return $this->redirectToRoute('index');
         }
 
@@ -100,7 +89,7 @@ class CartController extends AbstractController
     /**
      * @Route("/paiement", name="cart_checkout")
      */
-    public function checkout(CartService $cartService)
+    public function checkout(CartService $cartService, MailerInterface $mailer)
     {
         $manager = $this->getDoctrine()->getManager();
         $user = $this->getUser()->getProfile();
@@ -140,6 +129,14 @@ class CartController extends AbstractController
             $cartService->clear();
             $manager->persist($user);
             $manager->flush();
+
+            $url = 'http://192.168.1.27:8000/facture/' . $invoice->getId();
+            $email = (new Email())
+                ->from('facturation@pixes.fr')
+                ->to('theogrelet05@gmail.com')
+                ->subject('Merci pour votre achat chez Pixes !')
+                ->html('<a href="' . $url . '">Obtenir ma facture</a>');
+            $mailer->send($email);
 
             $this->addFlash('success', 'Merci pour votre achat ! Retrouvez dès à présent votre code sur votre espace "Mon compte".');
             return $this->redirectToRoute('index');
