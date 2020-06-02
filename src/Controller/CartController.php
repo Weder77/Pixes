@@ -133,7 +133,7 @@ class CartController extends AbstractController
             $url = 'http://192.168.1.27:8000/facture/' . $invoice->getId();
             $email = (new Email())
                 ->from('facturation@pixes.fr')
-                ->to('theogrelet05@gmail.com')
+                ->to($this->getUser()->getEmail())
                 ->subject('Merci pour votre achat chez Pixes !')
                 ->html('<a href="' . $url . '">Obtenir ma facture</a>');
             $mailer->send($email);

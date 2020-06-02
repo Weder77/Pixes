@@ -14,37 +14,38 @@ Mon compte
         <div class="col-sm-3">
 
             <div class="text-center">
-                {% if picture != null %}
-                    <img src="{{ picture }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar">
+                {% if app.user.profile.picture != null %}
+                <img src="{{ app.user.profile.picture }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar">
                 {% else %}
-                    <img src="{{ asset('img/default.png') }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar default">
+                <img src="{{ asset('img/default.png') }}" class="avatar img-circle img-thumbnail mb-4"
+                    alt="avatar default">
                 {% endif %}
-                <!-- <img src="{{ picture }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar"> -->
-                <p>{{firstname}} {{lastname}}</p>
+                <!-- <img src="{{ app.user.profile.picture }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar"> -->
+                <p>{{app.user.profile.firstname}} {{app.user.profile.lastname}}</p>
             </div>
 
             <ul class="list-group text-center">
-                <li class="list-group-item text-muted">Activité
-                    <i class="fa fa-dashboard fa-1x"></i>
+                <li class="list-group-item text-muted">
+                    <i class="fa fa-dashboard fa-1x mr-1"></i>
+                    Activité
                 </li>
                 <li class="list-group-item text-center">
-                    <span class="pull-left">
-                        <strong>Mon solde</strong>
+                    <span class="font-weight-bold">
+                        {{ app.user.profile.balance }} €
                     </span>
-                    {{ balance }}
-                    €
+                    en poche
                 </li>
                 <li class="list-group-item text-center">
-                    <span class="pull-left">
-                        <strong>Jeux acheté</strong>
+                    <span class="font-weight-bold">
+                        {{ gamesNumber }}
                     </span>
-                    {{ gamesNumber }}
+                    jeux achetés
                 </li>
                 <li class="list-group-item text-center">
-                    <span class="pull-left">
-                        <strong>Avis posté</strong>
+                    <span class="font-weight-bold">
+                        {{ opinionsNumber }}
                     </span>
-                    {{ opinionsNumber }}
+                    avis postés
                 </li>
             </ul>
         </div>
@@ -138,7 +139,7 @@ Mon compte
                             <div class="form-group">
                                 <div class="col-xs-12">
                                     <br>
-                                    <button class="btn btn-lg btn-primary register" type="submit">
+                                    <button class="btn btn-primary text-white" type="submit">
                                         <i class="glyphicon glyphicon-ok-sign"></i>
                                         Sauvegarder mes informations publiques</button>
                                 </div>
@@ -210,7 +211,7 @@ Mon compte
                                 <div class="form-group">
                                     <div class="col-xs-12">
                                         <br>
-                                        <button class="btn btn-lg btn-primary register" type="submit">
+                                        <button class="btn btn-primary text-white" type="submit">
                                             <i class="glyphicon glyphicon-ok-sign"></i>
                                             Sauvegarder mes informations privées</button>
                                     </div>
@@ -227,25 +228,30 @@ Mon compte
                     <div class="text-center mt-4">
                         <h3>Mes jeux achetés</h3>
                         <div class="container mt-4 d-flex flex-column-reverse align-items-center margin-zero">
-                        {# {% for codes in code %} #}
-                            {% for game in games %}
+
+                            {% for invoice in invoices %}
                             <div class="card mb-3" style="max-width: 540px;">
                                 <div class="row no-gutters">
                                     <div class="col-md-4">
-                                        <a target="_blank" href="{{ path('game', { slug : game.slug }) }}">
-                                            <img src="{{game.imgUrl}}" class="card-img" alt="...">
+                                        <a target="_blank" href="{{ path('game', { slug : invoice.game.slug }) }}">
+                                            <img src="{{asset(invoice.game.imgUrl)}}" class="card-img">
                                         </a>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <a target="_blank" href="{{ path('game', { slug : game.slug }) }}"><h5 class="card-title">{{ game.name}}</h5></a>
-                                            <p class="card-text">{{game.price}} €</p>
-                                            <p class="card-text">Code d'activation<br>
-                                                {# {{ code }} #}
+                                            <div class="d-flex justify-content-between">
+                                                <a target="_blank" href="{{ path('game', { slug : invoice.game.slug }) }}">
+                                                    <h5 class="card-title">{{ invoice.game.name }}</h5>
+                                                </a>
+                                                <span class="card-text"><a class="text-muted" href="{{ path('invoice_generate', {id: invoice.invoice.id}) }}">Facture</a></span>
+                                            </div>
+                                            <p class="card-text">
+                                                Code d'activation :<br>
+                                                {{ invoice.code }}
                                             </p>
                                             <p class="card-text">
-                                                <small class="text-muted">Acheté le
-                                                    
+                                                <small class="text-muted">
+                                                    Acheté le {{ invoice.invoice.purchaseDate  | date('d/m/Y') }}
                                                 </small>
                                             </p>
                                         </div>
@@ -253,7 +259,7 @@ Mon compte
                                 </div>
                             </div>
                             {% endfor %}
-                        {# {% endfor %} #}
+
                         </div>
                     </div>
                 </div>
@@ -265,29 +271,36 @@ Mon compte
                         <h3 class="mt-4 mb-4">Mes commentaires</h3>
                         <div class="d-flex flex-column-reverse">
                             {% for opinion in opinions %}
-                            <div class="mb-4 comment_infos">
-                                <span
-                                    class="text-uppercase font-weight-bold text-primary mr-4">{{ opinion.user.firstname }}
-                                    {{ opinion.user.lastname }}</span>
-                                <span>
-                                    {% for x in 1..5 %}
-                                    {% if x <= opinion.note %}
-                                    <i class="fas fa-star"></i>
-                                    {% else %}
-                                    <i class="far fa-star"></i>
-                                    {% endif %}
-                                    {% endfor %}
-                                </span>
+                            <div class="mb-2 text-left card card-body">
                                 <div>
-                                    {{ opinion.content }}
-                                </div>
-                                <div class="">
                                     <span class="mr-4">
-                                        <i class="mr-2 far fa-clock"></i>
                                         <span class="text-muted">
-                                            {{ opinion.postedon | date('d/m/Y H:i') }}
+                                            Avis sur 
+                                            <a href="{{ path('game', { slug : opinion.game.slug }) }}">
+                                                {{ opinion.game.name }}
+                                            </a>
+                                            donné le 
+                                            {{ opinion.postedon | date('d/m/Y') }}
                                         </span>
                                     </span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span
+                                        class="text-uppercase font-weight-bold text-primary mr-4">
+                                        {{ opinion.user.firstname }}
+                                        {{ opinion.user.lastname }}</span>
+                                    <span>
+                                        {% for x in 1..5 %}
+                                        {% if x <= opinion.note %}
+                                        <i class="fas fa-star text-primary"></i>
+                                        {% else %}
+                                        <i class="far fa-star text-muted"></i>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                </div>
+                                <div>
+                                    {{ opinion.content }}
                                 </div>
                             </div>
                             <hr>

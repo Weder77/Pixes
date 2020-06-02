@@ -111,12 +111,12 @@ class UserController extends AbstractController
         }
 
         // get purchashed games
-        $ownedGames = [];
+        $invoices = [];
         $gamesNumber = 0;
         foreach ($profile->getInvoices() as $invoice) {
             $gamesNumber += 1;
             foreach ($invoice->getCodes() as $code) {
-                array_push($ownedGames, $code->getGame());
+                array_push($invoices, $code);
             }
         }
 
@@ -127,24 +127,17 @@ class UserController extends AbstractController
             }
         }
 
-        
+
         // get form
         $formProfile = $this->createForm(ProfileFormType::class, $profile);
         $formProfile->handleRequest($request);
-
         $formUser = $this->createForm(RegisterFormType::class, $user);
         $formUser->handleRequest($request);
 
 
         if ($formProfile->isSubmitted() && $formProfile->isValid()) {
             $manager->persist($profile);
-
-            // if ($user->getFile()) {
-            //     $user->uploadFile();
-            // } 
-
             $manager->flush();
-
             $this->addFlash('success', 'Votre profil à bien été modifié.');
             return $this->redirectToRoute('profile');
         }
@@ -161,17 +154,12 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/profile.html.twig', [
-            'user' => $profile,
             'ProfileForm' => $formProfile->createView(),
             'UserForm' => $formUser->createView(),
-            'balance' => $balance,
-            'firstname' => $firstname,
-            'lastname' => $lastname,
-            'picture' => $picture,
             'opinions' => $opinions,
             'opinionsNumber' => $opinionsNumber,
-            'games' => $ownedGames,
-            'code' => $ownedCodes,
+            'invoices' => $invoices,
+            'codes' => $ownedCodes,
             'gamesNumber' => $gamesNumber
         ]);
     }
