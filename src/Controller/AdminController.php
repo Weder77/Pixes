@@ -126,22 +126,23 @@ class AdminController extends AbstractController
         ));
     }
 
-        /**
+    /**
      * @Route("/admin/users/supprimer/{id}", name="admin_delete_user")
      */
     public function deleteUser($id)
     {
         $manager = $this->getDoctrine()->getManager();
         $user = $manager->find('App\Entity\User', $id);
+        $profile = $manager->find(Profile::class, $id);
         $manager->remove($user);
         $manager->flush();
 
-        $this->addFlash('success', 'L\'utilisateur avec l\'id numéro ' . $id . ' a bien été supprimé.');
+        $this->addFlash('success', 'L\'utilisateur ' . $profile->getFirstname() . ' ' . $profile->getLastname() .' a bien été supprimé.');
 
         return $this->redirectToRoute('admin_users');
     }
 
-     /**
+    /**
      * @Route("/admin/users/update/{id}", name="admin_update_user")
      */
     public function updateUser($id, Request $request, UserPasswordEncoderInterface $encoder)
@@ -175,7 +176,7 @@ class AdminController extends AbstractController
             $user->setPassword($encoder->encodePassword($user, $password));
             $manager->flush();
 
-            $this->addFlash('success', 'L\'utilisateur ' .$profile->getFirstname() . ' ' . $profile->getLastname() . ' a bien été mis à jour.');
+            $this->addFlash('success', 'L\'utilisateur ' . $profile->getFirstname() . ' ' . $profile->getLastname() . ' a bien été mis à jour.');
             return $this->redirectToRoute('admin_users');
         }
 
@@ -198,17 +199,17 @@ class AdminController extends AbstractController
         $profile = $this->getUser()->getProfile();
         $user = $this->getUser();
 
-         // get form
-         $formProfile = $this->createForm(ProfileFormType::class, $profile);
-         $formProfile->handleRequest($request);
-         $formUser = $this->createForm(RegisterFormType::class, $user);
-         $formUser->handleRequest($request);
+        // get form
+        $formProfile = $this->createForm(ProfileFormType::class, $profile);
+        $formProfile->handleRequest($request);
+        $formUser = $this->createForm(RegisterFormType::class, $user);
+        $formUser->handleRequest($request);
 
         if ($formProfile->isSubmitted() && $formProfile->isValid()) {
             $manager->persist($profile);
-            if($profile -> getFile()){
+            if ($profile->getFile()) {
                 // $profile -> removeFile();
-                $profile-> uploadFile();
+                $profile->uploadFile();
             }
             $manager->flush();
             $this->addFlash('success', 'Votre profil à bien été modifié.');

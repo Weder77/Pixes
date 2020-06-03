@@ -52,7 +52,7 @@ class Profile
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Opinion::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Opinion::class, mappedBy="user")
      */
     private $opinions;
 
