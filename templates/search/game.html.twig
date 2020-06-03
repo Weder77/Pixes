@@ -1,97 +1,144 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tout nos jeux{% endblock %}
+{% block title %}Tout nos jeux
+{% endblock %}
 
 {% block stylesheet %}
-<style>
-    .game-poster img {
-        width: 100%;
-        height: auto;
-    }
+	<style>
+		.game-poster img {
+			width: 100%;
+			height: auto;
+		}
 
-    .game-price {
-        opacity: 0;
-        transition: opacity ease 0.2s;
-        position: absolute;
-        margin-top: -325px;
-        padding: 3px 10px;
-        background-color: white;
-    }
+		.game-price {
+			opacity: 0;
+			transition: opacity ease 0.2s;
+			position: absolute;
+			margin-top: -325px;
+			padding: 3px 10px;
+			background-color: white;
+		}
 
-    .game-card:hover .game-price {
-        opacity: 1;
-    }
+		.game-card:hover .game-price {
+			opacity: 1;
+		}
 
-    .game-tags {
-        width: 100%;
-        margin-top: -25px;
-        padding-right: 4px;
-        text-align: right;
-        font-size: 10px;
-    }
+		.game-tags {
+			width: 100%;
+			margin-top: -25px;
+			padding-right: 4px;
+			text-align: right;
+			font-size: 10px;
+		}
 
-    .game-platforms {
-        font-size: 14px;
-    }
+		.game-platforms {
+			font-size: 14px;
+		}
 
-    .game-tags i, .game-platforms i {
-        color: var(--primary)
-    }
+		.game-tags i,
+		.game-platforms i {
+			color: var(--primary)
+		}
 
-    .card-title {
-        font-size: 22px;
-    }
-
-</style>
+		.card-title {
+			font-size: 22px;
+		}
+	</style>
 {% endblock %}
 
 {% block body %}
-<div class="container mb-5">
-    <h3 class="text-center mb-4">Résultat de votre recherche : {{ search }}</h3>
-    <div class="row">
-        {% if games == null %}
-            Aucun jeu
-        {% endif %}
-        {% for game in games %}
-        <div class="col-md-3 mb-4">
-            <div class="game-card">
-                <div class="game-poster mb-2 shadow">
-                    <a href="{{ path('game', { slug : game.slug }) }}">
-                        <img src="{{ asset(game.imgurl) }}" width="384" height="488"/>
-                    </a>
-                    <div class="game-price">
-                        {{ game.price}} €
-                    </div>
-                    <div class="game-tags text-white text-uppercase">
-                        {% for tag in game.tags %}
-                            {{ tag.name }}
-                        {% if tag != game.tags|last %}
-                        ,
-                        {% endif %}
-                        {% endfor %}
-                        <i class="fas fa-tags"></i>
-                    </div>
-                </div>
-                <span class="card-title font-weight-bold">
-                    {{ game.name }}
-                </span>
-                <div class="game-platforms text-muted">
-                    <i class="fas fa-tv picto"></i>
-                    {% for platform in game.platforms %}
-                        {{ platform.name }}
-                    {% if platform != game.platforms|last %}
-                        ,
-                    {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+	<div class="container mb-5">
+		<h3 class="text-center mb-4">Résultat de votre recherche :
+			<span style="font-weight: bold;">{{ search }}</span>
+		</h3>
+		<div class="row justify-content-center">
+			{% if games == null %}
+				<div class="alert alert-danger mt-4 text-center">
+					Aucun résultat pour votre recherche. Mais on vous propose les derniers jeux ;)
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				{% for recentGame in recentGames %}
+					<div class="col-md-3 mb-4">
+						<div class="game-card">
+							<div class="game-poster mb-2 shadow">
+								<a href="{{ path('game', { slug : recentGame.slug }) }}">
+									<img src="{{ asset(recentGame.imgurl) }}" width="384" height="488"/>
+								</a>
+								<div class="game-price">
+									{{ recentGame.price}}
+									€
+								</div>
+								<div class="game-tags text-white text-uppercase">
+									{% for tag in recentGame.tags %}
+										{{ tag.name }}
+										{% if tag != recentGame.tags|last %}
+											,
+										{% endif %}
+									{% endfor %}
+									<i class="fas fa-tags"></i>
+								</div>
+							</div>
+							<span class="card-title font-weight-bold">
+								{{ recentGame.name }}
+							</span>
+							<div class="game-platforms text-muted">
+								<i class="fas fa-tv picto"></i>
+								{% for platform in recentGame.platforms %}
+									{{ platform.name }}
+									{% if platform != recentGame.platforms|last %}
+										,
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				{% endfor %}
 
-    <div class="text-center mt-2">
-        <a href="{{ path('index')}}"><button class="btn btn-outline-primary">Retour à l'accueil</button></a>
-    </div>
-</div>
+			{% endif %}
+			{% for game in games %}
+				<div class="col-md-3 mb-4">
+					<div class="game-card">
+						<div class="game-poster mb-2 shadow">
+							<a href="{{ path('game', { slug : game.slug }) }}">
+								<img src="{{ asset(game.imgurl) }}" width="384" height="488"/>
+							</a>
+							<div class="game-price">
+								{{ game.price}}
+								€
+							</div>
+							<div class="game-tags text-white text-uppercase">
+								{% for tag in game.tags %}
+									{{ tag.name }}
+									{% if tag != game.tags|last %}
+										,
+									{% endif %}
+								{% endfor %}
+								<i class="fas fa-tags"></i>
+							</div>
+						</div>
+						<span class="card-title font-weight-bold">
+							{{ game.name }}
+						</span>
+						<div class="game-platforms text-muted">
+							<i class="fas fa-tv picto"></i>
+							{% for platform in game.platforms %}
+								{{ platform.name }}
+								{% if platform != game.platforms|last %}
+									,
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+		<div class="text-center mt-2">
+			<a href="{{ path('index')}}">
+				<button class="btn btn-outline-primary">Retour à l'accueil</button>
+			</a>
+		</div>
+	</div>
 
 {% endblock %}

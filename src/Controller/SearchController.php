@@ -16,6 +16,8 @@ class SearchController extends AbstractController
     {
         $search = $request->request->get('search');
 
+        $recentGames = $gameRepository->findBy([], ['id' => 'DESC'], 4);
+
         if ($search != null) {
             $games = $gameRepository->findByNameLike($search);
         } else {
@@ -25,6 +27,8 @@ class SearchController extends AbstractController
         return $this->render('search/game.html.twig', [
             'search' => $search,
             'games' => $games,
+            'recentGames' => $recentGames,
+
         ]);
     }
 }
