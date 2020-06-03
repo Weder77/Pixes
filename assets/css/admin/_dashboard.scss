@@ -1,4 +1,17 @@
-.add-game-button{
-    margin-top: 5%;
-    margin-bottom: 5%;
+.back-responsive{
+    display: none;
+}
+
+@media screen and (max-width: 1300px)
+{
+    .screen {
+		max-width: 100% !important;
+		flex-basis: 100%;
+	}
+	.back-responsive{
+		display: block;
+	}
+	.before-responsive{
+		display: none !important;
+	}
 }

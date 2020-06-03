@@ -6,16 +6,6 @@
 
 
 {% block stylesheet %}
-<style>
-
-@media screen and (max-width: 1300px)
-{
-    .screen {
-		max-width: 100% !important;
-		flex-basis: 100%;
-	}
-}
-</style>
 
 {% endblock %}
 
@@ -131,11 +121,20 @@
 			<div class="col-10 pt-4 px-5 screen">
 				<div class="pt-4">
 					<div class="d-flex justify-content-between mb-4">
+
+						
+
+
 						<h1 class="h3">
-							{% block title %}{% endblock %}
+							{% block title %} {% endblock %}
 						</h1>
 
-						<div>
+
+						<a href="{{ path('index') }}" class="h5 back-responsive">
+							<i class="fas fa-arrow-left fa-4x" style="font-size: 36px; margin-right: 5px;"></i> 
+						</a>
+						
+						<div class="before-responsive">
 							<a href="{{ path('index') }}" class="h5">
 								<i class="fas fa-arrow-left" style="font-size: 16px;"></i>
 								Retour au site
@@ -155,8 +154,8 @@
 							</div>
 						{% endfor %}
 					</div>
-					{% block content %}{% endblock %}
 				</div>
+				{% block content %}{% endblock %}
 			</div>
 		</div>
 	</main>
