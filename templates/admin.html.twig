@@ -4,7 +4,73 @@
 
 {% block messages %}{% endblock %}
 
+
+{% block stylesheet %}
+<style>
+
+@media screen and (max-width: 1300px)
+{
+    .screen {
+		max-width: 100% !important;
+		flex-basis: 100%;
+	}
+}
+</style>
+
+{% endblock %}
+
 {% block body %}
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top d-lg-none d-md-flex text-center">
+		<a class="navbar-brand" href="{{ path('index')}}"><img src="{{ asset('/img/logo-withoutbg.png')}}" alt="Logo"
+				height="50" /></a>
+		<button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+				{% if app.user == null %}
+				<li class="nav-item mb-2">
+					<a href="{{ path('admin_profile') }}">Connexion</a>
+				</li>
+				{% elseif is_granted("ROLE_ADMIN") %}
+				<li class="nav-item mb-2">
+					<a href="{{ path('admin_index')}}">Dashboard</a> / <a class="text-danger"
+						href="{{ path('logout')}}">Déconnexion</a>
+				</li>
+				{% else %}
+				<li class="nav-item mb-2">
+					<a href="{{ path('profile')}}">Mon compte</a> / <a class="text-danger"
+						href="{{ path('logout')}}">Déconnexion</a>
+				</li>
+				{% endif %}
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('admin_profile') }}">Mes informations</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('admin_orders') }}">Les ventes</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('admin_games') }}">Les jeux</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('admin_users') }}">Les utilisateurs</a>
+				</li>
+			</ul>
+			<form action="{{ path('search_game') }}" method="post"  class="input-group mb-3">
+				<input type="text" class="form-control" name="search" placeholder="Rechercher un jeu ...">
+				<div class="input-group-append">
+					<button class="btn btn-custom" type="submit">
+						<i class="fas fa-search"></i>
+					</button>
+				</div>
+			</form>
+		</div>
+	</nav>
+
 	<main class="container-fluid">
 		<div class="row">
 			<nav class="col-md-2 pt-4 d-none d-md-block bg-light sidebar">
@@ -62,7 +128,7 @@
 					</ul>
 				</div>
 			</nav>
-			<div class="col-10 pt-4 px-5">
+			<div class="col-10 pt-4 px-5 screen">
 				<div class="pt-4">
 					<div class="d-flex justify-content-between mb-4">
 						<h1 class="h3">
