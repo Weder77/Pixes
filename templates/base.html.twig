@@ -2,9 +2,8 @@
 <html lang="fr">
 
 <head>
-
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="Votre site web d'achat de jeux vidéo préféré !">
 	<meta name="author" content="Weder and Sheraw">
 
@@ -32,35 +31,88 @@
 
 <body>
 	{% block header %}
-	<header class="d-flex justify-content-around align-items-center mt-2 mb-3">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top d-lg-none d-md-flex">
+		<a class="navbar-brand" href="{{ path('index')}}"><img src="{{ asset('/img/logo-withoutbg.png')}}" alt="Logo" height="50" /></a>
+		<button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+			aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+				{% if app.user == null %}
+				<li class="nav-item mb-2">
+					<a href="{{ path('register')}}">Inscription</a> / <a href="{{ path('login')}}">Connexion</a>
+				</li>
+				{% elseif is_granted("ROLE_ADMIN") %}
+				<li class="nav-item mb-2">
+					<a href="{{ path('admin_index')}}">Dashboard</a> / <a class="text-danger" href="{{ path('logout')}}">Déconnexion</a>
+				</li>
+				{% else %}
+				<li class="nav-item mb-2">
+					<a href="{{ path('profile')}}">Mon compte</a> / <a class="text-danger" href="{{ path('logout')}}">Déconnexion</a>
+				</li>
+				{% endif %}
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('index')}}">Accueil</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('allgames')}}">Tous les jeux</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('cart_index')}}">Panier</a>
+				</li>
+			</ul>
+			<div class="input-group mb-3">
+				<input type="text" class="form-control" placeholder="Rechercher un jeu...">
+				<div class="input-group-append">
+				  <button class="btn btn-outline-primary" type="button"><i class="fas fa-search"></i></button>
+				</div>
+			  </div>
+		</div>
+	</nav>
+
+	<header class="justify-content-around align-items-center mt-2 mb-3 d-none d-lg-flex">
 		<a href="{{ path('index')}}">
 			<img src="{{ asset('/img/logo-withoutbg.png')}}" alt="Logo" class="logo" />
 		</a>
 		<div class="d-flex flex-column align-items-end">
 			<div class="btns-header ">
 				{% if app.user == null %}
-				<a href="{{ path('login')}}" class="btn-left separator-r">Connexion</a>
-				<a href="{{ path('register')}}" class="btn-right">Inscription</a>
+				<a href="{{ path('login')}}" class="btn-left separator-r">
+					Connexion
+				</a>
+				<a href="{{ path('register')}}" class="btn-right">
+					Inscription
+				</a>
 
 				{% elseif is_granted("ROLE_ADMIN") %}
-					<a href="{{ path('admin_index')}}" class="btn-simple"><i class="fas fa-tools text-white pr-2"></i></i> Dashboard</a>
-					<a href="{{ path('logout')}}" class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm"><i class="fas fa-sign-out-alt"></i></i></a>
+				<a href="{{ path('admin_index')}}" class="btn-simple">
+					<i class="fas fa-tools text-white pr-2"></i> Dashboard
+				</a>
+				<a href="{{ path('logout')}}" class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm">
+					<i class="fas fa-sign-out-alt"></i>
+				</a>
 
 				{% else %}
-					<a href="{{ path('profile')}}" class="btn-simple"><i class="fas fa-user text-white pr-2"></i> Mon compte</a>
-					<a href="{{ path('logout')}}" class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm"><i class="fas fa-sign-out-alt"></i></i></a>
-
+				<a href="{{ path('profile')}}" class="btn-simple">
+					<i class="fas fa-user text-white pr-2"></i> Mon
+					compte
+				</a>
+				<a href="{{ path('logout')}}" class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm">
+					<i class="fas fa-sign-out-alt"></i>
+				</a>
 				{% endif %}
-				
-				
-				<a href="{{ path('cart_index')}}"
-					class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm"><i
-						class="fas fa-shopping-cart"></i></i></i></a>
+				<a href="{{ path('cart_index')}}" class="w-auto ml-2 btn btn-primary rounded-circle text-white btn-sm">
+					<i class="fas fa-shopping-cart"></i>
+				</a>
 			</div>
 			<form class="input-group mt-2">
 				<input type="text" class="form-custom" name="search" placeholder="Rechercher un jeu ...">
 				<div class="input-group-append">
-					<button class="btn btn-custom" type="button"><i class="fas fa-search"></i></button>
+					<button class="btn btn-custom" type="button">
+						<i class="fas fa-search"></i>
+					</button>
 				</div>
 			</form>
 		</div>
