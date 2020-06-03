@@ -7,8 +7,10 @@ use App\Entity\Profile;
 use App\Entity\User;
 use App\Form\AddGameType;
 use App\Form\ProfileFormType;
+use App\Repository\InvoiceRepository;
 use App\Form\RegisterFormType;
 use App\Service\Game\GameService;
+use App\Service\Invoice\InvoiceService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -107,10 +109,24 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/admin/ventes", name="admin_orders")
-     */
-    public function orders()
+    */
+    public function orders(InvoiceRepository $invoiceRepository, InvoiceService $invoiceService)
     {
-        return $this->render('/admin/orders.html.twig');
+        $allInvoices = $invoiceRepository->findAll();
+        $lastMonthInvoices = $invoiceService->getLastMonthInvoices($allInvoices);
+        $lastWeekInvoices = $invoiceService->getLastWeekInvoices($lastMonthInvoices);
+        $todayInvoices = $invoiceService->getTodayInvoices($lastWeekInvoices);
+
+        return $this->render('/admin/orders.html.twig', [
+            'todayInvoices' => $todayInvoices,
+            'todayProfit' => $invoiceService->getProfit($todayInvoices),
+            'lastWeekInvoices' => $lastWeekInvoices,
+            'lastWeekProfit' => $invoiceService->getProfit($lastWeekInvoices),
+            'lastMonthInvoices' => $lastMonthInvoices,
+            'lastMonthProfit' => $invoiceService->getProfit($lastMonthInvoices),
+            'allInvoices' => $allInvoices,
+            'allProfit' => $invoiceService->getProfit($allInvoices),
+        ]);
     }
 
     /**
