@@ -10,9 +10,10 @@
 			<div class="text-center">
 				<h2 class="mt-4">Gestion des jeux</h2>
 
-				<a class="mt-4" href="{{path('admin_add') }}">
+				<a class="mt-4 add-game-button" href="{{path('admin_add') }}">
 					<button type="button" class="btn btn-primary btn-lg">Ajouter un jeu</button>
 				</a>
+				
 			</div>
 			<table class="table table-striped table-sm text-center">
 				<thead>
@@ -35,8 +36,7 @@
 							<td>{{ game.id }}</td>
 							<td>{{ game.name }}</td>
 							<td><img src="{{ asset(game.imgurl) }}" height="80px"/></td>
-							<td>{{ game.description | slice(0,30) }}
-								...</td>
+							<td>{{ game.description | slice(0,30) }}...</td>
 							<td>{{ game.price}}</td>
 							<td>{{ game.pegi }}</td>
 							<td>{{ game.slug }}</td>
@@ -44,11 +44,37 @@
 							<td></td>
 							<td>
 								<a href="{{ path('admin_update', { id : game.id }) }}">
-									<i class="fas fa-edit"></i>
+									<button type="button" class="btn btn-primary">
+										Modifier
+									</button>
 								</a>
-								<a href="{{ path('admin_delete', { id : game.id }) }}">
-									<i class="fas fa-trash"></i>
-								</a>
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#delete{{ game.id }}">
+									Supprimer
+								</button>
+								<!-- Modal -->
+								<div class="modal fade" id="delete{{ game.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="delete{{ game.id }}">Attention</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												Voulez vous vraiment supprimer
+												{{ game.name}}
+												?
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+												<a href="{{ path('admin_delete_game', { id : game.id }) }}">
+													<button type="button" class="btn btn-danger">Supprimer</button>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
 							</td>
 						</tr>
 					{% endfor %}

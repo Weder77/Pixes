@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\Profile;
+use App\Entity\User;
 use App\Form\AddGameType;
 use App\Form\ProfileFormType;
 use App\Form\RegisterFormType;
@@ -36,16 +38,16 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/jeux/supprimer{id}", name="admin_delete")
+     * @Route("/admin/jeux/supprimer/{id}", name="admin_delete_game")
      */
-    public function delete($id)
+    public function deleteGame($id)
     {
         $manager = $this->getDoctrine()->getManager();
         $game = $manager->find('App\Entity\Game', $id);
         $manager->remove($game);
         $manager->flush();
 
-        $this->addFlash('success', 'Le jeux avec l\'id numéro ' . $id . ' a bien été supprimé.');
+        $this->addFlash('success', 'Le jeux ' . $game->getName() . ' a bien été supprimé.');
 
         return $this->redirectToRoute('admin_games');
     }
@@ -116,8 +118,74 @@ class AdminController extends AbstractController
      */
     public function users()
     {
-        return $this->render('/admin/users.html.twig');
+        $repository = $this->getDoctrine()->getRepository('App\Entity\Profile');
+        $profiles = $repository->findAll();
+
+        return $this->render('/admin/users.html.twig', array(
+            'profiles' => $profiles
+        ));
     }
+
+        /**
+     * @Route("/admin/users/supprimer/{id}", name="admin_delete_user")
+     */
+    public function deleteUser($id)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $user = $manager->find('App\Entity\User', $id);
+        $manager->remove($user);
+        $manager->flush();
+
+        $this->addFlash('success', 'L\'utilisateur avec l\'id numéro ' . $id . ' a bien été supprimé.');
+
+        return $this->redirectToRoute('admin_users');
+    }
+
+     /**
+     * @Route("/admin/users/update/{id}", name="admin_update_user")
+     */
+    public function updateUser($id, Request $request, UserPasswordEncoderInterface $encoder)
+    {
+        $manager = $this->getDoctrine()->getManager();
+
+        $profile = $manager->find(Profile::class, $id);
+        $user = $manager->find(User::class, $id);
+
+        $formProfile = $this->createForm(ProfileFormType::class, $profile);
+        $formUser = $this->createForm(RegisterFormType::class, $user);
+
+        $formProfile->handleRequest($request);
+        $formUser->handleRequest($request);
+
+        if ($formProfile->isSubmitted() && $formProfile->isValid()) {
+            $manager->persist($profile);
+            if ($profile->getFile()) {
+                $profile->removeFile();
+                $profile->uploadFile();
+            }
+            $manager->flush();
+
+            $this->addFlash('success', 'L\'utilisateur ' . $profile->getFirstname() . ' ' . $profile->getLastname() . ' a bien été mis à jour.');
+            return $this->redirectToRoute('admin_users');
+        }
+
+        if ($formUser->isSubmitted() && $formUser->isValid()) {
+            $manager->persist($user);
+            $password = $user->getPassword();
+            $user->setPassword($encoder->encodePassword($user, $password));
+            $manager->flush();
+
+            $this->addFlash('success', 'L\'utilisateur ' .$profile->getFirstname() . ' ' . $profile->getLastname() . ' a bien été mis à jour.');
+            return $this->redirectToRoute('admin_users');
+        }
+
+        return $this->render('admin/updateuser.html.twig', [
+            'ProfileForm' => $formProfile->createView(),
+            'UserForm' => $formUser->createView(),
+        ]);
+    }
+
+
 
     /**
      * @Route("/admin/mon-profile", name="admin_profile")
