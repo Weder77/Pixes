@@ -4,10 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Form\AddGameType;
+use App\Form\ProfileFormType;
+use App\Form\RegisterFormType;
 use App\Service\Game\GameService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AdminController extends AbstractController
 {
@@ -45,28 +48,25 @@ class AdminController extends AbstractController
         $this->addFlash('success', 'Le jeux avec l\'id numéro ' . $id . ' a bien été supprimé.');
 
         return $this->redirectToRoute('admin_games');
-
     }
 
-     /**
+    /**
      * @Route("/admin/jeux/ajouter", name="admin_add")
      */
     public function add(Request $request, GameService $gameService)
     {
         $manager = $this->getDoctrine()->getManager();
-        $game = new Game; 
-        
+        $game = new Game;
+
         $form = $this->createForm(AddGameType::class, $game);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid() )
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($game);
             $game->uploadFile();
             $game->setSlug($gameService->generateSlug($game->getName()));
             $manager->flush();
-            $this->addFlash('success', 'Le jeu '. $game->getName() . ' a bien été ajouté.');
-
+            $this->addFlash('success', 'Le jeu ' . $game->getName() . ' a bien été ajouté.');
         }
 
         return $this->render('admin/addgame.html.twig', array(
@@ -74,26 +74,26 @@ class AdminController extends AbstractController
         ));
     }
 
-     /**
+    /**
      * @Route("/admin/jeu/update/{id}", name="admin_update")
      */
     public function updateGame($id, Request $request, GameService $gameService)
     {
         $manager = $this->getDoctrine()->getManager();
         $game = $manager->find(Game::class, $id);
-        $form = $this->createForm(AddGameType::class,$game);
+        $form = $this->createForm(AddGameType::class, $game);
         $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid()) {
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($game);
-            if($game->getFile()){
+            if ($game->getFile()) {
                 $game->removeFile();
-                $game-> uploadFile();
+                $game->uploadFile();
             }
             $game->setSlug($gameService->generateSlug($game->getName()));
             $manager->flush();
 
-            $this->addFlash('success', 'Le jeu '. $game->getName().' a bien été mis à jour.');
+            $this->addFlash('success', 'Le jeu ' . $game->getName() . ' a bien été mis à jour.');
             return $this->redirectToRoute('admin_games');
         }
 
@@ -117,5 +117,50 @@ class AdminController extends AbstractController
     public function users()
     {
         return $this->render('/admin/users.html.twig');
+    }
+
+    /**
+     * @Route("/admin/mon-profile", name="admin_profile")
+     */
+    public function profile(Request $request, UserPasswordEncoderInterface $encoder)
+    {
+
+        $manager = $this->getDoctrine()->getManager();
+
+        $profile = $this->getUser()->getProfile();
+        $user = $this->getUser();
+
+         // get form
+         $formProfile = $this->createForm(ProfileFormType::class, $profile);
+         $formProfile->handleRequest($request);
+         $formUser = $this->createForm(RegisterFormType::class, $user);
+         $formUser->handleRequest($request);
+
+        if ($formProfile->isSubmitted() && $formProfile->isValid()) {
+            $manager->persist($profile);
+            if($profile -> getFile()){
+                // $profile -> removeFile();
+                $profile-> uploadFile();
+            }
+            $manager->flush();
+            $this->addFlash('success', 'Votre profil à bien été modifié.');
+            return $this->redirectToRoute('admin_profile');
+        }
+
+
+        if ($formUser->isSubmitted() && $formUser->isValid()) {
+            $manager->persist($user);
+            $password = $user->getPassword();
+            $user->setPassword($encoder->encodePassword($user, $password));
+            $manager->flush();
+
+            $this->addFlash('success', 'Votre profil à bien été modifié.');
+            return $this->redirectToRoute('admin_profile');
+        }
+
+        return $this->render('admin/adminprofile.html.twig', [
+            'ProfileForm' => $formProfile->createView(),
+            'UserForm' => $formUser->createView()
+        ]);
     }
 }

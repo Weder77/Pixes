@@ -1,0 +1,175 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}
+	Mon profil
+{% endblock %}
+
+{% block content %}
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-9 col-md-7 col-lg-12 mx-auto">
+				<div class="card card-signin my-5">
+					<div class="card-body">
+						<div class="text-center mt-4">
+                        <h3>Mes informations publiques</h3>
+                        <div class="container mt-4">
+                            {{ form_start(ProfileForm) }}
+
+                            <div class="form-label-group">
+                                {{ form_widget(ProfileForm.file, { 'attr' : {
+                                    'placeholder' : 'Changer votre photo de profil',
+                                    'class' : 'form-control'
+                                    }})
+                                }}
+                            </div> 
+
+                            <div class="form-label-group">
+                                {{ form_widget(ProfileForm.firstname, 
+                                    { 'attr' : 
+                                        {
+                                            'class' : 'form-control text-center',
+                                            }
+                                        }
+                                    )
+                                }}
+                                {{ form_errors(ProfileForm.firstname) }}
+                                <label for="register_form_email">Prénom</label>
+                            </div>
+
+                            <div class="form-label-group">
+                                {{ form_widget(ProfileForm.lastname, 
+                                    { 'attr' : 
+                                        {
+                                            'class' : 'form-control text-center',
+                                            }
+                                        }
+                                    )
+                                }}
+                                {{ form_errors(ProfileForm.lastname) }}
+                                <label for="register_form_email">Nom</label>
+                            </div>
+
+                            <!-- A enlever quand on aura la partie admin -->
+                            <div class="form-label-group">
+                                {{ form_widget(ProfileForm.balance, 
+                                    { 'attr' : 
+                                        {
+                                            'class' : 'form-control text-center',
+                                            'type' : 'number'
+                                            }
+                                        }
+                                    )
+                                }}
+                                {{ form_errors(ProfileForm.balance) }}
+                                <label for="register_form_email">Simuler mon solde</label>
+                            </div>
+
+                            <label>Date de naissance</label>
+                            <div class="form-label-group row justify-content-center">
+                                {{ form_widget(ProfileForm.birthday, 
+                                    { 'attr' : 
+                                        {
+                                            'class' : 'text-center',
+                                            }
+                                        }
+                                    )
+                                }}
+                                {{ form_errors(ProfileForm.birthday) }}
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <br>
+                                    <button class="btn btn-primary text-white" type="submit">
+                                        <i class="glyphicon glyphicon-ok-sign"></i>
+                                        Sauvegarder mes informations publiques</button>
+                                </div>
+                            </div>
+                            {{ form_end(ProfileForm) }}
+                        </div>
+                        <hr>
+                        <div class="text-center mt-4">
+                            <h3>Mes informations privées</h3>
+                            <div class="container mt-4">
+                                {{ form_start(UserForm) }}
+
+                                <div class="form-label-group">
+                                    {{ form_widget(UserForm.email, 
+                                    { 'attr' : 
+                                        {
+                                            'placeholder' : 'Adresse Email',
+                                            'class' : 'form-control text-center',
+                                            'id' : 'register_form_email',
+                                            'type' : 'email',
+                                            }
+                                        }
+                                    )
+                                }}
+                                    {{ form_errors(UserForm.email) }}
+                                    <label for="register_form_email">Adresse Email</label>
+                                </div>
+                                <small>Il faut confirmer votre mot de passe si vous souhaitez changer votre adresse
+                                    email. Pour changer votre mot de passe il suffit juste d'entrer le nouveau, et de le
+                                    confirmer.</small>
+
+                                <div class="form-label-group">
+                                    {{ form_widget(UserForm.password.first, 
+                                    { 'attr' : 
+                                        {
+                                            'placeholder' : 'Mot de passe',
+                                            'class' : 'form-control text-center',
+                                            'id' : 'register_form_password_first',
+                                            'type' : 'password',
+                                            }
+                                        }
+                                    )
+                                }}
+                                    {{ form_errors(UserForm.email) }}
+                                    <label for="register_form_password_first">Mot de passe</label>
+                                    {% if(form_errors(UserForm.password.first)) %}
+                                    {{ form_errors(UserForm.password.first) }}
+                                    {% endif %}
+                                </div>
+
+                                <div class="form-label-group">
+                                    {{ form_widget(UserForm.password.second, 
+                                    { 'attr' : 
+                                        {
+                                            'placeholder' : 'Confirmaton du mot de passe',
+                                            'class' : 'form-control text-center',
+                                            'id' : 'register_form_password_second',
+                                            'type' : 'password',
+                                            }
+                                        }
+                                    )
+                                }}
+                                    {{ form_errors(UserForm.email) }}
+                                    <label for="register_form_password_second">Confirmaton du mot de passe</label>
+                                    {% if(form_errors(UserForm.password.second)) %}
+                                    {{ form_errors(UserForm.password.second) }}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <br>
+                                        <button class="btn btn-primary text-white" type="submit">
+                                            <i class="glyphicon glyphicon-ok-sign"></i>
+                                            Sauvegarder mes informations privées</button>
+                                    </div>
+                                </div>
+                                {{ form_end(UserForm) }}
+                            </div>
+                        </div>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+{% endblock %}
