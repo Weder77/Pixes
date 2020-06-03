@@ -9,11 +9,11 @@
 		<div class="mt-4">
 			<div class="text-center">
 				<h2 class="mt-4">Gestion des jeux</h2>
-
-				<a class="mt-4 add-game-button" href="{{path('admin_add') }}">
-					<button type="button" class="btn btn-primary btn-lg">Ajouter un jeu</button>
-				</a>
-				
+				<div class="add-game-button">
+					<a class="mt-4" href="{{path('admin_add') }}">
+						<button type="button" class="btn btn-primary btn-lg">Ajouter un jeu</button>
+					</a>
+				</div>
 			</div>
 			<table class="table table-responsive table-striped table-sm text-center">
 				<thead>
@@ -81,7 +81,7 @@
 				</tbody>
 			</table>
 		</div>
-	<div>
+		<div>
 
 
 		{% endblock %}

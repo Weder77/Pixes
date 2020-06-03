@@ -21,9 +21,13 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin", name="admin_index")
      */
-    public function index()
+    public function index(InvoiceRepository $invoiceRepository)
     {
-        return $this->render('/admin/index.html.twig');
+        $allInvoices = $invoiceRepository->findAll([], ['id' => 'DESC'], 10);
+        
+        return $this->render('/admin/index.html.twig', array(
+            'allInvoices' => $allInvoices,
+        ));
     }
 
     /**
