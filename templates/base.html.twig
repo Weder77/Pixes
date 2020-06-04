@@ -161,23 +161,29 @@
         <h6 class="text-uppercase font-weight-bold">Jeux</h6>
         <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
         <p>
-          <a href="#!">À la une</a>
+          <a href="{{ path('index')}}">À la une</a>
         </p>
         <p>
-          <a href="#!">Récents</a>
+          <a href="#">Récents</a>
         </p>
         <p>
-          <a href="#!">Tous les jeux</a>
+          <a href="{{ path('allgames')}}">Tous les jeux</a>
         </p>
       </div>
       <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
         <h6 class="text-uppercase font-weight-bold">Liens Utiles</h6>
         <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
         <p>
-          <a href="#!">Mon compte</a>
+			{% if app.user == null %}
+				<a href="{{ path('register')}}">Inscription</a> / <a href="{{ path('login')}}">Connexion</a>
+			{% elseif is_granted("ROLE_ADMIN") %}
+				<a href="{{ path('admin_index')}}">Dashboard</a> / <a class="text-danger" href="{{ path('logout')}}">Déconnexion</a>
+			{% else %}
+				<a href="{{ path('profile')}}">Mon compte</a> / <a class="text-danger" href="{{ path('logout')}}">Déconnexion</a>
+			{% endif %}
         </p>
         <p>
-          <a href="#!">Mon panier</a>
+          <a href="{{ path('cart_index')}}">Mon panier</a>
         </p>
       </div>
       <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
