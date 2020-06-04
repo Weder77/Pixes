@@ -47,6 +47,9 @@
 			<li class="nav-item">
 				<a class="nav-link" href="{{ path('admin_users') }}">Les utilisateurs</a>
 			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{{ path('admin_opinions') }}">Les avis</a>
+			</li>
 		</ul>
 		<form action="{{ path('search_game') }}" method="post" class="input-group mb-3">
 			<input type="text" class="form-control" name="search" placeholder="Rechercher un jeu ...">
@@ -113,6 +116,12 @@
 						<a class="nav-link text-dark h5" href="{{ path('admin_users') }}">
 							<i class="fas fa-users mr-2 text-primary" style="font-size: 17px;"></i>
 							Utilisateurs
+						</a>
+					</li>
+					<li class="">
+						<a class="nav-link text-dark h5" href="{{ path('admin_opinions') }}">
+							<i class="fas fa-comments mr-2 text-primary" style="font-size: 17px;"></i>
+							Les commentaires
 						</a>
 					</li>
 				</ul>

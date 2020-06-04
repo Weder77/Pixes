@@ -23,10 +23,11 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin", name="admin_index")
      */
-    public function index(InvoiceRepository $invoiceRepository)
+    public function index(InvoiceRepository $invoiceRepository, UserRepository $userRepository)
     {        
         return $this->render('/admin/index.html.twig', array(
-            'allInvoices' => $invoiceRepository->findBy([], ['purchase_date' => 'DESC'], 10),
+            'lastInvoices' => $invoiceRepository->findBy([], ['purchase_date' => 'DESC'], 5),
+            'lastUsers' => $invoiceRepository->findBy([], ['purchase_date' => 'DESC'], 5),
         ));
     }
 
@@ -237,5 +238,14 @@ class AdminController extends AbstractController
             'ProfileForm' => $formProfile->createView(),
             'UserForm' => $formUser->createView()
         ]);
+    }
+
+
+        /**
+     * @Route("/admin/opinions", name="admin_opinions")
+     */
+    public function opinions()
+    {        
+        return $this->render('/admin/opinions.html.twig');
     }
 }

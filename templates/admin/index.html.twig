@@ -1,48 +1,81 @@
 {% extends 'admin.html.twig' %}
 
 {% block title %}
-Dashboard
+	Dashboard
 {% endblock %}
 
 {% block content %}
-<div class="chartjs-size-monitor"
-	style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-	<div class="chartjs-size-monitor-expand"
-		style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-		<div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+
+
+	<h2>5 derniers comptes créés</h2>
+	<div class="table-responsive">
+		<table class="table text-center table-striped table-sm">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Nom</th>
+					<th>Prénom</th>
+					<th>DAte d'anniversaire</th>
+					<th>Solde</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in lastUsers %}
+					<tr>
+						<td>{{ user.profile.id }}</td>
+						<td>{{ user.profile.firstname }}</td>
+						<td>{{ user.profile.lastname }}</td>
+						<td>{{ user.profile.registerDate | date("m/d/Y") }}</td>
+						<td>{{ user.profile.balance }} €</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	</div>
-	<div class="chartjs-size-monitor-shrink"
-		style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-		<div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+
+	<h2>5 dernières commandes</h2>
+	<div class="table-responsive">
+		<table class="table text-center table-striped table-sm">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Utilisateur</th>
+					<th>Date</th>
+					<th>Facture</th>
+					<th>Prix</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for invoice in lastInvoices %}
+					<tr>
+						<td>{{ invoice.id }}</td>
+						<td>{{ invoice.profile.firstname }}
+							{{ invoice.profile.lastname }}</td>
+						<td>{{ invoice.purchaseDate | date('d/m/Y') }}</td>
+						<td>{{ invoice.id }}</td>
+						<td>{{ invoice.price }}
+							€</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	</div>
-</div>
 
-
-<canvas class="my-4 " id="myChart" width="1098" height="462" style="display: block; width: 366px; height: 154px;"></canvas>
-
-<h2>10 dernières commandes</h2>
-<div class="table-responsive">
-	<table class="table text-center table-striped table-sm">
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>Utilisateur</th>
-				<th>Date</th>
-				<th>Facture</th>
-				<th>Prix</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for invoice in allInvoices %}	
-			<tr>
-				<td>{{ invoice.id }}</td>
-				<td>{{ invoice.profile.firstname }} {{ invoice.profile.lastname }}</td>
-				<td>{{ invoice.purchaseDate | date('d/m/Y') }}</td>
-				<td>{{ invoice.id }}</td>
-				<td>{{ invoice.price }} €</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div>
+	<h2>5 derniers avis</h2>
+	<div class="table-responsive">
+		<table class="table text-center table-striped table-sm">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Nom</th>
+					<th>Prénom</th>
+					<th>Jeu</th>
+					<th>Note</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+			</tbody>
+		</table>
+	</div>
 {% endblock %}
