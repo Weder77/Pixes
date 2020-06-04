@@ -155,7 +155,7 @@
 				<div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
 					<h6 class="text-uppercase font-weight-bold">PIXES</h6>
 					<hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-					<p>Excepteur exercitation sit reprehenderit voluptate pariatur duis aliqua quis culpa eu.</p>
+					<p>Pixes, votre site préféré d'achat de jeux vidéo à moindre coût !</p>
 				</div>
 				<div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
 					<!-- Links -->
@@ -174,17 +174,28 @@
 				<div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
 					<h6 class="text-uppercase font-weight-bold">Liens Utiles</h6>
 					<hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+					{% if app.user == null %}
 					<p>
-						{% if app.user == null %}
-						<a href="{{ path('register')}}">Inscription</a> / <a href="{{ path('login')}}">Connexion</a>
-						{% elseif is_granted("ROLE_ADMIN") %}
-						<a href="{{ path('admin_index')}}">Dashboard</a> / <a class="text-danger"
-							href="{{ path('logout')}}">Déconnexion</a>
-						{% else %}
-						<a href="{{ path('profile')}}">Mon compte</a> / <a class="text-danger"
-							href="{{ path('logout')}}">Déconnexion</a>
-						{% endif %}
+						<a href="{{ path('register')}}">Inscription</a>
 					</p>
+					<p>
+						<a href="{{ path('login')}}">Connexion</a>
+					</p>
+					{% elseif is_granted("ROLE_ADMIN") %}
+					<p>
+						<a href="{{ path('admin_index')}}">Dashboard</a>
+					</p>
+					<p>
+						<a class="text-danger" href="{{ path('logout')}}">Déconnexion</a>
+					</p>
+					{% else %}
+					<p>
+						<a href="{{ path('profile')}}">Mon compte</a>
+					</p>
+					<p>
+						<a class="text-danger" href="{{ path('logout')}}">Déconnexion</a>
+					</p>
+					{% endif %}
 					<p>
 						<a href="{{ path('cart_index')}}">Mon panier</a>
 					</p>
@@ -196,15 +207,15 @@
 						<i class="fas fa-home mr-3"></i> 12 Rue Anatole France
 					</p>
 					<p>
-						<i class="fas fa-envelope mr-3"></i> contact@exemple.com
+						<i class="fas fa-envelope mr-3"></i> pixes.facture@gmail.com
 					</p>
 					<p>
-						<i class="fas fa-phone mr-3"></i> +33 6 78 65 54 15
+						<i class="fas fa-phone mr-3"></i> +33 6 XX XX XX XX
 					</p>
 				</div>
 			</div>
 		</div>
-		<div class="footer-copyright text-center py-3">© 2020 Copyright:
+		<div class="footer-copyright text-center py-3">© 2020 Copyright :
 			<a href="#"> Pixes</a>
 		</div>
 	</footer>

@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CartController extends AbstractController
 {
@@ -131,12 +132,22 @@ class CartController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
-            $url = 'http://192.168.1.27:8000/facture/' . $invoice->getId();
+            $urlInvoice = $this->generateUrl('invoice_generate', [
+                'id' => $invoice->getId(),
+            ], UrlGeneratorInterface::ABSOLUTE_URL);
+            $urlAccount = $this->generateUrl('profile', [], UrlGeneratorInterface::ABSOLUTE_URL);
+
+            $template = '
+            <div>Pixes vous remercie pour votre achat et vous souhaite bon jeu !</div>
+            <div>Retrouvez votre code sur <a href="'. $urlAccount .'">votre compte</a>.</div>
+            <a href="'. $urlInvoice .'">Obtenir ma facture</a>
+            ';
+
             $email = (new Email())
-                ->from('facturation@pixes.fr')
                 ->to($this->getUser()->getEmail())
+                ->from('pixes.facture@gmail.com')
                 ->subject('Merci pour votre achat chez Pixes !')
-                ->html('<a href="' . $url . '">Obtenir ma facture</a>');
+                ->html($template);
             $mailer->send($email);
 
             $this->addFlash('success', 'Merci pour votre achat ! Retrouvez dès à présent votre code sur votre espace "Mon compte".');
