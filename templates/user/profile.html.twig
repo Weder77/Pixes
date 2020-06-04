@@ -1,88 +1,88 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-Mon compte
+	Mon compte
 {% endblock %}
 
 {% block stylesheet %}{% endblock %}
 
 {% block body %}
 
-<div class="container bootstrap snippet">
+	<div class="container mb-4">
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="text-center">
+					{% if app.user.profile.picture != null %}
+						<img src="{{ app.user.profile.picture }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar">
+					{% else %}
+						<img src="{{ asset('default-picture.png') }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar default">
+					{% endif %}
 
-    <div class="row">
-        <div class="col-sm-3">
+					<p>{{app.user.profile.firstname}}
+						{{app.user.profile.lastname}}</p>
+				</div>
 
-            <div class="text-center">
-                {% if app.user.profile.picture != null %}
-                    <img src="{{ app.user.profile.picture }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar">
-                {% else %}
-                 <img src="{{ asset('default-picture.png') }}" class="avatar img-circle img-thumbnail mb-4"
-                    alt="avatar default">
-                {% endif %}
+				<ul class="list-group text-center">
+					<li class="list-group-item text-muted">
+						<i class="fa fa-dashboard fa-1x mr-1"></i>
+						Activité
+					</li>
+					<li class="list-group-item text-center">
+						<span class="font-weight-bold">
+							{{ app.user.profile.balance }}
+							€
+						</span>
+						en poche
+					</li>
+					<li class="list-group-item text-center">
+						<span class="font-weight-bold">
+							{{ gamesNumber }}
+						</span>
+						jeux achetés
+					</li>
+					<li class="list-group-item text-center">
+						<span class="font-weight-bold">
+							{{ opinionsNumber }}
+						</span>
+						avis postés
+					</li>
+				</ul>
+			</div>
 
-                <p>{{app.user.profile.firstname}} {{app.user.profile.lastname}}</p>
-            </div>
+			<div class="col-sm-9">
 
-            <ul class="list-group text-center">
-                <li class="list-group-item text-muted">
-                    <i class="fa fa-dashboard fa-1x mr-1"></i>
-                    Activité
-                </li>
-                <li class="list-group-item text-center">
-                    <span class="font-weight-bold">
-                        {{ app.user.profile.balance }} €
-                    </span>
-                    en poche
-                </li>
-                <li class="list-group-item text-center">
-                    <span class="font-weight-bold">
-                        {{ gamesNumber }}
-                    </span>
-                    jeux achetés
-                </li>
-                <li class="list-group-item text-center">
-                    <span class="font-weight-bold">
-                        {{ opinionsNumber }}
-                    </span>
-                    avis postés
-                </li>
-            </ul>
-        </div>
-
-        <div class="col-sm-9">
-
-            <ul class="nav nav-tabs">
-                <li class="active text-center">
-                    <a class="tab-name" data-toggle="tab" href="#profile">Mon profil</a>
-                </li>
-                <li class="text-center">
-                    <a class="tab-name" data-toggle="tab" href="#purchased">Mes jeux ({{ gamesNumber }})</a>
-                </li>
-                <li class="text-center">
-                    <a class="tab-name" data-toggle="tab" href="#comments">Mes avis ({{ opinionsNumber }})</a>
-                </li>
-            </ul>
+				<ul class="nav nav-tabs">
+					<li class="active text-center">
+						<a class="tab-name" data-toggle="tab" href="#profile">Mon profil</a>
+					</li>
+					<li class="text-center">
+						<a class="tab-name" data-toggle="tab" href="#purchased">Mes jeux ({{ gamesNumber }})</a>
+					</li>
+					<li class="text-center">
+						<a class="tab-name" data-toggle="tab" href="#comments">Mes avis ({{ opinionsNumber }})</a>
+					</li>
+				</ul>
 
 
-            <div class="tab-content">
-                {# profile #}
-                <div class="tab-pane active" id="profile">
-                    <div class="text-center mt-4">
-                        <h3>Mes informations publiques</h3>
-                        <div class="container mt-4">
-                            {{ form_start(ProfileForm) }}
+				<div
+					class="tab-content">
+					{# profile #}
+					<div class="tab-pane active" id="profile">
+						<div class="text-center mt-4">
+							<h3>Mes informations publiques</h3>
+							<div class="container mt-4">
+								{{ form_start(ProfileForm) }}
 
-                            <div class="form-label-group">
-                                {{ form_widget(ProfileForm.file, { 'attr' : {
+								<div class="form-label-group">
+									{{ form_widget(ProfileForm.file, { 'attr' : {
                                     'placeholder' : 'Changer votre photo de profil',
                                     'class' : 'form-control'
                                     }})
-                                }}
-                            </div> 
+									                                }}
+								</div>
 
-                            <div class="form-label-group">
-                                {{ form_widget(ProfileForm.firstname, 
+								<div class="form-label-group">
+									{{ form_widget(ProfileForm.firstname, 
                                     { 'attr' : 
                                         {
                                             'class' : 'form-control text-center',
@@ -90,12 +90,12 @@ Mon compte
                                         }
                                     )
                                 }}
-                                {{ form_errors(ProfileForm.firstname) }}
-                                <label for="register_form_email">Prénom</label>
-                            </div>
+									{{ form_errors(ProfileForm.firstname) }}
+									<label for="register_form_email">Prénom</label>
+								</div>
 
-                            <div class="form-label-group">
-                                {{ form_widget(ProfileForm.lastname, 
+								<div class="form-label-group">
+									{{ form_widget(ProfileForm.lastname, 
                                     { 'attr' : 
                                         {
                                             'class' : 'form-control text-center',
@@ -103,13 +103,13 @@ Mon compte
                                         }
                                     )
                                 }}
-                                {{ form_errors(ProfileForm.lastname) }}
-                                <label for="register_form_email">Nom</label>
-                            </div>
+									{{ form_errors(ProfileForm.lastname) }}
+									<label for="register_form_email">Nom</label>
+								</div>
 
-                            <!-- A enlever quand on aura la partie admin -->
-                            <div class="form-label-group">
-                                {{ form_widget(ProfileForm.balance, 
+
+								<div class="form-label-group">
+									{{ form_widget(ProfileForm.balance, 
                                     { 'attr' : 
                                         {
                                             'class' : 'form-control text-center',
@@ -118,13 +118,15 @@ Mon compte
                                         }
                                     )
                                 }}
-                                {{ form_errors(ProfileForm.balance) }}
-                                <label for="register_form_email">Simuler mon solde</label>
-                            </div>
+									{{ form_errors(ProfileForm.balance) }}
+									<label for="register_form_email">Ajouter de l'argent</label>
+								</div>
 
-                            <label>Date de naissance</label>
-                            <div class="form-label-group row justify-content-center">
-                                {{ form_widget(ProfileForm.birthday, 
+
+
+								<label>Date de naissance</label>
+								<div class="form-label-group row justify-content-center">
+									{{ form_widget(ProfileForm.birthday, 
                                     { 'attr' : 
                                         {
                                             'class' : 'text-center',
@@ -132,27 +134,27 @@ Mon compte
                                         }
                                     )
                                 }}
-                                {{ form_errors(ProfileForm.birthday) }}
-                            </div>
+									{{ form_errors(ProfileForm.birthday) }}
+								</div>
 
-                            <div class="form-group">
-                                <div class="col-xs-12">
-                                    <br>
-                                    <button class="btn btn-primary text-white" type="submit">
-                                        <i class="glyphicon glyphicon-ok-sign"></i>
-                                        Sauvegarder mes informations publiques</button>
-                                </div>
-                            </div>
-                            {{ form_end(ProfileForm) }}
-                        </div>
-                        <hr>
-                        <div class="text-center mt-4">
-                            <h3>Mes informations privées</h3>
-                            <div class="container mt-4">
-                                {{ form_start(UserForm) }}
+								<div class="form-group">
+									<div class="col-xs-12">
+										<br>
+										<button class="btn btn-primary text-white" type="submit">
+											<i class="glyphicon glyphicon-ok-sign"></i>
+											Sauvegarder mes informations publiques</button>
+									</div>
+								</div>
+								{{ form_end(ProfileForm) }}
+							</div>
+							<hr>
+							<div class="text-center mt-4">
+								<h3>Mes informations privées</h3>
+								<div class="container mt-4">
+									{{ form_start(UserForm) }}
 
-                                <div class="form-label-group">
-                                    {{ form_widget(UserForm.email, 
+									<div class="form-label-group">
+										{{ form_widget(UserForm.email, 
                                     { 'attr' : 
                                         {
                                             'placeholder' : 'Adresse Email',
@@ -163,15 +165,15 @@ Mon compte
                                         }
                                     )
                                 }}
-                                    {{ form_errors(UserForm.email) }}
-                                    <label for="register_form_email">Adresse Email</label>
-                                </div>
-                                <small>Il faut confirmer votre mot de passe si vous souhaitez changer votre adresse
-                                    email. Pour changer votre mot de passe il suffit juste d'entrer le nouveau, et de le
-                                    confirmer.</small>
+										{{ form_errors(UserForm.email) }}
+										<label for="register_form_email">Adresse Email</label>
+									</div>
+									<small>Il faut confirmer votre mot de passe si vous souhaitez changer votre adresse
+										                                    email. Pour changer votre mot de passe il suffit juste d'entrer le nouveau, et de le
+										                                    confirmer.</small>
 
-                                <div class="form-label-group">
-                                    {{ form_widget(UserForm.password.first, 
+									<div class="form-label-group">
+										{{ form_widget(UserForm.password.first, 
                                     { 'attr' : 
                                         {
                                             'placeholder' : 'Mot de passe',
@@ -182,15 +184,15 @@ Mon compte
                                         }
                                     )
                                 }}
-                                    {{ form_errors(UserForm.email) }}
-                                    <label for="register_form_password_first">Mot de passe</label>
-                                    {% if(form_errors(UserForm.password.first)) %}
-                                    {{ form_errors(UserForm.password.first) }}
-                                    {% endif %}
-                                </div>
+										{{ form_errors(UserForm.email) }}
+										<label for="register_form_password_first">Mot de passe</label>
+										{% if(form_errors(UserForm.password.first)) %}
+											{{ form_errors(UserForm.password.first) }}
+										{% endif %}
+									</div>
 
-                                <div class="form-label-group">
-                                    {{ form_widget(UserForm.password.second, 
+									<div class="form-label-group">
+										{{ form_widget(UserForm.password.second, 
                                     { 'attr' : 
                                         {
                                             'placeholder' : 'Confirmaton du mot de passe',
@@ -201,113 +203,116 @@ Mon compte
                                         }
                                     )
                                 }}
-                                    {{ form_errors(UserForm.email) }}
-                                    <label for="register_form_password_second">Confirmaton du mot de passe</label>
-                                    {% if(form_errors(UserForm.password.second)) %}
-                                    {{ form_errors(UserForm.password.second) }}
-                                    {% endif %}
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-xs-12">
-                                        <br>
-                                        <button class="btn btn-primary text-white" type="submit">
-                                            <i class="glyphicon glyphicon-ok-sign"></i>
-                                            Sauvegarder mes informations privées
-                                        </button>
-                                    </div>
-                                </div>
-                                {{ form_end(UserForm) }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+										{{ form_errors(UserForm.email) }}
+										<label for="register_form_password_second">Confirmaton du mot de passe</label>
+										{% if(form_errors(UserForm.password.second)) %}
+											{{ form_errors(UserForm.password.second) }}
+										{% endif %}
+									</div>
+									<div class="form-group">
+										<div class="col-xs-12">
+											<br>
+											<button class="btn btn-primary text-white" type="submit">
+												<i class="glyphicon glyphicon-ok-sign"></i>
+												Sauvegarder mes informations privées
+											</button>
+										</div>
+									</div>
+									{{ form_end(UserForm) }}
+								</div>
+							</div>
+						</div>
+					</div>
 
-                {# purchased games #}
-                <div class="tab-pane" id="purchased">
-                    <div class="text-center mt-4">
-                        <h3>Mes jeux achetés</h3>
-                        <div class="container mt-4 d-flex flex-column-reverse align-items-center margin-zero">
+					{# purchased games #}
+					<div class="tab-pane" id="purchased">
+						<div class="text-center mt-4">
+							<h3>Mes jeux achetés</h3>
+							<div class="container mt-4 d-flex flex-column-reverse align-items-center margin-zero">
 
-                            {% for invoice in invoices %}
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row no-gutters">
-                                    <div class="col-md-4">
-                                        <a target="_blank" href="{{ path('game', { slug : invoice.game.slug }) }}">
-                                            <img src="{{ asset(invoice.game.imgUrl) }}" class="card-img">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <div class="d-flex justify-content-between">
-                                                <a target="_blank" href="{{ path('game', { slug : invoice.game.slug }) }}">
-                                                    <h5 class="card-title">{{ invoice.game.name }}</h5>
-                                                </a>
-                                                <span class="card-text"><a class="text-muted" href="{{ path('invoice_generate', {id: invoice.invoice.id}) }}">Facture</a></span>
-                                            </div>
-                                            <p class="card-text">
-                                                Code d'activation :<br>
-                                                {{ invoice.code }}
-                                            </p>
-                                            <p class="card-text">
-                                                <small class="text-muted">
-                                                    Acheté le {{ invoice.invoice.purchaseDate  | date('d/m/Y') }}
-                                                </small>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
+								{% for invoice in invoices %}
+									<div class="card mb-3" style="max-width: 540px;">
+										<div class="row no-gutters">
+											<div class="col-md-4">
+												<a target="_blank" href="{{ path('game', { slug : invoice.game.slug }) }}">
+													<img src="{{ asset(invoice.game.imgUrl) }}" class="card-img">
+												</a>
+											</div>
+											<div class="col-md-8">
+												<div class="card-body">
+													<div class="d-flex justify-content-between">
+														<a target="_blank" href="{{ path('game', { slug : invoice.game.slug }) }}">
+															<h5 class="card-title">{{ invoice.game.name }}</h5>
+														</a>
+														<span class="card-text">
+															<a class="text-muted" href="{{ path('invoice_generate', {id: invoice.invoice.id}) }}">Facture</a>
+														</span>
+													</div>
+													<p class="card-text">
+														Code d'activation :<br>
+														{{ invoice.code }}
+													</p>
+													<p class="card-text">
+														<small class="text-muted">
+															Acheté le
+															{{ invoice.invoice.purchaseDate  | date('d/m/Y') }}
+														</small>
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
 
-                        </div>
-                    </div>
-                </div>
+							</div>
+						</div>
+					</div>
 
 
-                {# comments #}
-                <div class="tab-pane" id="comments">
-                    <div class="text-center mt-4">
-                        <h3 class="mt-4 mb-4">Mes commentaires</h3>
-                        <div class="d-flex flex-column-reverse">
-                            {% for opinion in app.user.profile.opinions %}
-                            <div class="mb-2 text-left card card-body">
-                                <div>
-                                    <span class="mr-4">
-                                        <span class="text-muted">
-                                            Avis sur 
-                                            <a href="{{ path('game', { slug : opinion.game.slug }) }}">
-                                                {{ opinion.game.name }}
-                                            </a>
-                                            donné le 
-                                            {{ opinion.postedon | date('d/m/Y') }}
-                                        </span>
-                                    </span>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <span
-                                        class="text-uppercase font-weight-bold text-primary mr-4">
-                                        {{ opinion.user.firstname }}
-                                        {{ opinion.user.lastname }}</span>
-                                    <span>
-                                        {% for x in 1..5 %}
-                                        {% if x <= opinion.note %}
-                                        <i class="fas fa-star text-primary"></i>
-                                        {% else %}
-                                        <i class="far fa-star text-muted"></i>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </span>
-                                </div>
-                                <div>
-                                    {{ opinion.content }}
-                                </div>
-                            </div>
-                            <hr>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endblock %}
+					{# comments #}
+					<div class="tab-pane" id="comments">
+						<div class="text-center mt-4">
+							<h3 class="mt-4 mb-4">Mes commentaires</h3>
+							<div class="d-flex flex-column-reverse">
+								{% for opinion in app.user.profile.opinions %}
+									<div class="mb-2 text-left card card-body">
+										<div>
+											<span class="mr-4">
+												<span class="text-muted">
+													Avis sur
+													<a href="{{ path('game', { slug : opinion.game.slug }) }}">
+														{{ opinion.game.name }}
+													</a>
+													donné le
+													{{ opinion.postedon | date('d/m/Y') }}
+												</span>
+											</span>
+										</div>
+										<div class="d-flex justify-content-between">
+											<span class="text-uppercase font-weight-bold text-primary mr-4">
+												{{ opinion.user.firstname }}
+												{{ opinion.user.lastname }}</span>
+											<span>
+												{% for x in 1..5 %}
+													{% if x <= opinion.note %}
+														<i class="fas fa-star text-primary"></i>
+													{% else %}
+														<i class="far fa-star text-muted"></i>
+													{% endif %}
+												{% endfor %}
+											</span>
+										</div>
+										<div>
+											{{ opinion.content }}
+										</div>
+									</div>
+									<hr>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
