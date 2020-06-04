@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Code;
 use App\Entity\Invoice;
+use App\Repository\CodeRepository;
 use App\Repository\InvoiceRepository;
 use App\Service\Cart\CartService;
 use DateTime;
@@ -89,7 +90,7 @@ class CartController extends AbstractController
     /**
      * @Route("/paiement", name="cart_checkout")
      */
-    public function checkout(CartService $cartService, MailerInterface $mailer)
+    public function checkout(CodeRepository $codeRepository ,CartService $cartService, MailerInterface $mailer)
     {
         $manager = $this->getDoctrine()->getManager();
         $user = $this->getUser()->getProfile();
@@ -103,7 +104,7 @@ class CartController extends AbstractController
             // On parcourt l'ensemble des jeux de notre panier
             foreach ($cart as $item) {
                 // On récupère les codes valides pour le jeu
-                $allCodes = $this->getDoctrine()->getRepository(Code::class)->getAvailableCodes($item['product']->getId());
+                $allCodes = $codeRepository->getAvailableCodes($item['product']->getId());
                 for ($i = 0; $i < $item['quantity']; $i++) {
                     // Pour chaque édition du jeu ajouté au panier on regarde si on a un code disponible
                     if (empty($allCodes[$i])) {

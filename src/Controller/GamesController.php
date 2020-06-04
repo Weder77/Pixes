@@ -7,6 +7,7 @@ use App\Entity\Opinion;
 use App\Entity\Platform;
 use App\Entity\Tag;
 use App\Form\OpinionType;
+use App\Repository\CodeRepository;
 use App\Repository\GameRepository;
 use App\Repository\PlatformRepository;
 use App\Repository\TagRepository;
@@ -52,13 +53,16 @@ class GamesController extends AbstractController
     /**
      * @Route("/jeu/{slug}", name="game")
      */
-    public function game($slug, Request $request, GameRepository $gameRepository)
+    public function game($slug, Request $request, GameRepository $gameRepository, CodeRepository $codeRepository)
     {
         $manager = $this->getDoctrine()->getManager();
         $game = $gameRepository->findOneBy(['slug' => $slug]);
 
-        $ownedGames = [];
+        // Récupération du nombre de codes en stock
+        $availablesCodes = $codeRepository->getAvailableCodes($game->getId());
 
+        // Récupération des jeux que l'utilisateur possède
+        $ownedGames = [];
         if ($this->getUser() != null) {
             foreach ($this->getUser()->getProfile()->getInvoices() as $invoice) {
                 foreach ($invoice->getCodes() as $code) {
@@ -79,7 +83,6 @@ class GamesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($opinion);
-
             // Si note en dehors de l'échelle
             if ($opinion->getNote() > 5) {
                 $opinion->setNote(5);
@@ -92,13 +95,18 @@ class GamesController extends AbstractController
             $opinion->setGame($game);
             $manager->flush();
 
+            // Redirection sur la route pour afficher le commentaire
             $this->addFlash('success', 'Votre commentaire a bien été posté !');
+            return $this->redirectToRoute('game', [
+                'slug'=> $slug
+            ]);
         }
 
         return $this->render('games/game.html.twig', [
             'game' => $game,
+            'stock' => sizeof($availablesCodes),
+            'ownedGames' => $ownedGames,
             'opinionForm' => $form->createView(),
-            'ownedGames' => $ownedGames
         ]);
     }
 }
