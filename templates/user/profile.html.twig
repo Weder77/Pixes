@@ -36,13 +36,13 @@
 					</li>
 					<li class="list-group-item text-center">
 						<span class="font-weight-bold">
-							{{ gamesNumber }}
+							{{ codes | length }}
 						</span>
 						jeux achetés
 					</li>
 					<li class="list-group-item text-center">
 						<span class="font-weight-bold">
-							{{ opinionsNumber }}
+							{{ app.user.profile.opinions | length }}
 						</span>
 						avis postés
 					</li>
@@ -56,10 +56,10 @@
 						<a class="tab-name" data-toggle="tab" href="#profile">Mon profil</a>
 					</li>
 					<li class="text-center">
-						<a class="tab-name" data-toggle="tab" href="#purchased">Mes jeux ({{ gamesNumber }})</a>
+						<a class="tab-name" data-toggle="tab" href="#purchased">Mes jeux ({{ codes | length }})</a>
 					</li>
 					<li class="text-center">
-						<a class="tab-name" data-toggle="tab" href="#comments">Mes avis ({{ opinionsNumber }})</a>
+						<a class="tab-name" data-toggle="tab" href="#comments">Mes avis ({{ app.user.profile.opinions | length }})</a>
 					</li>
 				</ul>
 
@@ -230,32 +230,32 @@
 							<h3>Mes jeux achetés</h3>
 							<div class="container mt-4 d-flex flex-column-reverse align-items-center margin-zero">
 
-								{% for invoice in invoices %}
+								{% for code in codes %}
 									<div class="card mb-3" style="max-width: 540px;">
 										<div class="row no-gutters">
 											<div class="col-md-4">
-												<a target="_blank" href="{{ path('game', { slug : invoice.game.slug }) }}">
-													<img src="{{ asset(invoice.game.imgUrl) }}" class="card-img">
+												<a target="_blank" href="{{ path('game', { slug : code.game.slug }) }}">
+													<img src="{{ asset(code.game.imgUrl) }}" class="card-img">
 												</a>
 											</div>
 											<div class="col-md-8">
 												<div class="card-body">
 													<div class="d-flex justify-content-between">
-														<a target="_blank" href="{{ path('game', { slug : invoice.game.slug }) }}">
-															<h5 class="card-title">{{ invoice.game.name }}</h5>
+														<a target="_blank" href="{{ path('game', { slug : code.game.slug }) }}">
+															<h5 class="card-title">{{ code.game.name }}</h5>
 														</a>
 														<span class="card-text">
-															<a class="text-muted" href="{{ path('invoice_generate', {id: invoice.invoice.id}) }}">Facture</a>
+															<a class="text-muted" href="{{ path('invoice_generate', {id: code.invoice.id}) }}">Facture</a>
 														</span>
 													</div>
 													<p class="card-text">
 														Code d'activation :<br>
-														{{ invoice.code }}
+														{{ code.code }}
 													</p>
 													<p class="card-text">
 														<small class="text-muted">
 															Acheté le
-															{{ invoice.invoice.purchaseDate  | date('d/m/Y') }}
+															{{ code.invoice.purchaseDate  | date('d/m/Y') }}
 														</small>
 													</p>
 												</div>

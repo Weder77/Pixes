@@ -89,12 +89,6 @@
 				</div>
 				<ul class="nav flex-column mt-5 pt-5">
 					<li class="nav-item pb-4">
-						<a class="nav-link text-dark h5" href="{{ path('admin_profile') }}">
-							<i class="fas fa-user-alt mr-2 text-primary" style="font-size: 17px;"></i>
-							Mes informations
-						</a>
-					</li>
-					<li class="nav-item pb-4">
 						<a class="nav-link text-dark h5" href="{{ path('admin_index') }}">
 							<i class="fas fa-tachometer-alt mr-2 text-primary" style="font-size: 17px;"></i>
 							Dashboard
@@ -112,16 +106,22 @@
 							Jeux
 						</a>
 					</li>
-					<li class="">
+					<li class="nav-item pb-4">
 						<a class="nav-link text-dark h5" href="{{ path('admin_users') }}">
 							<i class="fas fa-users mr-2 text-primary" style="font-size: 17px;"></i>
 							Utilisateurs
 						</a>
 					</li>
-					<li class="">
+					<li class="nav-item pb-4">
 						<a class="nav-link text-dark h5" href="{{ path('admin_opinions') }}">
 							<i class="fas fa-comments mr-2 text-primary" style="font-size: 17px;"></i>
-							Les commentaires
+							Commentaires
+						</a>
+					</li>
+					<li class="nav-item pb-4">
+						<a class="nav-link text-dark h5" href="{{ path('admin_profile') }}">
+							<i class="fas fa-user-alt mr-2 text-primary" style="font-size: 17px;"></i>
+							Mes informations
 						</a>
 					</li>
 				</ul>
@@ -130,14 +130,9 @@
 		<div class="col-10 pt-4 px-5 screen">
 			<div class="pt-4">
 				<div class="d-flex justify-content-between mb-4">
-
-
-
-
 					<h1 class="h3">
 						{% block title %} {% endblock %}
 					</h1>
-
 
 					<a href="{{ path('index') }}" class="h5 back-responsive">
 						<i class="fas fa-arrow-left fa-4x" style="font-size: 36px; margin-right: 5px;"></i>

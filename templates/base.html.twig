@@ -30,7 +30,7 @@
 </head>
 
 
-<body>
+<body class="min-vh-100">
 	{% block header %}
 	<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top d-lg-none d-md-flex text-center">
 		<a class="navbar-brand" href="{{ path('index')}}"><img src="{{ asset('/img/logo-withoutbg.png')}}" alt="Logo"
@@ -79,7 +79,7 @@
 		</div>
 	</nav>
 
-	<header class="justify-content-around align-items-center mt-2 mb-3 d-none d-lg-flex">
+	<header class="justify-content-around align-items-center mb-3 d-none d-lg-flex">
 		<a href="{{ path('index')}}">
 			<img src="{{ asset('/img/logo-withoutbg.png')}}" alt="Logo" class="logo" />
 		</a>
@@ -144,11 +144,13 @@
 	{% endblock %}
 
 	{# CONTENT #}
-	{% block body %}{% endblock %}
+	<div class="h-100">
+		{% block body %}{% endblock %}
+	</div>
 
 
 	{% block footer %}
-	<footer class="page-footer font-small footer-style">
+	<footer class="footer page-footer font-small footer-style">
 		<!-- Footer Links -->
 		<div class="container text-center text-md-left mt-5">
 			<div class="row mt-3">

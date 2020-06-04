@@ -39,7 +39,7 @@ class UserController extends AbstractController
             $profile->setRegisterDate($date);
             $profile->setBalance(0);
             $profile->setUser($user);
-            
+
             $manager->persist($user);
             $manager->persist($profile);
             $manager->flush();
@@ -93,17 +93,11 @@ class UserController extends AbstractController
         $user = $this->getUser();
         $profile = $user->getProfile();
 
-        $opinionsNumber = 0;
-        foreach ($profile->getOpinions() as $key => $opinion) {
-            $opinionsNumber += 1;
-        }
-
-        $invoices = [];
-        $gamesNumber = 0;
+        // Récupérations des codes des jeux
+        $codes = [];
         foreach ($profile->getInvoices() as $invoice) {
-            $gamesNumber += 1;
             foreach ($invoice->getCodes() as $code) {
-                array_push($invoices, $code);
+                array_push($codes, $code);
             }
         }
 
@@ -115,10 +109,11 @@ class UserController extends AbstractController
         if ($formProfile->isSubmitted() && $formProfile->isValid()) {
             $manager->persist($profile);
             if($profile -> getFile()){
-                // $profile -> removeFile();
+                $profile -> removeFile();
                 $profile-> uploadFile();
             }
             $manager->flush();
+
             $this->addFlash('success', 'Votre profil à bien été modifié.');
             return $this->redirectToRoute('profile');
         }
@@ -134,11 +129,9 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/profile.html.twig', [
+            'codes' => $codes,
             'ProfileForm' => $formProfile->createView(),
             'UserForm' => $formUser->createView(),
-            'opinionsNumber' => $opinionsNumber,
-            'invoices' => $invoices,
-            'gamesNumber' => $gamesNumber,
         ]);
     }
 }
