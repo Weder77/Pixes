@@ -1,31 +1,29 @@
 {% extends 'admin.html.twig' %}
 
 {% block title %}
-	Jeux
+Gestion des jeux
 {% endblock %}
 
 {% block content %}
 	<div class="container">
 		<div class="mt-4">
-			<div class="text-center">
-				<h2 class="mt-4">Gestion des jeux</h2>
+			<div class="text-center text-sm-right">
 				<div class="add-game-button">
 					<a class="mt-4" href="{{path('admin_add') }}">
-						<button type="button" class="btn btn-primary btn-lg">Ajouter un jeu</button>
+						<button type="button" class="btn btn-primary btn-lg text-white rounded-circle"><i class="fas fa-plus"></i></button>
 					</a>
 				</div>
 			</div>
-			<table class="table table-responsive table-striped table-sm text-center">
+			<table class="table table-responsive table-striped text-center">
 				<thead>
 					<tr>
-						<th scope="col">ID</th>
+						<th scope="col">#</th>
 						<th scope="col">Nom</th>
 						<th scope="col">Image</th>
 						<th scope="col">Description</th>
 						<th scope="col">Prix</th>
 						<th scope="col">Pegi</th>
 						<th scope="col">Slug</th>
-						<th scope="col">Tags</th>
 						<th scope="col">Qte</th>
 						<th scope="col">Action</th>
 					</tr>
@@ -37,19 +35,18 @@
 							<td>{{ game.name }}</td>
 							<td><img src="{{ asset(game.imgurl) }}" height="80px"/></td>
 							<td>{{ game.description | slice(0,30) }}...</td>
-							<td>{{ game.price}}</td>
+							<td>{{ game.price}} €</td>
 							<td>{{ game.pegi }}</td>
 							<td>{{ game.slug }}</td>
 							<td></td>
-							<td></td>
 							<td>
 								<a href="{{ path('admin_update', { id : game.id }) }}">
-									<button type="button" class="btn btn-primary">
-										Modifier
+									<button type="button" class="btn btn-primary btn-sm">
+										<i class="fas fa-edit text-white"></i>
 									</button>
 								</a>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete{{ game.id }}">
-									Supprimer
+								<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete{{ game.id }}">
+									<i class="fas fa-trash "></i>
 								</button>
 								<!-- Modal -->
 								<div class="modal fade" id="delete{{ game.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

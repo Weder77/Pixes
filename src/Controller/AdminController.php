@@ -9,6 +9,8 @@ use App\Form\AddGameType;
 use App\Form\ProfileFormType;
 use App\Repository\InvoiceRepository;
 use App\Form\RegisterFormType;
+use App\Repository\GameRepository;
+use App\Repository\UserRepository;
 use App\Service\Game\GameService;
 use App\Service\Invoice\InvoiceService;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,39 +24,33 @@ class AdminController extends AbstractController
      * @Route("/admin", name="admin_index")
      */
     public function index(InvoiceRepository $invoiceRepository)
-    {
-        $allInvoices = $invoiceRepository->findAll([], ['id' => 'DESC'], 10);
-        
+    {        
         return $this->render('/admin/index.html.twig', array(
-            'allInvoices' => $allInvoices,
+            'allInvoices' => $invoiceRepository->findBy([], ['purchase_date' => 'DESC'], 10),
         ));
     }
 
     /**
      * @Route("/admin/jeux", name="admin_games")
      */
-    public function games()
+    public function games(GameRepository $gameRepository)
     {
-        $repository = $this->getDoctrine()->getRepository('App\Entity\Game');
-        $games = $repository->findAll();
-
         return $this->render('/admin/games.html.twig', array(
-            'games' => $games
+            'games' => $gameRepository->findAll(),
         ));
     }
 
     /**
      * @Route("/admin/jeux/supprimer/{id}", name="admin_delete_game")
      */
-    public function deleteGame($id)
+    public function deleteGame($id, GameRepository $gameRepository)
     {
         $manager = $this->getDoctrine()->getManager();
-        $game = $manager->find('App\Entity\Game', $id);
+        $game = $gameRepository->find('App\Entity\Game', $id);
         $manager->remove($game);
         $manager->flush();
 
         $this->addFlash('success', 'Le jeux ' . $game->getName() . ' a bien été supprimé.');
-
         return $this->redirectToRoute('admin_games');
     }
 
@@ -64,11 +60,10 @@ class AdminController extends AbstractController
     public function add(Request $request, GameService $gameService)
     {
         $manager = $this->getDoctrine()->getManager();
-        $game = new Game;
+        $game = new Game();
 
         $form = $this->createForm(AddGameType::class, $game);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($game);
             $game->uploadFile();
@@ -110,7 +105,6 @@ class AdminController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/admin/ventes", name="admin_orders")
     */
@@ -136,18 +130,15 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/utilisateurs", name="admin_users")
      */
-    public function users()
+    public function users(UserRepository $userRepository)
     {
-        $repository = $this->getDoctrine()->getRepository('App\Entity\Profile');
-        $profiles = $repository->findAll();
-
-        return $this->render('/admin/users.html.twig', array(
-            'profiles' => $profiles
-        ));
+        return $this->render('/admin/users.html.twig', [
+            'users' => $userRepository->findAll(),
+        ]);
     }
 
     /**
-     * @Route("/admin/users/supprimer/{id}", name="admin_delete_user")
+     * @Route("/admin/utilisateurs/supprimer/{id}", name="admin_delete_user")
      */
     public function deleteUser($id)
     {
@@ -158,12 +149,11 @@ class AdminController extends AbstractController
         $manager->flush();
 
         $this->addFlash('success', 'L\'utilisateur ' . $profile->getFirstname() . ' ' . $profile->getLastname() .' a bien été supprimé.');
-
         return $this->redirectToRoute('admin_users');
     }
 
     /**
-     * @Route("/admin/users/update/{id}", name="admin_update_user")
+     * @Route("/admin/utilisateurs/modifier/{id}", name="admin_update_user")
      */
     public function updateUser($id, Request $request, UserPasswordEncoderInterface $encoder)
     {
@@ -174,10 +164,8 @@ class AdminController extends AbstractController
 
         $formProfile = $this->createForm(ProfileFormType::class, $profile);
         $formUser = $this->createForm(RegisterFormType::class, $user);
-
         $formProfile->handleRequest($request);
         $formUser->handleRequest($request);
-
         if ($formProfile->isSubmitted() && $formProfile->isValid()) {
             $manager->persist($profile);
             if ($profile->getFile()) {
@@ -209,15 +197,13 @@ class AdminController extends AbstractController
 
 
     /**
-     * @Route("/admin/mon-profile", name="admin_profile")
+     * @Route("/admin/mon-compte", name="admin_profile")
      */
     public function profile(Request $request, UserPasswordEncoderInterface $encoder)
     {
-
         $manager = $this->getDoctrine()->getManager();
-
-        $profile = $this->getUser()->getProfile();
         $user = $this->getUser();
+        $profile = $user->getProfile();
 
         // get form
         $formProfile = $this->createForm(ProfileFormType::class, $profile);

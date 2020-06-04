@@ -23,30 +23,29 @@
 				</div>
 
 				<ul class="list-group text-center">
-					<li class="list-group-item text-muted">
-						<i class="fa fa-dashboard fa-1x mr-1"></i>
-						Activité
-					</li>
-					<li class="list-group-item text-center">
-						<span class="font-weight-bold">
-							{{ app.user.profile.balance }}
-							€
-						</span>
-						en poche
-					</li>
-					<li class="list-group-item text-center">
-						<span class="font-weight-bold">
-							{{ gamesNumber }}
-						</span>
-						jeux achetés
-					</li>
-					<li class="list-group-item text-center">
-						<span class="font-weight-bold">
-							{{ opinionsNumber }}
-						</span>
-						avis postés
-					</li>
-				</ul>
+                <li class="list-group-item text-muted">
+                    <i class="fa fa-dashboard fa-1x mr-1"></i>
+                    Activité
+                </li>
+                <li class="list-group-item text-center">
+                    <span class="font-weight-bold">
+                        {{ app.user.profile.balance }} €
+                    </span>
+                    en poche
+                </li>{ app.user.profile.balance }}
+                <li class="list-group-item text-center">
+                    <span class="font-weight-bold">
+                        {{ invoices | length }}
+                    </span>
+                    jeux achetés
+                </li>
+                <li class="list-group-item text-center">
+                    <span class="font-weight-bold">
+                        {{ app.user.profile.opinions | length }}
+                    </span>
+                    avis postés
+                </li>
+            </ul>
 			</div>
 
 			<div class="col-sm-9">
@@ -62,6 +61,7 @@
 						<a class="tab-name" data-toggle="tab" href="#comments">Mes avis ({{ opinionsNumber }})</a>
 					</li>
 				</ul>
+        </div>
 
 
 				<div

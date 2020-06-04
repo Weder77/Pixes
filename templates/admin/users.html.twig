@@ -1,17 +1,14 @@
 {% extends 'admin.html.twig' %}
 
 {% block title %}
-	Utilisateurs
+Gestion des utilisateurs
 {% endblock %}
 
 {% block content %}
 	<div class="container">
 		<div class="mt-4">
-			<div class="text-center">
-				<h2 class="mt-4">Gestion des utilsateurs</h2>
-			</div>
 			<div class="justify-content-center">
-				<table class="table table-responsive table-striped text-center">
+				<table class="table table-responsive table-stripedive table-striped text-center">
 					<thead>
 						<tr>
 							<th scope="col">ID</th>
@@ -23,42 +20,42 @@
 						</tr>
 					</thead>
 					<tbody>
-						{% for profile in profiles %}
+						{% for user in users %}
 							<tr>
-								<td>{{ profile.id }}</td>
-								<td>{{ profile.firstname}}</td>
-								<td>{{ profile.lastname }}</td>
-								<td>{{ profile.registerDate | date("m/d/Y") }}</td>
-								<td>{{ profile.balance }}</td>
+								<td>{{ user.profile.id }}</td>
+								<td>{{ user.profile.firstname }}</td>
+								<td>{{ user.profile.lastname }}</td>
+								<td>{{ user.profile.registerDate | date("m/d/Y") }}</td>
+								<td>{{ user.profile.balance }} €</td>
 
 								<td>
-									<a href="{{ path('admin_update_user', { id : profile.id }) }}">
+									<a href="{{ path('admin_update_user', { id : user.profile.id }) }}">
 										<button type="button" class="btn btn-primary">
-											Modifier
+											<i class="fas fa-edit text-white"></i>
 										</button>
 									</a>
-									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete{{ profile.id }}">
-										Supprimer
+									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete{{ user.profile.id }}">
+										<i class="fas fa-trash "></i>
 									</button>
 									<!-- Modal -->
-									<div class="modal fade" id="delete{{ profile.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal fade" id="delete{{ user.profile.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 										<div class="modal-dialog" role="document">
 											<div class="modal-content">
 												<div class="modal-header">
-													<h5 class="modal-title" id="delete{{ profile.id }}">Attention</h5>
+													<h5 class="modal-title" id="delete{{ user.profile.id }}">Attention</h5>
 													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 														<span aria-hidden="true">&times;</span>
 													</button>
 												</div>
 												<div class="modal-body">
 													Voulez vous vraiment supprimer
-													{{ profile.firstname}}
-													{{ profile.lastname}}
+													{{ user.profile.firstname}}
+													{{ user.profile.lastname}}
 													?
 												</div>
 												<div class="modal-footer">
 													<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-													<a href="{{ path('admin_delete_user', { id : profile.id }) }}">
+													<a href="{{ path('admin_delete_user', { id : user.profile.id }) }}">
 														<button type="button" class="btn btn-danger">Supprimer</button>
 													</a>
 												</div>
@@ -73,5 +70,4 @@
 			</div>
 		</div>
 	</div>
-
 		{% endblock %}
