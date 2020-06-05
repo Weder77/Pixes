@@ -1,203 +1,214 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-Acheter {{ game.name }}
+	Acheter
+	{{ game.name }}
 {% endblock %}
 
 {% block stylesheet %}
-<style>
-	.tag_title {
-		font-weight: bold;
-	}
+	<style>
+		.tag_title {
+			font-weight: bold;
+		}
 
-	.picto {
-		display: inline-block;
-		width: 20px;
-		text-align: center;
-	}
+		.picto {
+			display: inline-block;
+			width: 20px;
+			text-align: center;
+		}
 
-	.picto i,
-	.comment_infos i {
-		color: #ffc311;
-		font-size: 12px;
-	}
-</style>
+		.picto i,
+		.comment_infos i {
+			color: #ffc311;
+			font-size: 12px;
+		}
+	</style>
 {% endblock %}
 
 {% block body %}
-<!-- GAME INFORMATIONS -->
-<section class="container">
-	<div class="row">
-		<div class="col-sm-8 mb-4">
-			<div class="card">
-				<div class="card-body">
-					<div class="d-flex justify-content-between">
-						<h3 class="card-title font-weight-bold">{{ game.name }}</h3>
+	<!-- GAME INFORMATIONS -->
+	<section class="container">
+		<div class="row">
+			<div class="col-sm-8 mb-4">
+				<div class="card">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<h3 class="card-title font-weight-bold">{{ game.name }}</h3>
 
-						{% if is_granted("ROLE_ADMIN") %}
-						<a class="btn text-primary h-100" href="{{ path('admin_update', {'id': game.id}) }}">Modifier <i
-								class="fas fa-edit ml-1"></i></a>
+							{% if is_granted("ROLE_ADMIN") %}
+								<a class="btn text-primary h-100" href="{{ path('admin_update', {'id': game.id}) }}">Modifier
+									<i class="fas fa-edit ml-1"></i>
+								</a>
+							{% endif %}
+						</div>
+						<p class="card-text">{{ game.description }}</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 mb-4 ">
+				<div class="card">
+					<div class="card-body text-left">
+						<h3 class="font-weight-bold">À propos</h3>
+						<div class="mb-1">
+							<span class="picto">
+								<i class="fas fa-tags"></i>
+							</span>
+							<span class="tag_title">
+								Genres :
+							</span>
+							<span>
+								{% for tag in game.tags %}
+									{{ tag.name }},
+								{% endfor %}
+							</span>
+						</div>
+						<div class="mb-1">
+							<span class="picto">
+								<i class="fas fa-tv picto"></i>
+							</span>
+							<span class="tag_title">
+								Plateformes :
+							</span>
+							<span>
+								{% for platform in game.platforms %}
+									{{ platform.name }},
+								{% endfor %}
+							</span>
+						</div>
+						<div class="mb-1">
+							<span class="picto">
+								<i class="fas fa-ban"></i>
+							</span>
+							<span class="tag_title">
+								Pegi :
+							</span>
+							<span>
+								{{ game.pegi }}
+								ans
+							</span>
+						</div>
+						<div class="mb-1">
+							<span class="picto">
+								<i class="fas fa-euro-sign"></i>
+							</span>
+							<span class="tag_title">
+								Prix :
+							</span>
+							<span>
+								{{ game.price }}
+								€
+							</span>
+						</div>
+						{% if stock > 0 %}
+							<div class="mb-1">
+								<span class="picto">
+									<i class="fas fa-box"></i>
+								</span>
+								<span class="tag_title">
+									En stock :
+								</span>
+								<span>
+									{{ stock }}
+								</span>
+							</div>
+						{% else %}
+							<div class="mb-1">
+								<span class="picto">
+									<i class="fas fa-box"></i>
+								</span>
+								<span class="text-muted">
+									Ce jeu n'est plus en stock.
+								</span>
+							</div>
 						{% endif %}
 					</div>
-					<p class="card-text">{{ game.description }}</p>
 				</div>
-			</div>
-		</div>
-		<div class="col-sm-4 mb-4 ">
-			<div class="card">
-				<div class="card-body text-left">
-					<h3 class="font-weight-bold">À propos</h3>
-					<div class="mb-1">
-						<span class="picto">
-							<i class="fas fa-tags"></i>
-						</span>
-						<span class="tag_title">
-							Genres :
-						</span>
-						<span>
-							{% for tag in game.tags %}
-							{{ tag.name }},
-							{% endfor %}
-						</span>
-					</div>
-					<div class="mb-1">
-						<span class="picto">
-							<i class="fas fa-tv picto"></i>
-						</span>
-						<span class="tag_title">
-							Plateformes :
-						</span>
-						<span>
-							{% for platform in game.platforms %}
-							{{ platform.name }},
-							{% endfor %}
-						</span>
-					</div>
-					<div class="mb-1">
-						<span class="picto">
-							<i class="fas fa-ban"></i>
-						</span>
-						<span class="tag_title">
-							Pegi :
-						</span>
-						<span>
-							{{ game.pegi }} ans
-						</span>
-					</div>
-					<div class="mb-1">
-						<span class="picto">
-							<i class="fas fa-euro-sign"></i>
-						</span>
-						<span class="tag_title">
-							Prix :
-						</span>
-						<span>
-							{{ game.price }} €
-						</span>
-					</div>
-					{% if stock > 0 %}
-					<div class="mb-1">
-						<span class="picto">
-							<i class="fas fa-box"></i>
-						</span>
-						<span class="tag_title">
-							En stock :
-						</span>
-						<span>
-							{{ stock }}
-						</span>
-					</div>
-					{% else %}
-					<div class="mb-1">
-						<span class="picto">
-							<i class="fas fa-box"></i>
-						</span>
-						<span class="text-muted">
-							Ce jeu n'est plus en stock.
-						</span>
-					</div>
-					{% endif %}
-				</div>
-			</div>
 
-			{% if stock > 0 %}
-			<a class="btn btn-primary text-white w-100 mt-4" href="{{ path('cart_add', {'id': game.id}) }}">
-				Ajouter au panier
-			</a>
-			{% else %}
-			<button type="button" class="btn btn-primary text-white w-100 mt-4" disabled>
-				Ajouter au panier
-			</button>
-			{% endif %}
-		</div>
-	</div>
-</section>
-
-<section class="container mb-1">
-	<div class="card">
-		<div class="card-body">
-			<h3 class="font-weight-bold">Avis</h3>
-			{% if game.opinions is empty %}
-			<span class="text-muted">Aucun avis n'a été laissé sur ce jeu.</span>
-			{% endif %}
-			{% for opinion in game.opinions %}
-			<div class="mb-4 comment_infos">
-				<span class="text-uppercase font-weight-bold text-primary mr-4">{{ opinion.user.firstname }}
-					{{ opinion.user.lastname }}</span>
-				<span>
-					{% for x in 1..5 %}
-					{% if x <= opinion.note %}
-					<i class="fas fa-star"></i>
-					{% else %}
-					<i class="far fa-star"></i>
-					{% endif %}
-					{% endfor %}
-				</span>
-				<div>
-					{{ opinion.content }}
-				</div>
-				<div class="">
-					<span class="mr-4">
-						<i class="mr-2 far fa-clock"></i>
-						<span class="text-muted">
-							{{ opinion.postedon | date('d/m/Y H:i') }}
-						</span>
-					</span>
-					{% if opinion.user.user == app.user %}
-					<a class="text-muted mr-4" href="{{ path('opinion_delete', {'id': opinion.id }) }}">
-						Supprimer
+				{% if stock > 0 %}
+					<a class="btn btn-primary text-white w-100 mt-4" href="{{ path('cart_add', {'id': game.id}) }}">
+						Ajouter au panier
 					</a>
-					{% endif %}
-				</div>
+				{% else %}
+					<button type="button" class="btn btn-primary text-white w-100 mt-4" disabled>
+						Ajouter au panier
+					</button>
+				{% endif %}
 			</div>
-			{% endfor %}
 		</div>
-	</div>
-</section>
+	</section>
 
-<section class="container mb-4">
-	{% if app.user == null %}
-	<p>
-		<a href="{{ path('login')}} ">Connectez-vous</a> pour laisser un avis sur le jeu.
-	</p>
-	{% elseif game.name not in ownedGames %}
-	<p>
-		Vous devez avoir <a href="{{ path('cart_add', {'id': game.id}) }}">acheté le jeu</a> avant de donner votre avis.
-	</p>
-	{% else %}
-	<div class="card mt-4">
-		<div class="card-body">
-			<h3 class="font-weight-bold">Commenter</h3>
-			{{ form_start(opinionForm) }}
-			<div id="rating-stars" class="mb-3">
-				{{ form_widget(opinionForm.note, 
+	<section class="container mb-1">
+		<div class="card">
+			<div class="card-body">
+				<h3 class="font-weight-bold">Avis</h3>
+				{% if game.opinions is empty %}
+					<span class="text-muted">Aucun avis n'a été laissé sur ce jeu.</span>
+				{% endif %}
+				{% for opinion in game.opinions %}
+					<div class="mb-4 comment_infos">
+						<span class="text-uppercase font-weight-bold text-primary mr-4">{{ opinion.user.firstname }}
+							{{ opinion.user.lastname }}</span>
+						<span>
+							{% for x in 1..5 %}
+								{% if x <= opinion.note %}
+									<i class="fas fa-star"></i>
+								{% else %}
+									<i class="far fa-star"></i>
+								{% endif %}
+							{% endfor %}
+						</span>
+						<div>
+							{{ opinion.content }}
+						</div>
+						<div class="">
+							<span class="mr-4">
+								<i class="mr-2 far fa-clock"></i>
+								<span class="text-muted">
+									{{ opinion.postedon | date('d/m/Y H:i') }}
+								</span>
+							</span>
+							{% if opinion.user.user == app.user %}
+								<a class="text-muted mr-4" href="{{ path('opinion_delete', {'id': opinion.id }) }}">
+									Supprimer
+								</a>
+							{% elseif is_granted("ROLE_ADMIN") %}
+								<a class="text-muted mr-4" href="{{ path('opinion_delete', {'id': opinion.id }) }}">
+									Supprimer
+								</a>
+							{% endif %}
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+
+	<section class="container mb-4">
+		{% if app.user == null %}
+			<p>
+				<a href="{{ path('login')}} ">Connectez-vous</a>
+				pour laisser un avis sur le jeu.
+			</p>
+		{% elseif game.name not in ownedGames %}
+			<p>
+				Vous devez avoir
+				<a href="{{ path('cart_add', {'id': game.id}) }}">acheté le jeu</a>
+				avant de donner votre avis.
+			</p>
+		{% else %}
+			<div class="card mt-4">
+				<div class="card-body">
+					<h3 class="font-weight-bold">Commenter</h3>
+					{{ form_start(opinionForm) }}
+					<div id="rating-stars" class="mb-3">
+						{{ form_widget(opinionForm.note, 
 						{ 'attr' : {'class' : 'rating-group'},}
 					)
 				}}
-				{{ form_errors(opinionForm.note) }}
-			</div>
+						{{ form_errors(opinionForm.note) }}
+					</div>
 
-			{{ form_widget(opinionForm.content, 
+					{{ form_widget(opinionForm.content, 
 					{ 'attr' : 
 						{
 							'placeholder' : 'Donnez votre avis ici',
@@ -206,43 +217,37 @@ Acheter {{ game.name }}
 						}
 					)
 				}}
-			{{ form_errors(opinionForm.content) }}
-			<button class="btn btn-lg btn-outline-primary mt-3" type="submit">
-				Poster mon commentaire
-			</button>
-			{{ form_end(opinionForm) }}
+					{{ form_errors(opinionForm.content) }}
+					<button class="btn btn-lg btn-outline-primary mt-3" type="submit">
+						Poster mon commentaire
+					</button>
+					{{ form_end(opinionForm) }}
 
-		</div>
-	</div>
-	{% endif %}
+				</div>
+			</div>
+		{% endif %}
 
-	<!-- <div id="oldrating-stars">
-		<div class="rating-group">
-			<label class="rating__label" for="rating-1"><i
-					class="rating__icon rating__icon--star fa fa-star"></i></label>
-			<input class="rating__input" name="rating" id="rating-1" value="1" type="radio">
-			<label class="rating__label" for="rating-2"><i
-					class="rating__icon rating__icon--star fa fa-star"></i></label>
-			<input class="rating__input" name="rating" id="rating-2" value="2" type="radio">
-			<label class="rating__label" for="rating-3"><i
-					class="rating__icon rating__icon--star fa fa-star"></i></label>
-			<input class="rating__input" name="rating" id="rating-3" value="3" type="radio">
-			<label class="rating__label" for="rating-4"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-			<input class="rating__input" name="rating" id="rating-4" value="4" type="radio">
-			<label class="rating__label" for="rating-5"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-			<input class="rating__input" name="rating" id="rating-5" value="5" type="radio">
-		</div>
-	</div> -->
-</section>
+		<!-- <div id="oldrating-stars">
+				<div class="rating-group">
+					<label class="rating__label" for="rating-1"><i
+							class="rating__icon rating__icon--star fa fa-star"></i></label>
+					<input class="rating__input" name="rating" id="rating-1" value="1" type="radio">
+					<label class="rating__label" for="rating-2"><i
+							class="rating__icon rating__icon--star fa fa-star"></i></label>
+					<input class="rating__input" name="rating" id="rating-2" value="2" type="radio">
+					<label class="rating__label" for="rating-3"><i
+							class="rating__icon rating__icon--star fa fa-star"></i></label>
+					<input class="rating__input" name="rating" id="rating-3" value="3" type="radio">
+					<label class="rating__label" for="rating-4"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+					<input class="rating__input" name="rating" id="rating-4" value="4" type="radio">
+					<label class="rating__label" for="rating-5"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+					<input class="rating__input" name="rating" id="rating-5" value="5" type="radio">
+				</div>
+			</div> -->
+	</section>
 
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-	crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-	crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-	crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 {% endblock %}

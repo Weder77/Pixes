@@ -36,7 +36,7 @@ class AdminController extends AbstractController
     {
         return $this->render('/admin/index.html.twig', array(
             'lastInvoices' => $invoiceRepository->findBy([], ['purchase_date' => 'DESC'], 5),
-            'lastUsers' => $invoiceRepository->findBy([], ['purchase_date' => 'DESC'], 5),
+            'lastUsers' => $userRepository->findBy([], ['id' => 'DESC'], 5),
             'lastOpinions' => $opinionRepository->findBy([], ['id' => 'DESC'], 5)
         ));
     }
