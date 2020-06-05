@@ -160,11 +160,25 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/utilisateurs/supprimer/{id}", name="admin_delete_user")
      */
-    public function deleteUser($id)
+    public function deleteUser($id, UserRepository $userRepository)
     {
         $manager = $this->getDoctrine()->getManager();
-        $user = $manager->find('App\Entity\User', $id);
-        $profile = $manager->find(Profile::class, $id);
+        $user = $userRepository->find($id);
+        $profile = $user->getProfile();
+
+        // Boucle sur les factures de l'utilisateur pour les attribuer à l'admin
+        foreach ($profile->getInvoices() as $invoice) {
+            $invoice->setProfile($this->getUser()->getProfile());
+            $manager->persist($invoice);
+            $manager->flush();
+        }
+        
+        // Boucle sur les commentaire de l'utilisateur pour les supprimer
+        foreach ($profile->getOpinions() as $opinion) {
+            $manager->remove($opinion);
+            $manager->flush();
+        }
+
         $manager->remove($user);
         $manager->flush();
 
