@@ -18,12 +18,13 @@ use Symfony\Component\Validator\Constraints\Date;
 
 class AppFixtures extends Fixture
 {
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(UserPasswordEncoderInterface $encoder, GameService $gameService)
     {
         $this->encoder = $encoder;
+        $this->gameService = $gameService;
     }
 
-    public function load(ObjectManager $manager, GameService $gameService)
+    public function load(ObjectManager $manager)
     {
         // Create platforms
         $platforms = [];
@@ -69,7 +70,7 @@ class AppFixtures extends Fixture
         // Generate Codes
         for ($i=0; $i < 30; $i++) { 
             $code = new Code();
-            $code->setCode($gameService->generateCode());
+            $code->setCode($this->gameService->generateCode());
             $code->setGame($games[rand(0, 9)]);
             $code->setUsed(false);
             $manager->persist($code);
