@@ -7,6 +7,7 @@ use App\Entity\Game;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CodesFormType extends AbstractType
@@ -14,14 +15,14 @@ class CodesFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('code')
+            ->add('code', IntegerType::class)
             // ->add('used')
-            ->add('game', EntityType::class, array(
-                'class' => Game::class,
-                'multiple' => true,
-                'expanded' => true,
-                'choice_label' => 'name',
-            ))
+            // ->add('game', EntityType::class, array(
+            //     'class' => Game::class,
+            //     'multiple' => true,
+            //     'expanded' => true,
+            //     'choice_label' => 'name',
+            // ))
             // ->add('invoice')
         ;
     }

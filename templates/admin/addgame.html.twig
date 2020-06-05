@@ -124,7 +124,7 @@
 							{{ form_widget(gameCode.code, 
                                 { 'attr' : 
                                     {
-                                        'placeholder' : 'Code',
+                                        'placeholder' : 'Codes è générer',
                                         'class' : 'form-control',
                                         'id' : 'codes_form_code',
                                         }
@@ -132,18 +132,9 @@
                                 )
                             }}
 							{{ form_errors(gameCode.code) }}
-							<label for="codes_form_code">Code</label>
+							<label for="codes_form_code">Codes à générer</label>
 						</div>
 
-						<div class="form-label-group">
-							<p>Sélectionner les jeux sur lesquels générer les codes :</p>
-							<div class="table">
-								{{ form_widget(gameCode.game, { 'attr' : {
-                                'class' : 'table'
-                                }})}}
-								{{ form_errors(gameCode.game) }}
-							</div>
-						</div>
 
 						<div class="form-group text-center">
 							<div class="col-xs-12">

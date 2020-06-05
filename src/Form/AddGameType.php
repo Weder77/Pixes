@@ -21,7 +21,7 @@ class AddGameType extends AbstractType
             ->add('description')
             ->add('price', IntegerType::class)
             ->add('file', FileType::class, array(
-                'required' => false
+                'required' => true
             ))
             ->add('pegi',  IntegerType::class)
             ->add('platforms', EntityType::class, array(

@@ -84,6 +84,8 @@ class AdminController extends AbstractController
         if ($formCode->isSubmitted() && $formCode->isValid()) {
             $manager->persist($code);
 
+            
+
             $manager->flush();
             $this->addFlash('success', 'Les codes ont bien été générés.');
         }
