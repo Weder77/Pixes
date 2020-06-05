@@ -1,0 +1,134 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}
+	Gestions des palteformes et des Tags
+{% endblock %}
+
+{% block content %}
+	<h4 class="mt-5 mb-3">Liste des Tags :</h4>
+
+	<div class="table-responsive">
+		<table class="table text-center table-striped table-sm">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Nom</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for tag in tags %}
+					<tr>
+						<td>{{ tag.id }}</td>
+						<td>{{ tag.name }}</td>
+						<td>
+							<a href="{{ path('admin_update_tag', { id : tag.id }) }}">
+								<button type="button" class="btn btn-primary btn-sm">
+									<i class="fas fa-edit text-white"></i>
+								</button>
+							</a>
+							<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteTag{{ tag.id }}">
+								<i class="fas fa-trash "></i>
+							</button>
+							<!-- Modal -->
+							<div class="modal fade" id="deleteTag{{ tag.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="deleteTag{{ tag.id }}">Attention</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											Voulez vous vraiment supprimer le tag
+											{{ tag.name}}
+											?
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+											<a href="{{ path('admin_delete_tag', { id : tag.id }) }}">
+												<button type="button" class="btn btn-danger">Supprimer</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<div class="text-center">
+			<a class="mt-4 " href="{{ path('admin_add_tag') }}">
+				<button type="button" class="btn btn-primary btn-lg text-white rounded-circle">
+					<i class="fas fa-plus"></i>
+				</button>
+			</a>
+		</div>
+	</div>
+
+	<h4 class="mt-5 mb-3">Liste des plateformes :</h4>
+	<div class="table-responsive">
+		<table class="table text-center table-striped table-sm">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Nom</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for plateform in plateforms %}
+					<tr>
+						<td>{{ plateform.id }}</td>
+						<td>{{ plateform.name }}</td>
+						<td>
+							<a href="{{ path('admin_update_plateform', { id : plateform.id }) }}">
+								<button type="button" class="btn btn-primary btn-sm">
+									<i class="fas fa-edit text-white"></i>
+								</button>
+							</a>
+							<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deletePlateform{{ plateform.id }}">
+								<i class="fas fa-trash "></i>
+							</button>
+							<!-- Modal -->
+							<div class="modal fade" id="deletePlateform{{ plateform.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="deletePlateform{{ plateform.id }}">Attention</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											Voulez vous vraiment supprimer la plateforme
+											{{ plateform.name}}
+											?
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+											<a href="{{ path('admin_delete_plateform', { id : plateform.id }) }}">
+												<button type="button" class="btn btn-danger">Supprimer</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<div class="text-center mb-4">
+			<a class="mt-4 " href="{{ path('admin_add_plateform') }}">
+				<button type="button" class="btn btn-primary btn-lg text-white rounded-circle">
+					<i class="fas fa-plus"></i>
+				</button>
+			</a>
+		</div>
+	</div>
+{% endblock %}
