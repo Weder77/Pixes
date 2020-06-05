@@ -75,25 +75,27 @@
 							{{ form_errors(gameForm.description) }}
 						</div>
 
-                        <div class="form-label-group">
-                        <p>Sélectionner les plateformes sur lesquels le jeu est disponible : </p>
-                            <div class="table">
-                                {{ form_widget(gameForm.platforms, { 'attr' : {
+						<div class="form-label-group">
+							<p>Sélectionner les plateformes sur lesquels le jeu est disponible :
+							</p>
+							<div class="table">
+								{{ form_widget(gameForm.platforms, { 'attr' : {
                                 'class' : 'table'
                                 }})}}
-                                {{ form_errors(gameForm.platforms) }}
-                            </div>
-                        </div>
+								{{ form_errors(gameForm.platforms) }}
+							</div>
+						</div>
 
-                        <div class="form-label-group">
-                        <p>Sélectionner les tags sur lesquels le jeu peut être référencer : </p>
-                            <div class="table">
-                                {{ form_widget(gameForm.tags, { 'attr' : {
+						<div class="form-label-group">
+							<p>Sélectionner les tags sur lesquels le jeu peut être référencer :
+							</p>
+							<div class="table">
+								{{ form_widget(gameForm.tags, { 'attr' : {
                                 'class' : 'table'
                                 }})}}
-                                {{ form_errors(gameForm.tags) }}
-                            </div>
-                        </div>
+								{{ form_errors(gameForm.tags) }}
+							</div>
+						</div>
 
 
 						<div class="form-label-group">
@@ -101,7 +103,7 @@
                                     'placeholder' : 'Ajouter la cover du jeu',
                                     'class' : 'form-control'
                                     }})
-							                                }}
+																					                                }}
 						</div>
 
 						<div class="form-group text-center">
@@ -112,10 +114,53 @@
 							</div>
 						</div>
 
+
+						{{ form_end(gameForm) }}
+
+
+						{{ form_start(gameCode) }}
+
+						<div class="form-label-group">
+							{{ form_widget(gameCode.code, 
+                                { 'attr' : 
+                                    {
+                                        'placeholder' : 'Code',
+                                        'class' : 'form-control',
+                                        'id' : 'codes_form_code',
+                                        }
+                                    }
+                                )
+                            }}
+							{{ form_errors(gameCode.code) }}
+							<label for="codes_form_code">Code</label>
+						</div>
+
+						<div class="form-label-group">
+							<p>Sélectionner les jeux sur lesquels générer les codes :</p>
+							<div class="table">
+								{{ form_widget(gameCode.game, { 'attr' : {
+                                'class' : 'table'
+                                }})}}
+								{{ form_errors(gameCode.game) }}
+							</div>
+						</div>
+
+						<div class="form-group text-center">
+							<div class="col-xs-12">
+								<br>
+								<button class="btn btn-lg btn-primary register" type="submit">
+									<i class="glyphicon glyphicon-ok-sign"></i>Générer les codes</button>
+							</div>
+						</div>
+
+                        	{{ form_end(gameCode) }}
+
 					</div>
 					{{ form_end(gameForm) }}
 				</div>
+
+
 			</div>
 		</div>
 	</div>
-</div>{% endblock %}
+</div></div>{% endblock %}

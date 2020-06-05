@@ -36,8 +36,7 @@ class AddGameType extends AbstractType
                 'expanded' => true,
                 'choice_label' => 'name',
             ))
-
-
+            
         ;
     }
 

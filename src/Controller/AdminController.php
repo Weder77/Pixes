@@ -2,16 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Code;
 use App\Entity\Game;
-use App\Entity\Profile;
 use App\Entity\User;
+use App\Entity\Profile;
 use App\Form\AddGameType;
+use App\Form\CodesFormType;
 use App\Form\ProfileFormType;
-use App\Repository\InvoiceRepository;
 use App\Form\RegisterFormType;
+use App\Service\Game\GameService;
 use App\Repository\GameRepository;
 use App\Repository\UserRepository;
-use App\Service\Game\GameService;
+use App\Repository\InvoiceRepository;
+use App\Repository\OpinionRepository;
 use App\Service\Invoice\InvoiceService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,11 +26,12 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin", name="admin_index")
      */
-    public function index(InvoiceRepository $invoiceRepository, UserRepository $userRepository)
-    {        
+    public function index(InvoiceRepository $invoiceRepository, UserRepository $userRepository, OpinionRepository $opinionRepository)
+    {
         return $this->render('/admin/index.html.twig', array(
             'lastInvoices' => $invoiceRepository->findBy([], ['purchase_date' => 'DESC'], 5),
             'lastUsers' => $invoiceRepository->findBy([], ['purchase_date' => 'DESC'], 5),
+            'lastOpinions' => $opinionRepository->findBy([], ['id' => 'DESC'], 5)
         ));
     }
 
@@ -62,10 +66,13 @@ class AdminController extends AbstractController
     {
         $manager = $this->getDoctrine()->getManager();
         $game = new Game();
+        $code = new Code();
 
-        $form = $this->createForm(AddGameType::class, $game);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        $formAdd = $this->createForm(AddGameType::class, $game);
+        $formCode = $this->createForm(CodesFormType::class, $code);
+
+        $formAdd->handleRequest($request);
+        if ($formAdd->isSubmitted() && $formAdd->isValid()) {
             $manager->persist($game);
             $game->uploadFile();
             $game->setSlug($gameService->generateSlug($game->getName()));
@@ -73,8 +80,17 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'Le jeu ' . $game->getName() . ' a bien été ajouté.');
         }
 
+        $formCode->handleRequest($request);
+        if ($formCode->isSubmitted() && $formCode->isValid()) {
+            $manager->persist($code);
+
+            $manager->flush();
+            $this->addFlash('success', 'Les codes ont bien été générés.');
+        }
+
         return $this->render('admin/addgame.html.twig', array(
-            'gameForm' => $form->createView()
+            'gameForm' => $formAdd->createView(),
+            'gameCode' => $formCode->createView()
         ));
     }
 
@@ -108,7 +124,7 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/admin/ventes", name="admin_orders")
-    */
+     */
     public function orders(InvoiceRepository $invoiceRepository, InvoiceService $invoiceService)
     {
         $allInvoices = $invoiceRepository->findAll();
@@ -149,7 +165,7 @@ class AdminController extends AbstractController
         $manager->remove($user);
         $manager->flush();
 
-        $this->addFlash('success', 'L\'utilisateur ' . $profile->getFirstname() . ' ' . $profile->getLastname() .' a bien été supprimé.');
+        $this->addFlash('success', 'L\'utilisateur ' . $profile->getFirstname() . ' ' . $profile->getLastname() . ' a bien été supprimé.');
         return $this->redirectToRoute('admin_users');
     }
 
@@ -241,11 +257,30 @@ class AdminController extends AbstractController
     }
 
 
-        /**
+    /**
      * @Route("/admin/opinions", name="admin_opinions")
      */
-    public function opinions()
-    {        
-        return $this->render('/admin/opinions.html.twig');
+    public function opinions(OpinionRepository $opinionRepository)
+    {
+        $opinions = $opinionRepository->findBy([], ['id' => 'DESC']);
+
+        return $this->render('/admin/opinions.html.twig', array(
+            'opinions' => $opinions
+        ));
     }
+
+    /**
+     * @Route("/admin/opinions/supprimer/{id}", name="admin_delete_opinion")
+     */
+    public function deleteOpinion($id)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $opinion = $manager->find('App\Entity\Opinion', $id);
+        $manager->remove($opinion);
+        $manager->flush();
+
+        $this->addFlash('success', 'Le commentaire a bien été supprimé.');
+        return $this->redirectToRoute('admin_opinions');
+    }
+
 }
