@@ -7,7 +7,7 @@ use App\Entity\Game;
 use App\Entity\User;
 use App\Entity\Profile;
 use App\Form\AddGameType;
-use App\Form\CodesFormType;
+use App\Form\GenerateCodeFormType;
 use App\Form\ProfileFormType;
 use App\Form\RegisterFormType;
 use App\Service\Game\GameService;
@@ -66,10 +66,7 @@ class AdminController extends AbstractController
     {
         $manager = $this->getDoctrine()->getManager();
         $game = new Game();
-        $code = new Code();
-
         $formAdd = $this->createForm(AddGameType::class, $game);
-        $formCode = $this->createForm(CodesFormType::class, $code);
 
         $formAdd->handleRequest($request);
         if ($formAdd->isSubmitted() && $formAdd->isValid()) {
@@ -80,19 +77,8 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'Le jeu ' . $game->getName() . ' a bien été ajouté.');
         }
 
-        $formCode->handleRequest($request);
-        if ($formCode->isSubmitted() && $formCode->isValid()) {
-            $manager->persist($code);
-
-            
-
-            $manager->flush();
-            $this->addFlash('success', 'Les codes ont bien été générés.');
-        }
-
         return $this->render('admin/addgame.html.twig', array(
             'gameForm' => $formAdd->createView(),
-            'gameCode' => $formCode->createView()
         ));
     }
 
@@ -103,10 +89,10 @@ class AdminController extends AbstractController
     {
         $manager = $this->getDoctrine()->getManager();
         $game = $manager->find(Game::class, $id);
-        $form = $this->createForm(AddGameType::class, $game);
-        $form->handleRequest($request);
+        $formGame = $this->createForm(AddGameType::class, $game);
+        $formGame->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($formGame->isSubmitted() && $formGame->isValid()) {
             $manager->persist($game);
             if ($game->getFile()) {
                 $game->removeFile();
@@ -119,8 +105,23 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin_games');
         }
 
+        $codeQuantity = (int)$request->request->get('quantity');
+        if ($codeQuantity != null) {
+            for ($i = 0; $i < $codeQuantity; $i++) { 
+                $code = new Code();
+                $code->setGame($game);
+                $code->setUsed(0);
+                $code->setCode($gameService->generateCode());
+                $manager->persist($code);
+                $manager->flush();
+            }
+
+            $this->addFlash('success', 'Les codes pour ' . $game->getName() . ' ont bien été ajoutés.');
+            return $this->redirectToRoute('admin_games');
+        }
+
         return $this->render('admin/updategame.html.twig', [
-            'gameForm' => $form->createView(),
+            'gameForm' => $formGame->createView(),
         ]);
     }
 

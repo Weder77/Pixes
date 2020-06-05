@@ -1,20 +1,32 @@
 {% extends 'admin.html.twig' %}
 
 {% block title %}
-	Jeux
+Jeux
 {% endblock %}
 
 {% block content %}
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-9 col-md-7 col-lg-12 mx-auto">
-				<div class="card card-signin my-5">
-					<div class="card-body">
-						<h5 class="card-title text-center">Ajouter un jeu</h5>
-						{{ form_start(gameForm) }}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-12 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Générer des codes</h5>
+                    <div class="mb-5">
+                        <form method="post">
+                                <input type="number" id="quantity" name="quantity" required="required"
+                                    placeholder="Quantité de codes à générer" class="form-control">
 
-						<div class="form-label-group">
-							{{ form_widget(gameForm.name, 
+
+                            <div class="form-group text-center mt-2">
+                                <button class="btn btn-lg btn-primary register" type="submit">Générer les codes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <h5 class="card-title text-center">Modifier le jeu</h5>
+                    {{ form_start(gameForm) }}
+                    <div class="form-label-group">
+                        {{ form_widget(gameForm.name, 
                                 { 'attr' : 
                                     {
                                         'placeholder' : 'Nom du jeu',
@@ -24,12 +36,12 @@
                                     }
                                 )
                             }}
-							{{ form_errors(gameForm.name) }}
-							<label for="add_game_name">Nom du jeu</label>
-						</div>
+                        {{ form_errors(gameForm.name) }}
+                        <label for="add_game_name">Nom du jeu</label>
+                    </div>
 
-						<div class="form-label-group">
-							{{ form_widget(gameForm.price, 
+                    <div class="form-label-group">
+                        {{ form_widget(gameForm.price, 
                                 { 'attr' : 
                                     {
                                         'placeholder' : 'Prix en €',
@@ -41,12 +53,12 @@
                                     }
                                 )
                             }}
-							{{ form_errors(gameForm.price) }}
-							<label for="add_game_price">Prix en €</label>
-						</div>
+                        {{ form_errors(gameForm.price) }}
+                        <label for="add_game_price">Prix en €</label>
+                    </div>
 
-						<div class="form-label-group">
-							{{ form_widget(gameForm.pegi, 
+                    <div class="form-label-group">
+                        {{ form_widget(gameForm.pegi, 
                                 { 'attr' : 
                                     {
                                         'placeholder' : 'Limitation d\'âge',
@@ -57,12 +69,12 @@
                                     }
                                 )
                             }}
-							{{ form_errors(gameForm.pegi) }}
-							<label for="add_game_pegi">Limitation d'âge</label>
-						</div>
+                        {{ form_errors(gameForm.pegi) }}
+                        <label for="add_game_pegi">Limitation d'âge</label>
+                    </div>
 
-						<div class="form-label-group">
-							{{ form_widget(gameForm.description, 
+                    <div class="form-label-group">
+                        {{ form_widget(gameForm.description, 
                                 { 'attr' : 
                                     {
                                         'placeholder' : 'Description',
@@ -72,50 +84,49 @@
                                     }
                                 )
                             }}
-							{{ form_errors(gameForm.description) }}
-						</div>
+                        {{ form_errors(gameForm.description) }}
+                    </div>
 
-                        <div class="form-label-group">
+                    <div class="form-label-group">
                         <p>Sélectionner les plateformes sur lesquels le jeu est disponible : </p>
-                            <div class="table">
-                                {{ form_widget(gameForm.platforms, { 'attr' : {
+                        <div class="table">
+                            {{ form_widget(gameForm.platforms, { 'attr' : {
                                 'class' : 'table'
                                 }})}}
-                                {{ form_errors(gameForm.platforms) }}
-                            </div>
+                            {{ form_errors(gameForm.platforms) }}
                         </div>
+                    </div>
 
-                        <div class="form-label-group">
+                    <div class="form-label-group">
                         <p>Sélectionner les tags sur lesquels le jeu peut être référencer : </p>
-                            <div class="table">
-                                {{ form_widget(gameForm.tags, { 'attr' : {
+                        <div class="table">
+                            {{ form_widget(gameForm.tags, { 'attr' : {
                                 'class' : 'table'
                                 }})}}
-                                {{ form_errors(gameForm.tags) }}
-                            </div>
+                            {{ form_errors(gameForm.tags) }}
                         </div>
+                    </div>
 
 
-						<div class="form-label-group">
-							{{ form_widget(gameForm.file, { 'attr' : {
+                    <div class="form-label-group">
+                        {{ form_widget(gameForm.file, { 'attr' : {
                                     'placeholder' : 'Ajouter la cover du jeu',
                                     'class' : 'form-control'
                                     }})
-							                                }}
-						</div>
+                        }}
+                    </div>
 
-						<div class="form-group text-center">
-							<div class="col-xs-12">
-								<br>
-								<button class="btn btn-lg btn-primary register" type="submit">
-									<i class="glyphicon glyphicon-ok-sign"></i>Modifier le jeu</button>
-							</div>
-						</div>
-
-					</div>
-					{{ form_end(gameForm) }}
-				</div>
-			</div>
-		</div>
-	</div>
+                    <div class="form-group text-center">
+                        <div class="col-xs-12">
+                            <br>
+                            <button class="btn btn-lg btn-primary register" type="submit">
+                                <i class="glyphicon glyphicon-ok-sign"></i>Modifier le jeu</button>
+                        </div>
+                    </div>
+                    {{ form_end(gameForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>{% endblock %}
