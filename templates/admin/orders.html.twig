@@ -1,108 +1,119 @@
 {% extends 'admin.html.twig' %}
 
 {% block title %}
-Commandes
+	Commandes
 {% endblock %}
 
 {% block stylesheet %}
-<style>
+	<style>
 
-@media screen and (max-width: 1250px)
-{
-    .screen {
-		display: block !important;
-	}
-	.col-3{
-		margin: 5% !important;
-		max-width: 100% !important;
-	}
-	.col-10 {
-		max-width: 100% !important;
-		flex-basis: 100% !important;
-	}
-}
-</style>
+		@media screen and(max-width: 1250px) {
+			.screen {
+				display: block !important;
+			}
+			.col-3 {
+				margin: 5% !important;
+				max-width: 100% !important;
+			}
+			.col-10 {
+				max-width: 100% !important;
+				flex-basis: 100% !important;
+			}
+		}
+	</style>
 
 {% endblock %}
 
 {% block content %}
-<div class="row screen mb-4">
-	<div class="col-3">
-		<div class="card card-body">
-			<div class="d-flex justify-content-between">
-				<span>Aujourd'hui</span>
-				<span class="badge badge-primary text-white p-1">
-					{{ todayInvoices | length }} commandes
-				</span>
-			</div>
+	<div class="row screen mb-4">
+		<div class="col-3">
+			<div class="card card-body">
+				<div class="d-flex justify-content-between">
+					<span>Aujourd'hui</span>
+					<span class="badge badge-primary text-white p-1">
+						{{ todayInvoices | length }}
+						commandes
+					</span>
+				</div>
 
-			<span class="font-weight-bold mt-3 h5">{{ todayProfit }} €</span>
+				<span class="font-weight-bold mt-3 h5">{{ todayProfit }}
+					€</span>
+			</div>
+		</div>
+
+		<div class="col-3">
+			<div class="card card-body">
+				<div class="d-flex justify-content-between">
+					<span>Semaine dernière</span>
+					<span class="badge badge-primary text-white p-1">
+						{{ lastWeekInvoices | length }}
+						commandes
+					</span>
+				</div>
+
+				<span class="font-weight-bold mt-3 h5">{{ lastWeekProfit }}
+					€</span>
+			</div>
+		</div>
+
+		<div class="col-3">
+			<div class="card card-body">
+				<div class="d-flex justify-content-between">
+					<span>Mois dernier</span>
+					<span class="badge badge-primary text-white p-1">
+						{{ lastMonthInvoices | length }}
+						commandes
+					</span>
+				</div>
+
+				<span class="font-weight-bold mt-3 h5">{{ lastMonthProfit }}
+					€</span>
+			</div>
+		</div>
+
+		<div class="col-3">
+			<div class="card card-body">
+				<div class="d-flex justify-content-between">
+					<span>Total</span>
+					<span class="badge badge-primary text-white p-1">
+						{{ allInvoices | length }}
+						commandes
+					</span>
+				</div>
+
+				<span class="font-weight-bold mt-3 h5">{{ allProfit }}
+					€</span>
+			</div>
 		</div>
 	</div>
 
-	<div class="col-3">
-		<div class="card card-body">
-			<div class="d-flex justify-content-between">
-				<span>Semaine dernière</span>
-				<span class="badge badge-primary text-white p-1">
-					{{ lastWeekInvoices | length }} commandes
-				</span>
-			</div>
-
-			<span class="font-weight-bold mt-3 h5">{{ lastWeekProfit }} €</span>
-		</div>
+	<h4 class="mt-5 mb-3">Liste des commandes :</h4>
+	<div class="table-responsive">
+		<table class="table text-center table-striped table-sm">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Utilisateur</th>
+					<th>Date</th>
+					<th>Facture</th>
+					<th>Prix</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for invoice in allInvoices %}
+					<tr>
+						<td>{{ invoice.id }}</td>
+						<td>{{ invoice.profile.firstname }}
+							{{ invoice.profile.lastname }}</td>
+						<td>{{ invoice.purchaseDate | date('d/m/Y') }}</td>
+						<td>
+							<a href="{{ path('invoice_generate', {id: invoice.id}) }}">Télécharger</a>
+						</td>
+						<td>{{ invoice.price }}
+							€</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	</div>
-
-	<div class="col-3">
-		<div class="card card-body">
-			<div class="d-flex justify-content-between">
-				<span>Mois dernier</span>
-				<span class="badge badge-primary text-white p-1">
-					{{ lastMonthInvoices | length }} commandes
-				</span>
-			</div>
-
-			<span class="font-weight-bold mt-3 h5">{{ lastMonthProfit }} €</span>
-		</div>
-	</div>
-
-	<div class="col-3">
-		<div class="card card-body">
-			<div class="d-flex justify-content-between">
-				<span>Total</span>
-				<span class="badge badge-primary text-white p-1">
-					{{ allInvoices | length }} commandes
-				</span>
-			</div>
-
-			<span class="font-weight-bold mt-3 h5">{{ allProfit }} €</span>
-		</div>
-	</div>
-</div>
-
-<h4 class="mt-5 mb-3">Liste des commandes :</h4>
-<div class="table-responsive">
-	<table class="table text-center table-striped table-sm">
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>Utilisateur</th>
-				<th>Date</th>
-				<th>Facture</th>
-				<th>Prix</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for invoice in allInvoices %}	
-			<tr>
-				<td>{{ invoice.id }}</td>
-				<td>{{ invoice.profile.firstname }} {{ invoice.profile.lastname }}</td>
-				<td>{{ invoice.purchaseDate | date('d/m/Y') }}</td>
-				<td>{{ invoice.id }}</td>
-				<td>{{ invoice.price }} €</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div>
 {% endblock %}

@@ -222,7 +222,7 @@ class AdminController extends AbstractController
       /**
      * @Route("/admin/tag/update/{id}", name="admin_update_tag")
      */
-    public function updateTaf($id, Request $request, GameService $gameService)
+    public function updateTag($id, Request $request, GameService $gameService)
     {
         $manager = $this->getDoctrine()->getManager();
         $tag = $manager->find(Tag::class, $id);
@@ -295,8 +295,14 @@ class AdminController extends AbstractController
      */
     public function users(UserRepository $userRepository)
     {
+        $userCount = 0;
+        foreach ($userRepository->findAll() as $user) {
+            $userCount += 1;
+        }
+
         return $this->render('/admin/users.html.twig', [
             'users' => $userRepository->findAll(),
+            'userCount' => $userCount,
         ]);
     }
 
