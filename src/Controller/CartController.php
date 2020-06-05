@@ -33,6 +33,7 @@ class CartController extends AbstractController
             return $this->redirectToRoute('index');
         }
 
+
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
         $dompdf = new Dompdf($pdfOptions);

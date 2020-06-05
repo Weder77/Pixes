@@ -27,7 +27,9 @@
 						<td>{{ invoice.profile.firstname }}
 							{{ invoice.profile.lastname }}</td>
 						<td>{{ invoice.purchaseDate | date('d/m/Y') }}</td>
-						<td>{{ invoice.id }}</td>
+						<td>
+							<a href="{{ path('invoice_generate', {id: invoice.id}) }}">Télécharger</a>
+						</td>
 						<td>{{ invoice.price }}
 							€</td>
 					</tr>
