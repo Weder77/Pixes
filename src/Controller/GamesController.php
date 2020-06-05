@@ -11,6 +11,7 @@ use App\Repository\CodeRepository;
 use App\Repository\GameRepository;
 use App\Repository\PlatformRepository;
 use App\Repository\TagRepository;
+use App\Service\Game\GameService;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,7 +54,7 @@ class GamesController extends AbstractController
     /**
      * @Route("/jeu/{slug}", name="game")
      */
-    public function game($slug, Request $request, GameRepository $gameRepository, CodeRepository $codeRepository)
+    public function game($slug, Request $request, GameRepository $gameRepository, CodeRepository $codeRepository, GameService $gameService)
     {
         $manager = $this->getDoctrine()->getManager();
         $game = $gameRepository->findOneBy(['slug' => $slug]);
@@ -105,6 +106,7 @@ class GamesController extends AbstractController
         return $this->render('games/game.html.twig', [
             'game' => $game,
             'stock' => sizeof($availablesCodes),
+            'averageNote' => $gameService->getAverageNote($game->getOpinions()),
             'ownedGames' => $ownedGames,
             'opinionForm' => $form->createView(),
         ]);

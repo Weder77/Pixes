@@ -27,4 +27,13 @@ class GameService
     {
         return $this->generateRandomString() . '-' . $this->generateRandomString() . '-' . $this->generateRandomString() . '-' . $this->generateRandomString();
     }
+
+    public function getAverageNote($opinions): float
+    {
+        $total = 0;
+        foreach ($opinions as $opinion) {
+            $total += $opinion->getNote();
+        }
+        return $total / sizeof($opinions);
+    }
 }
