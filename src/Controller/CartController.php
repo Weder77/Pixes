@@ -25,7 +25,7 @@ class CartController extends AbstractController
     {
         $invoice = $invoiceRepository->find($id);
 
-        if ($invoice->getProfile()->getUser() != $this->getUser()) {
+        if ($invoice->getProfile()->getUser() != $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
             if ($this->getUser() == null) {
                 $this->addFlash('error', 'Vous devez vous connecter pour accéder à votre facture.');
                 return $this->redirectToRoute('login');
