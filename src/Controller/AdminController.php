@@ -2,19 +2,25 @@
 
 namespace App\Controller;
 
+use App\Entity\Tag;
 use App\Entity\Code;
 use App\Entity\Game;
 use App\Entity\User;
 use App\Entity\Profile;
+use App\Entity\Platform;
 use App\Form\AddGameType;
-use App\Form\GenerateCodeFormType;
+use App\Form\TagsFormType;
 use App\Form\ProfileFormType;
 use App\Form\RegisterFormType;
+use App\Form\PlateformFormType;
+use App\Repository\TagRepository;
 use App\Service\Game\GameService;
+use App\Form\GenerateCodeFormType;
 use App\Repository\GameRepository;
 use App\Repository\UserRepository;
 use App\Repository\InvoiceRepository;
 use App\Repository\OpinionRepository;
+use App\Repository\PlatformRepository;
 use App\Service\Invoice\InvoiceService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -124,6 +130,143 @@ class AdminController extends AbstractController
             'gameForm' => $formGame->createView(),
         ]);
     }
+
+
+
+    /**
+     * @Route("/admin/plateformes-tags", name="admin_plateforms_tags")
+     */
+    public function plateformsAndTags(PlatformRepository $platformRepository, TagRepository $tagRepository)
+    {
+        return $this->render('/admin/plateformsandtags.html.twig', array(
+            'plateforms' => $platformRepository->findAll(),
+            'tags' => $tagRepository->findAll(),
+        ));
+    }
+
+
+    /**
+     * @Route("/admin/tag/supprimer/{id}", name="admin_delete_tag")
+     */
+    public function deleteTag($id, TagRepository $tagRepository)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $tag = $tagRepository->find($id);
+        $manager->remove($tag);
+        $manager->flush();
+
+        $this->addFlash('success', 'Le tag ' . $tag->getName() . ' a bien été supprimé.');
+        return $this->redirectToRoute('admin_plateforms_tags');
+    }
+
+    /**
+     * @Route("/admin/plateforme/supprimer/{id}", name="admin_delete_plateform")
+     */
+    public function deletePlateform($id, PlatformRepository $platformRepository)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $palteform = $platformRepository->find($id);
+        $manager->remove($palteform);
+        $manager->flush();
+
+        $this->addFlash('success', 'La plateforme ' . $palteform->getName() . ' a bien été supprimé.');
+        return $this->redirectToRoute('admin_plateforms_tags');
+    }
+
+      /**
+     * @Route("/admin/tag/ajouter", name="admin_add_tag")
+     */
+    public function addTag(Request $request, GameService $gameService)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $tag = new Tag();
+        $form = $this->createForm(TagsFormType::class, $tag);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($tag);
+            $tag->setSlug($gameService->generateSlug($tag->getName()));
+            $manager->flush();
+            $this->addFlash('success', 'Le tag ' . $tag->getName() . ' a bien été ajouté.');
+        }
+
+
+        return $this->render('admin/tags/addtag.html.twig', array(
+            'tagForm' => $form->createView(),
+        ));
+    }
+
+        /**
+     * @Route("/admin/plateforme/ajouter", name="admin_add_plateform")
+     */
+    public function addPlateform(Request $request, GameService $gameService)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $palteform = new Platform();
+        $form = $this->createForm(PlateformFormType::class, $palteform);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($palteform);
+            $palteform->setSlug($gameService->generateSlug($palteform->getName()));
+            $manager->flush();
+            $this->addFlash('success', 'Le tag ' . $palteform->getName() . ' a bien été ajouté.');
+        }
+
+
+        return $this->render('admin/plateforms/addplateform.html.twig', array(
+            'palteformForm' => $form->createView(),
+        ));
+    }
+
+      /**
+     * @Route("/admin/tag/update/{id}", name="admin_update_tag")
+     */
+    public function updateTaf($id, Request $request, GameService $gameService)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $tag = $manager->find(Tag::class, $id);
+        $form = $this->createForm(TagsFormType::class, $tag);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($tag);
+            $tag->setSlug($gameService->generateSlug($tag->getName()));
+            $manager->flush();
+
+            $this->addFlash('success', 'Le tag ' . $tag->getName() . ' a bien été mis à jour.');
+        }
+
+        return $this->render('admin/tags/updatetag.html.twig', [
+            'tagForm' => $form->createView(),
+        ]);
+    }
+
+          /**
+     * @Route("/admin/palteforme/update/{id}", name="admin_update_plateform")
+     */
+    public function updatePlateform($id, Request $request, GameService $gameService)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $plateform = $manager->find(Platform::class, $id);
+        $form = $this->createForm(PlateformFormType::class, $plateform);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($plateform);
+            $plateform->setSlug($gameService->generateSlug($plateform->getName()));
+            $manager->flush();
+
+            $this->addFlash('success', 'La plateforme ' . $plateform->getName() . ' a bien été mis à jour.');
+        }
+
+        return $this->render('admin/plateforms/updateplateform.html.twig', [
+            'plateformForm' => $form->createView(),
+        ]);
+    }
+
+
+
 
     /**
      * @Route("/admin/ventes", name="admin_orders")
@@ -285,5 +428,4 @@ class AdminController extends AbstractController
         $this->addFlash('success', 'Le commentaire a bien été supprimé.');
         return $this->redirectToRoute('admin_opinions');
     }
-
 }
