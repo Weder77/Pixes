@@ -9,6 +9,7 @@ use App\Entity\Platform;
 use App\Entity\Profile;
 use App\Entity\Tag;
 use App\Entity\User;
+use App\Service\Game\GameService;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -22,16 +23,8 @@ class AppFixtures extends Fixture
         $this->encoder = $encoder;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager, GameService $gameService)
     {
-        function generateRandomString($length = 4) {
-            return substr(
-                str_shuffle(
-                    str_repeat($x='0123456789ABCDEFGHIJKLMN0PQRSTUVWXYZ', 
-                    ceil($length/strlen($x)) )
-                ),1,$length);
-        }
-
         // Create platforms
         $platforms = [];
         for ($i = 0; $i < 4; $i++) { 
@@ -76,9 +69,7 @@ class AppFixtures extends Fixture
         // Generate Codes
         for ($i=0; $i < 30; $i++) { 
             $code = new Code();
-            $code->setCode(
-                generateRandomString() . '-' . generateRandomString() . '-' . generateRandomString() . '-' . generateRandomString()
-            );
+            $code->setCode($gameService->generateCode());
             $code->setGame($games[rand(0, 9)]);
             $code->setUsed(false);
             $manager->persist($code);

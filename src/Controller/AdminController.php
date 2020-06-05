@@ -51,7 +51,7 @@ class AdminController extends AbstractController
     public function deleteGame($id, GameRepository $gameRepository)
     {
         $manager = $this->getDoctrine()->getManager();
-        $game = $gameRepository->find('App\Entity\Game', $id);
+        $game = $gameRepository->find($id);
         $manager->remove($game);
         $manager->flush();
 
