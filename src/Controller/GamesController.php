@@ -52,6 +52,23 @@ class GamesController extends AbstractController
     }
 
     /**
+     * @Route("/jeu/{searchplateform}/{searchtag}", name="game_filter")
+     */
+    public function gameFilter($searchplateform, $searchtag, PlatformRepository $platformRepository, TagRepository $tagRepository, GameRepository $gameRepository)
+    {
+        $plateform = $platformRepository->findOneBy(['plateform' => $searchplateform]);
+        $tag = $tagRepository->findOneBy(['tag' => $searchtag]);
+
+        $games = $gameRepository->findBy([], ['plateform' => $plateform], ['tag' => $tag] );
+
+        return $this->render('/games/gamefilter.html.twig', array(
+            'games' => $games,
+            'tag' => $tag,
+            'plateform' => $plateform,
+        ));
+    }
+
+    /**
      * @Route("/jeu/{slug}", name="game")
      */
     public function game($slug, Request $request, GameRepository $gameRepository, CodeRepository $codeRepository, GameService $gameService)
@@ -99,7 +116,7 @@ class GamesController extends AbstractController
             // Redirection sur la route pour afficher le commentaire
             $this->addFlash('success', 'Votre commentaire a bien été posté !');
             return $this->redirectToRoute('game', [
-                'slug'=> $slug
+                'slug' => $slug
             ]);
         }
 
@@ -162,7 +179,7 @@ class GamesController extends AbstractController
             // Redirection sur la route pour afficher le commentaire
             $this->addFlash('success', 'Votre commentaire a bien été modifié !');
             return $this->redirectToRoute('game', [
-                'slug'=> $slug
+                'slug' => $slug
             ]);
         }
 
@@ -173,7 +190,5 @@ class GamesController extends AbstractController
             'ownedGames' => $ownedGames,
             'opinionForm' => $form->createView(),
         ]);
-
     }
-
 }

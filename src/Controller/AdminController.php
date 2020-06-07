@@ -49,7 +49,7 @@ class AdminController extends AbstractController
      */
     public function games(GameRepository $gameRepository)
     {
-        return $this->render('/admin/games.html.twig', array(
+        return $this->render('/admin/games/games.html.twig', array(
             'games' => $gameRepository->findAll(),
         ));
     }
@@ -86,7 +86,7 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'Le jeu ' . $game->getName() . ' a bien été ajouté.');
         }
 
-        return $this->render('admin/addgame.html.twig', array(
+        return $this->render('admin/games/addgame.html.twig', array(
             'gameForm' => $formAdd->createView(),
         ));
     }
@@ -129,7 +129,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin_games');
         }
 
-        return $this->render('admin/updategame.html.twig', [
+        return $this->render('admin/games/updategame.html.twig', [
             'gameForm' => $formGame->createView(),
         ]);
     }
@@ -246,7 +246,7 @@ class AdminController extends AbstractController
     }
 
           /**
-     * @Route("/admin/palteforme/update/{id}", name="admin_update_plateform")
+     * @Route("/admin/plateforme/update/{id}", name="admin_update_plateform")
      */
     public function updatePlateform($id, Request $request, GameService $gameService)
     {
@@ -281,7 +281,7 @@ class AdminController extends AbstractController
         $lastWeekInvoices = $invoiceService->getLastWeekInvoices($lastMonthInvoices);
         $todayInvoices = $invoiceService->getTodayInvoices($lastWeekInvoices);
 
-        return $this->render('/admin/orders.html.twig', [
+        return $this->render('/admin/orders/orders.html.twig', [
             'todayInvoices' => $todayInvoices,
             'todayProfit' => $invoiceService->getProfit($todayInvoices),
             'lastWeekInvoices' => $lastWeekInvoices,
@@ -303,7 +303,7 @@ class AdminController extends AbstractController
             $userCount += 1;
         }
 
-        return $this->render('/admin/users.html.twig', [
+        return $this->render('/admin/users/users.html.twig', [
             'users' => $userRepository->findAll(),
             'userCount' => $userCount,
         ]);
@@ -374,7 +374,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin_users');
         }
 
-        return $this->render('admin/updateuser.html.twig', [
+        return $this->render('admin/users/updateuser.html.twig', [
             'ProfileForm' => $formProfile->createView(),
             'UserForm' => $formUser->createView(),
         ]);

@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tout nos jeux{% endblock %}
+
+{% block stylesheet %}
+<style>
+    .game-poster img {
+        width: 100%;
+        height: auto;
+    }
+
+    .game-price {
+        opacity: 0;
+        transition: opacity ease 0.2s;
+        position: absolute;
+        margin-top: -325px;
+        padding: 3px 10px;
+        background-color: white;
+    }
+
+    .game-card:hover .game-price {
+        opacity: 1;
+    }
+
+    .game-tags {
+        width: 100%;
+        margin-top: -25px;
+        padding-right: 4px;
+        text-align: right;
+        font-size: 10px;
+    }
+
+    .game-platforms {
+        font-size: 14px;
+    }
+
+    .game-tags i, .game-platforms i {
+        color: var(--primary)
+    }
+
+    .card-title {
+        font-size: 22px;
+    }
+
+</style>
+{% endblock %}
+
+{% block body %}
+
+
+<!-- CHOICES -->
+<div class="container mb-5">
+    <form method="get">
+        <div class="form-row text-center">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <select class="custom-select" id="selectPlatform">
+                        <option value="all-platforms">Toutes les plateformes</option>
+                        {% for platform in platforms %}
+                        <option value="{{ platform.slug }}">{{ platform.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group mb-3">
+                    <select class="custom-select" id="selectTags">
+                        <option value="all-tags">Tous les tags</option>
+                        {% for tag in tags %}
+                        <option value="{{ tag.slug }}">{{ tag.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-auto">
+                <button class="btn btn-primary"><i class="fas fa-search text-white"></i></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- LAST GAMES -->
+<div class="container mb-5">
+    <h1 class="text-center mb-4">Résultat de recherche pour les filtres : {{tag}} {{plateforme}}</h1>
+    <div class="row">
+        {% for game in games %}
+        <div class="col-md-3 mb-4">
+            <div class="game-card">
+                <div class="game-poster mb-2 shadow">
+                    <a href="{{ path('game', { slug : game.slug }) }}">
+                        <img src="{{ asset(game.imgurl) }}" width="384" height="488"/>
+                    </a>
+                    <div class="game-price">
+                        {{ game.price}} €
+                    </div>
+                    <div class="game-tags text-white text-uppercase">
+                        {% for tag in game.tags %}
+                            {{ tag.name }}
+                        {% if tag != game.tags|last %}
+                        ,
+                        {% endif %}
+                        {% endfor %}
+                        <i class="fas fa-tags"></i>
+                    </div>
+                </div>
+                <span class="card-title font-weight-bold">
+                    {{ game.name }}
+                </span>
+                <div class="game-platforms text-muted">
+                    <i class="fas fa-tv picto"></i>
+                    {% for platform in game.platforms %}
+                        {{ platform.name }}
+                    {% if platform != game.platforms|last %}
+                        ,
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-2">
+        <a href="{{ path('index')}}"><button class="btn btn-outline-primary">Retour à l'accueil</button></a>
+    </div>
+</div>
+
+{% endblock %}
