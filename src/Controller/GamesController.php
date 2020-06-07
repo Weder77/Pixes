@@ -36,35 +36,46 @@ class GamesController extends AbstractController
     }
 
     /**
-     * @Route("/jeu/tous-les-jeux", name="allgames")
+     * @Route("/jeu/tous-les-jeux/{page}", name="allgames")
      */
-    public function allgames(PlatformRepository $platformRepository, TagRepository $tagRepository, GameRepository $gameRepository)
+    public function allgames($page, PlatformRepository $platformRepository, TagRepository $tagRepository, GameRepository $gameRepository)
     {
-        $platforms = $platformRepository->findAll();
-        $tags = $tagRepository->findAll();
-        $games = $gameRepository->findBy([], ['id' => 'DESC']);
+        if ($page < 1) {
+            return $this->redirectToRoute('allgames', [
+                'page' => 1, 
+            ]);
+        }
+
+        $games = $gameRepository->findBy([], ['id' => 'DESC'], 8, ($page - 1) * 8);
+        if ($games == null) {
+            return $this->redirectToRoute('allgames', [
+                'page' => 1, 
+            ]);
+        }
 
         return $this->render('/games/allgames.html.twig', array(
-            'platforms' => $platforms,
-            'tags' => $tags,
+            'platforms' => $platformRepository->findAll(),
+            'tags' => $tagRepository->findAll(),
             'games' => $games,
+            'actualPage' => $page,
         ));
     }
 
     /**
-     * @Route("/jeu/{searchplateform}/{searchtag}", name="game_filter")
+     * @Route("/jeu/{searchPlatform}/{searchTag}", name="game_filter")
      */
-    public function gameFilter($searchplateform, $searchtag, PlatformRepository $platformRepository, TagRepository $tagRepository, GameRepository $gameRepository)
+    public function gameFilter($searchPlatform, $searchTag, PlatformRepository $platformRepository, TagRepository $tagRepository, GameRepository $gameRepository)
     {
-        $plateform = $platformRepository->findOneBy(['plateform' => $searchplateform]);
-        $tag = $tagRepository->findOneBy(['tag' => $searchtag]);
-
-        $games = $gameRepository->findBy([], ['plateform' => $plateform], ['tag' => $tag] );
+        $platform = $platformRepository->findOneBy(['plateform' => $searchPlatform]);
+        $tag = $tagRepository->findOneBy(['tag' => $searchTag]);
 
         return $this->render('/games/gamefilter.html.twig', array(
-            'games' => $games,
+            'games' => $gameRepository->findBy([
+                'plateform' => $platform,
+                'tag' => $tag,
+            ]),
             'tag' => $tag,
-            'plateform' => $plateform,
+            'plateform' => $platform,
         ));
     }
 

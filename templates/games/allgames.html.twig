@@ -34,14 +34,14 @@
         font-size: 14px;
     }
 
-    .game-tags i, .game-platforms i {
+    .game-tags i,
+    .game-platforms i {
         color: var(--primary)
     }
 
     .card-title {
         font-size: 22px;
     }
-
 </style>
 {% endblock %}
 
@@ -88,14 +88,14 @@
             <div class="game-card">
                 <div class="game-poster mb-2 shadow">
                     <a href="{{ path('game', { slug : game.slug }) }}">
-                        <img src="{{ asset(game.imgurl) }}" width="384" height="488"/>
+                        <img src="{{ asset(game.imgurl) }}" width="384" height="488" />
                     </a>
                     <div class="game-price">
                         {{ game.price}} €
                     </div>
                     <div class="game-tags text-white text-uppercase">
                         {% for tag in game.tags %}
-                            {{ tag.name }}
+                        {{ tag.name }}
                         {% if tag != game.tags|last %}
                         ,
                         {% endif %}
@@ -109,9 +109,9 @@
                 <div class="game-platforms text-muted">
                     <i class="fas fa-tv picto"></i>
                     {% for platform in game.platforms %}
-                        {{ platform.name }}
+                    {{ platform.name }}
                     {% if platform != game.platforms|last %}
-                        ,
+                    ,
                     {% endif %}
                     {% endfor %}
                 </div>
@@ -120,8 +120,20 @@
         {% endfor %}
     </div>
 
-    <div class="text-center mt-2">
-        <a href="{{ path('index')}}"><button class="btn btn-outline-primary">Retour à l'accueil</button></a>
+    <div aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% if actualPage == 1 %}
+            <li class="page-item"><a class="page-link">1</a></li>
+            <li class="page-item"><a class="page-link" href="{{ path('allgames', {'page': 2})}}">2</a></li>
+            <li class="page-item"><a class="page-link" href="{{ path('allgames', {'page': 3})}}">3</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link"
+                    href="{{ path('allgames', {'page': actualPage - 1})}}">{{ actualPage - 1 }}</a></li>
+            <li class="page-item"><a class="page-link">{{ actualPage }}</a></li>
+            <li class="page-item"><a class="page-link"
+                    href="{{ path('allgames', {'page': actualPage + 1})}}">{{ actualPage + 1 }}</a></li>
+            {% endif %}
+        </ul>
     </div>
 </div>
 
