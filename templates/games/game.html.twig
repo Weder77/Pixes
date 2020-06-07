@@ -31,6 +31,9 @@
 		<div class="row">
 			<div class="col-sm-8 mb-4">
 				<div class="card">
+					<div class="text-center">
+						<img src="{{ asset(game.imgurl) }}" style="width: 50%; height: auto;"/>
+					</div>
 					<div class="card-body">
 						<div class="d-flex justify-content-between">
 							<h3 class="card-title font-weight-bold">{{ game.name }}</h3>
@@ -141,11 +144,12 @@
 		<div class="card">
 			<div class="card-body">
 				<h3 class="font-weight-bold">
-				{% if averageNote == 0 %}
-					Aucuns avis.
-				{% else %}
-					Avis de la communauté : {{ averageNote }}/5
-				{% endif %}
+					{% if averageNote == 0 %}
+						Aucuns avis.
+					{% else %}
+						Avis de la communauté :
+						{{ averageNote }}/5
+					{% endif %}
 				</h3>
 				{% if game.opinions is empty %}
 					<span class="text-muted">Aucun avis n'a été laissé sur ce jeu.</span>
@@ -180,13 +184,13 @@
 								<a class="text-muted mr-4" href="{{ path('opinion_update', { id : opinion.id, slug : game.slug }) }}">
 									Éditer
 								</a>
-							{# {% elseif is_granted("ROLE_ADMIN") %}
-								<a class="text-muted mr-4" href="{{ path('opinion_delete', {'id': opinion.id }) }}">
-									Supprimer
-								</a>
-								<a class="text-muted mr-4" href="{{ path('opinion_update', { id : opinion.id, slug : game.slug }) }}">
-									Éditer
-								</a> #}
+								{# {% elseif is_granted("ROLE_ADMIN") %}
+																<a class="text-muted mr-4" href="{{ path('opinion_delete', {'id': opinion.id }) }}">
+																	Supprimer
+																</a>
+																<a class="text-muted mr-4" href="{{ path('opinion_update', { id : opinion.id, slug : game.slug }) }}">
+																	Éditer
+																</a> #}
 							{% endif %}
 						</div>
 					</div>
@@ -240,22 +244,22 @@
 		{% endif %}
 
 		<!-- <div id="oldrating-stars">
-				<div class="rating-group">
-					<label class="rating__label" for="rating-1"><i
-							class="rating__icon rating__icon--star fa fa-star"></i></label>
-					<input class="rating__input" name="rating" id="rating-1" value="1" type="radio">
-					<label class="rating__label" for="rating-2"><i
-							class="rating__icon rating__icon--star fa fa-star"></i></label>
-					<input class="rating__input" name="rating" id="rating-2" value="2" type="radio">
-					<label class="rating__label" for="rating-3"><i
-							class="rating__icon rating__icon--star fa fa-star"></i></label>
-					<input class="rating__input" name="rating" id="rating-3" value="3" type="radio">
-					<label class="rating__label" for="rating-4"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-					<input class="rating__input" name="rating" id="rating-4" value="4" type="radio">
-					<label class="rating__label" for="rating-5"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-					<input class="rating__input" name="rating" id="rating-5" value="5" type="radio">
-				</div>
-			</div> -->
+						<div class="rating-group">
+							<label class="rating__label" for="rating-1"><i
+									class="rating__icon rating__icon--star fa fa-star"></i></label>
+							<input class="rating__input" name="rating" id="rating-1" value="1" type="radio">
+							<label class="rating__label" for="rating-2"><i
+									class="rating__icon rating__icon--star fa fa-star"></i></label>
+							<input class="rating__input" name="rating" id="rating-2" value="2" type="radio">
+							<label class="rating__label" for="rating-3"><i
+									class="rating__icon rating__icon--star fa fa-star"></i></label>
+							<input class="rating__input" name="rating" id="rating-3" value="3" type="radio">
+							<label class="rating__label" for="rating-4"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+							<input class="rating__input" name="rating" id="rating-4" value="4" type="radio">
+							<label class="rating__label" for="rating-5"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+							<input class="rating__input" name="rating" id="rating-5" value="5" type="radio">
+						</div>
+					</div> -->
 	</section>
 
 

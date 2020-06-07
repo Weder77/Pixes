@@ -104,7 +104,7 @@ class AdminController extends AbstractController
         if ($formGame->isSubmitted() && $formGame->isValid()) {
             $manager->persist($game);
             if ($game->getFile()) {
-                $game->removeFile();
+                // $game->removeFile();
                 $game->uploadFile();
             }
             $game->setSlug($gameService->generateSlug($game->getName()));

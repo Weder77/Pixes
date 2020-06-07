@@ -28,7 +28,7 @@
 
 							<div class="form-label-group">
 								{{ form_widget(ProfileForm.file, { 'attr' : {
-                                    'placeholder' : 'Changer votre photo de profil',
+                                    'placeholder' : 'Changer',
                                     'class' : 'form-control'
                                     }})
 								                                }}
@@ -76,7 +76,7 @@
 							</div>
 
 							<label>Date de naissance</label>
-							<div class="form-label-group row justify-content-center">
+							<div class="form-label-group row justify-content-center text-center">
 								{{ form_widget(ProfileForm.birthday, 
                                     { 'attr' : 
                                         {
@@ -146,7 +146,7 @@
 									{{ form_widget(UserForm.password.second, 
                                     { 'attr' : 
                                         {
-                                            'placeholder' : 'Confirmaton du mot de passe',
+                                            'placeholder' : 'Confirmaton',
                                             'class' : 'form-control text-center',
                                             'id' : 'register_form_password_second',
                                             'type' : 'password',
@@ -155,7 +155,7 @@
                                     )
                                 }}
 									{{ form_errors(UserForm.email) }}
-									<label for="register_form_password_second">Confirmaton du mot de passe</label>
+									<label for="register_form_password_second">Confirmaton</label>
 									{% if(form_errors(UserForm.password.second)) %}
 										{{ form_errors(UserForm.password.second) }}
 									{% endif %}

@@ -9,6 +9,12 @@
 
 @media screen and (max-width: 1300px)
 {
+	.navbar{
+		display: flex !important;
+	}
+	.sidebar-left{
+		display: none !important;
+	}
     .screen {
 		max-width: 100% !important;
 		flex-basis: 100%;
@@ -19,4 +25,5 @@
 	.before-responsive{
 		display: none !important;
 	}
+
 }

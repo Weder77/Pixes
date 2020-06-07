@@ -29,7 +29,7 @@
 			<li class="nav-item mb-2">
 				<a href="{{ path('admin_index')}}">Dashboard</a> / <a class="text-danger"
 					href="{{ path('logout')}}">Déconnexion</a>
-			</li>			{% else %}
+			</li> {% else %}
 			<li class="nav-item mb-2">
 				<a href="{{ path('profile')}}">Mon compte</a> / <a class="text-danger"
 					href="{{ path('logout')}}">Déconnexion</a>
@@ -45,7 +45,7 @@
 				<a class="nav-link" href="{{ path('admin_games') }}">Les jeux</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="{{ path('admin_plateforms_tags') }}">Les jeux</a>
+				<a class="nav-link" href="{{ path('admin_plateforms_tags') }}">Les plateformes & tags</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="{{ path('admin_users') }}">Les utilisateurs</a>
@@ -67,7 +67,7 @@
 
 <main class="container-fluid">
 	<div class="row min-vh-100">
-		<nav class="col-md-2 pt-4 d-none d-md-block bg-light sidebar">
+		<nav class="col-md-2 pt-4 d-none d-md-block bg-light sidebar sidebar-left">
 			<div class="sidebar-sticky pl-5">
 				<div class="mt-4 pl-3 pb-3">
 
@@ -193,39 +193,39 @@
 			],
 			datasets: [
 
-{% block footer %}{% endblock %}
-				{
-					data: [
-						12,
-						19,
-						9,
-						13,
-						17,
-						18,
-						15
-					],
-					lineTension: 0,
-					backgroundColor: 'transparent',
+				{% block footer %}{% endblock %}
+	{
+		data: [
+			12,
+			19,
+			9,
+			13,
+			17,
+			18,
+			15
+		],
+			lineTension: 0,
+				backgroundColor: 'transparent',
 					borderColor: '#007bff',
-					borderWidth: 4,
-					pointBackgroundColor: '#007bff'
+						borderWidth: 4,
+							pointBackgroundColor: '#007bff'
+	}
+			]
+		},
+	options: {
+		scales: {
+			yAxes: [
+				{
+					ticks: {
+						beginAtZero: false
+					}
 				}
 			]
 		},
-		options: {
-			scales: {
-				yAxes: [
-					{
-						ticks: {
-							beginAtZero: false
-						}
-					}
-				]
-			},
-			legend: {
-				display: false
-			}
+		legend: {
+			display: false
 		}
+	}
 	});
 </script>
 {% endblock %}
