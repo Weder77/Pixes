@@ -63,7 +63,7 @@
 						<div class="game-card">
 							<div class="game-poster mb-2 shadow">
 								<a href="{{ path('game', { slug : recentGame.slug }) }}">
-									<img src="{{ asset(recentGame.imgurl) }}" width="384" height="488"/>
+									<img src="{{ asset('gameImages/'~recentGame.imgurl) }}" width="384" height="488"/>
 								</a>
 								<div class="game-price">
 									{{ recentGame.price}}
@@ -101,7 +101,7 @@
 					<div class="game-card">
 						<div class="game-poster mb-2 shadow">
 							<a href="{{ path('game', { slug : game.slug }) }}">
-								<img src="{{ asset(game.imgurl) }}" width="384" height="488"/>
+								<img src="{{ asset('gameImages/'~game.imgurl) }}" width="384" height="488"/>
 							</a>
 							<div class="game-price">
 								{{ game.price}}

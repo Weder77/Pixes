@@ -109,7 +109,9 @@ class UserController extends AbstractController
         if ($formProfile->isSubmitted() && $formProfile->isValid()) {
             $manager->persist($profile);
             if($profile -> getFile()){
-                // $profile -> removeFile();
+                if ($profile->getPicture() != null) {
+                    $profile->removeFile();
+                }
                 $profile-> uploadFile();
             }
             $manager->flush();

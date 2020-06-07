@@ -60,7 +60,6 @@ class Profile
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $picture;
-
     private $file;
 
     /**
@@ -265,7 +264,7 @@ class Profile
 
     public function dirPhoto()
     {
-        return __DIR__ . '/../../public/';
+        return __DIR__ . '/../../public/profileImages/';
     }
 
     public function __sleep()

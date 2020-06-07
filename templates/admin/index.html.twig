@@ -57,7 +57,7 @@
 						<td>{{ opinion.id }}</td>
 						<td>{{ opinion.user.firstname }}
 							{{ opinion.user.lastname }}</td>
-						<td>{{ opinion.postedOn | date("m/d/Y") }}</td>
+						<td>{{ opinion.postedOn | date("d/m/Y") }}</td>
 						<td>{{ opinion.note }}/5</td>
 						<td>
 							<a href="{{ path('game', { slug : opinion.game.slug }) }}" target="_outblank">
@@ -124,7 +124,7 @@
 						<td>{{ user.profile.id }}</td>
 						<td>{{ user.profile.firstname }}</td>
 						<td>{{ user.profile.lastname }}</td>
-						<td>{{ user.profile.registerDate | date("m/d/Y") }}</td>
+						<td>{{ user.profile.registerDate | date("d/m/Y") }}</td>
 						<td>{{ user.profile.balance }}
 							€</td>
 						<td>

@@ -36,7 +36,7 @@
 							<tr>
 								<td>{{ game.id }}</td>
 								<td>{{ game.name }}</td>
-								<td><img src="{{ asset(game.imgurl) }}" height="80px"/></td>
+								<td><img src="{{ asset('gameImages/'~game.imgurl) }}" height="80px"/></td>
 								<td>{{ game.description | slice(0,30) }}...</td>
 								<td>{{ game.price}}
 									€</td>

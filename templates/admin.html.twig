@@ -72,7 +72,7 @@
 				<div class="mt-4 pl-3 pb-3">
 
 					{% if app.user.profile.picture != null %}
-					<img src="{{ asset(app.user.profile.picture) }}" alt="Photo de profil"
+					<img src="{{ asset('profileImages/'~app.user.profile.picture) }}" alt="Photo de profil"
 						class="rounded-circle ml-1 mb-3" height="100" width="100">
 					{% else %}
 					<img src="https://semantic-ui.com/images/wireframe/image.png" alt="Photo de profil"

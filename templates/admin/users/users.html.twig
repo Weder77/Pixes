@@ -16,6 +16,7 @@ Gestion des utilisateurs
 							<th scope="col">Nom</th>
 							<th scope="col">Prénom</th>
 							<th scope="col">Date d'anniversaire</th>
+							<th scope="col">Inscrit le</th>
 							<th scope="col">Solde</th>
 							<th scope="col">Actions</th>
 						</tr>
@@ -26,7 +27,8 @@ Gestion des utilisateurs
 								<td>{{ user.profile.id }}</td>
 								<td>{{ user.profile.firstname }}</td>
 								<td>{{ user.profile.lastname }}</td>
-								<td>{{ user.profile.registerDate | date("m/d/Y") }}</td>
+								<td>{{ user.profile.birthday | date("d/m/Y") }}</td>
+								<td>{{ user.profile.registerDate | date("d/m/Y") }}</td>
 								<td>{{ user.profile.balance }} €</td>
 
 								<td>

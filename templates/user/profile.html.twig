@@ -13,7 +13,7 @@
 			<div class="col-sm-3">
 				<div class="text-center">
 					{% if app.user.profile.picture != null %}
-						<img src="{{ app.user.profile.picture }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar">
+						<img src="{{ asset("profileImages/"~app.user.profile.picture) }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar">
 					{% else %}
 						<img src="{{ asset('default-picture.png') }}" class="avatar img-circle img-thumbnail mb-4" alt="avatar default">
 					{% endif %}
@@ -235,7 +235,7 @@
 										<div class="row no-gutters">
 											<div class="col-md-4">
 												<a target="_blank" href="{{ path('game', { slug : code.game.slug }) }}">
-													<img src="{{ asset(code.game.imgUrl) }}" class="card-img">
+													<img src="{{ asset('gameImages/'~code.game.imgUrl) }}" class="card-img">
 												</a>
 											</div>
 											<div class="col-md-8">

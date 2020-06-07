@@ -39,7 +39,6 @@ class Game
      * @ORM\Column(type="string", length=255)
      */
     private $img_url;
-
     private $file;
 
     /**
@@ -308,12 +307,6 @@ class Game
         return $this;
     }
 
-
-
-
-
-
-
     public function getFile()
     {
         return $this->file;
@@ -346,7 +339,7 @@ class Game
 
     public function dirPhoto()
     {
-        return __DIR__ . '/../../public/';
+        return __DIR__ . '/../../public/gameImages';
     }
 
 

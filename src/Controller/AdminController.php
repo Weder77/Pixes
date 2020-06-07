@@ -94,17 +94,20 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/jeu/update/{id}", name="admin_update")
      */
-    public function updateGame($id, Request $request, GameService $gameService)
+    public function updateGame($id, Request $request, GameRepository $gameRepository, GameService $gameService)
     {
         $manager = $this->getDoctrine()->getManager();
-        $game = $manager->find(Game::class, $id);
+        $game = $gameRepository->find($id);
+        $nameFile = $game->getImgUrl();
         $formGame = $this->createForm(AddGameType::class, $game);
         $formGame->handleRequest($request);
 
         if ($formGame->isSubmitted() && $formGame->isValid()) {
             $manager->persist($game);
             if ($game->getFile()) {
-                // $game->removeFile();
+                if ($nameFile != "default.png") {
+                    $game->removeFile();
+                }
                 $game->uploadFile();
             }
             $game->setSlug($gameService->generateSlug($game->getName()));
@@ -355,7 +358,9 @@ class AdminController extends AbstractController
         if ($formProfile->isSubmitted() && $formProfile->isValid()) {
             $manager->persist($profile);
             if ($profile->getFile()) {
-                $profile->removeFile();
+                if ($profile->getPicture() != null) {
+                    $profile->removeFile();
+                }
                 $profile->uploadFile();
             }
             $manager->flush();
@@ -400,7 +405,9 @@ class AdminController extends AbstractController
         if ($formProfile->isSubmitted() && $formProfile->isValid()) {
             $manager->persist($profile);
             if ($profile->getFile()) {
-                // $profile -> removeFile();
+                if ($profile->getPicture() != null) {
+                    $profile->removeFile();
+                }
                 $profile->uploadFile();
             }
             $manager->flush();
