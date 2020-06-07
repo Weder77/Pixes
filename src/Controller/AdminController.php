@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Tag;
 use App\Entity\Code;
 use App\Entity\Game;
 use App\Entity\User;
+use App\Entity\Opinion;
 use App\Entity\Profile;
 use App\Entity\Platform;
 use App\Form\AddGameType;
+use App\Form\OpinionType;
 use App\Form\TagsFormType;
 use App\Form\ProfileFormType;
 use App\Form\RegisterFormType;
@@ -430,7 +433,7 @@ class AdminController extends AbstractController
     {
         $opinions = $opinionRepository->findBy([], ['id' => 'DESC']);
 
-        return $this->render('/admin/opinions.html.twig', array(
+        return $this->render('/admin/opinions/opinions.html.twig', array(
             'opinions' => $opinions
         ));
     }
@@ -448,4 +451,43 @@ class AdminController extends AbstractController
         $this->addFlash('success', 'Le commentaire a bien été supprimé.');
         return $this->redirectToRoute('admin_opinions');
     }
+
+
+    /**
+     * @Route("/admin/opinions/modifier/{slug}/{id}", name="admin_update_opinion")
+     */
+    public function updateOpinion($slug, $id, Request $request,GameRepository $gameRepository)
+    {
+        $manager = $this->getDoctrine()->getManager();
+
+        $game = $gameRepository->findOneBy(['slug' => $slug]);
+
+        $opinion = $manager->find(Opinion::class, $id);
+
+        $form = $this->createForm(OpinionType::class, $opinion);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($opinion);
+            // Si note en dehors de l'échelle
+            if ($opinion->getNote() > 5) {
+                $opinion->setNote(5);
+            } elseif ($opinion->getNote() < 1) {
+                $opinion->setNote(1);
+            }
+
+            $opinion->setPostedOn(new DateTime());
+            $opinion->setUser($this->getUser()->getProfile());
+            $opinion->setGame($game);
+            $manager->flush();
+
+            // Redirection sur la route pour afficher le commentaire
+            $this->addFlash('success', 'Le commentaire a bien été modifié !');
+            return $this->redirectToRoute('admin_opinions');
+        }
+        return $this->render('admin/opinions/updateopinion.html.twig', [
+            'opinionForm' => $form->createView(),
+        ]);
+    }
+
 }

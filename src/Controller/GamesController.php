@@ -111,4 +111,69 @@ class GamesController extends AbstractController
             'opinionForm' => $form->createView(),
         ]);
     }
+
+
+    /**
+     * @Route("/jeu/avis/modifier/{slug}/{id}", name="opinion_update")
+     */
+    public function opinionUpdate($slug, $id, Request $request, GameRepository $gameRepository, CodeRepository $codeRepository, GameService $gameService)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $game = $gameRepository->findOneBy(['slug' => $slug]);
+
+        // Récupération du nombre de codes en stock
+        $availablesCodes = $codeRepository->getAvailableCodes($game->getId());
+
+        // Récupération des jeux que l'utilisateur possède
+        $ownedGames = [];
+        if ($this->getUser() != null) {
+            foreach ($this->getUser()->getProfile()->getInvoices() as $invoice) {
+                foreach ($invoice->getCodes() as $code) {
+                    array_push($ownedGames, $code->getGame()->getName());
+                }
+            }
+        }
+
+        // Si jeu n'existe pas => redirection
+        if ($game == null) {
+            $this->addFlash('error', 'Oups, il semblerait que le jeu que vous avez demandé n\'est pas disponible sur Pixes.');
+            return $this->redirectToRoute('index');
+        }
+
+        $opinion = $manager->find(Opinion::class, $id);
+
+        $form = $this->createForm(OpinionType::class, $opinion);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($opinion);
+            // Si note en dehors de l'échelle
+            if ($opinion->getNote() > 5) {
+                $opinion->setNote(5);
+            } elseif ($opinion->getNote() < 1) {
+                $opinion->setNote(1);
+            }
+
+            $opinion->setPostedOn(new DateTime());
+            $opinion->setUser($this->getUser()->getProfile());
+            $opinion->setGame($game);
+            $manager->flush();
+
+            // Redirection sur la route pour afficher le commentaire
+            $this->addFlash('success', 'Votre commentaire a bien été modifié !');
+            return $this->redirectToRoute('game', [
+                'slug'=> $slug
+            ]);
+        }
+
+        return $this->render('games/updateopinion.html.twig', [
+            'game' => $game,
+            'stock' => sizeof($availablesCodes),
+            'averageNote' => $gameService->getAverageNote($game->getOpinions()),
+            'ownedGames' => $ownedGames,
+            'opinionForm' => $form->createView(),
+        ]);
+
+    }
+
 }

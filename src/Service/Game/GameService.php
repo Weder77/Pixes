@@ -34,6 +34,10 @@ class GameService
         foreach ($opinions as $opinion) {
             $total += $opinion->getNote();
         }
-        return round($total / sizeof($opinions), 1);
-    }
+        if (sizeof($opinions) != 0){
+            return round($total / sizeof($opinions), 1);
+        } else {
+            return round($total / 1, 1);
+        }
+    }   
 }

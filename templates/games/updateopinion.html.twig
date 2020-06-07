@@ -174,19 +174,13 @@
 								</span>
 							</span>
 							{% if opinion.user.user == app.user %}
-								<a class="text-muted mr-4" href="{{ path('opinion_delete', { id: opinion.id }) }}">
-									Supprimer
-								</a>
-								<a class="text-muted mr-4" href="{{ path('opinion_update', { id : opinion.id, slug : game.slug }) }}">
-									Éditer
-								</a>
-							{# {% elseif is_granted("ROLE_ADMIN") %}
 								<a class="text-muted mr-4" href="{{ path('opinion_delete', {'id': opinion.id }) }}">
 									Supprimer
 								</a>
-								<a class="text-muted mr-4" href="{{ path('opinion_update', { id : opinion.id, slug : game.slug }) }}">
-									Éditer
-								</a> #}
+							{% elseif is_granted("ROLE_ADMIN") %}
+								<a class="text-muted mr-4" href="{{ path('opinion_delete', {'id': opinion.id }) }}">
+									Supprimer
+								</a>
 							{% endif %}
 						</div>
 					</div>
@@ -231,7 +225,7 @@
 				}}
 					{{ form_errors(opinionForm.content) }}
 					<button class="btn btn-lg btn-outline-primary mt-3" type="submit">
-						Poster mon commentaire
+						Modifier mon commentaire
 					</button>
 					{{ form_end(opinionForm) }}
 

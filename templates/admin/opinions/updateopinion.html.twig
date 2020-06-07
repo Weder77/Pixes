@@ -1,0 +1,64 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}
+Modifer le commentaire
+{% endblock %}
+
+{% block stylesheet %}
+	<style>
+		.tag_title {
+			font-weight: bold;
+		}
+
+		.picto {
+			display: inline-block;
+			width: 20px;
+			text-align: center;
+		}
+
+		.picto i,
+		.comment_infos i {
+			color: #ffc311;
+			font-size: 12px;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+	
+	<section class="container mb-4">
+			<div class="card mt-4">
+				<div class="card-body">
+					<h3 class="font-weight-bold">Modifier le commentaire</h3>
+					{{ form_start(opinionForm) }}
+					<div id="rating-stars" class="mb-3">
+						{{ form_widget(opinionForm.note, 
+						{ 'attr' : {'class' : 'rating-group'},}
+					)
+				}}
+						{{ form_errors(opinionForm.note) }}
+					</div>
+
+					{{ form_widget(opinionForm.content, 
+					{ 'attr' : 
+						{
+							'placeholder' : 'Donnez votre avis ici',
+							'type' : 'text',
+							}
+						}
+					)
+				}}
+					{{ form_errors(opinionForm.content) }}
+					<button class="btn btn-lg btn-outline-primary mt-3" type="submit">
+						Modifier le commentaire
+					</button>
+					{{ form_end(opinionForm) }}
+				</div>
+			</div>
+	</section>
+
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% endblock %}
