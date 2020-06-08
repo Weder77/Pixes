@@ -484,7 +484,6 @@ class AdminController extends AbstractController
             }
 
             $opinion->setPostedOn(new DateTime());
-            $opinion->setUser($this->getUser()->getProfile());
             $opinion->setGame($game);
             $manager->flush();
 

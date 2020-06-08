@@ -46,7 +46,7 @@ class GamesController extends AbstractController
             ]);
         }
 
-        $games = $gameRepository->findBy([], ['id' => 'DESC'], 8, ($page - 1) * 8);
+        $games = $gameRepository->findBy([], ['name' => 'ASC'], 8, ($page - 1) * 8);
         if ($games == null) {
             return $this->redirectToRoute('allgames', [
                 'page' => 1, 
