@@ -216,7 +216,7 @@ class AdminController extends AbstractController
             $manager->persist($palteform);
             $palteform->setSlug($gameService->generateSlug($palteform->getName()));
             $manager->flush();
-            $this->addFlash('success', 'Le tag ' . $palteform->getName() . ' a bien été ajouté.');
+            $this->addFlash('success', 'La plateforme ' . $palteform->getName() . ' a bien été ajouté.');
         }
 
 
