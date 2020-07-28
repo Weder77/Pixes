@@ -36,3 +36,24 @@ npm run watch
 php -S localhost:8000 -t public
 ```
 #### The website is available at `localhost:8000/`
+
+# Some screenshots
+Home page 
+![homepage1](https://github.com/Weder77/UF_WEB_B2/blob/master/screenshots/1.png)
+
+Shopping Card
+![shopping-card](https://github.com/Weder77/UF_WEB_B2/blob/master/screenshots/17.png)
+
+Buy & Bill & Comment
+![account](https://github.com/Weder77/UF_WEB_B2/blob/master/screenshots/18.png)
+![bill](https://github.com/Weder77/UF_WEB_B2/blob/master/screenshots/19.png)
+![comment](https://github.com/Weder77/UF_WEB_B2/blob/master/screenshots/20.png)
+
+
+
+Admin Pannel
+![dashboard](https://github.com/Weder77/UF_WEB_B2/blob/master/screenshots/23.png)
+![sells](https://github.com/Weder77/UF_WEB_B2/blob/master/screenshots/24.png)
+
+
+
